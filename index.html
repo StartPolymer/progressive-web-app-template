@@ -1,0 +1,304 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <title>Progressive Web App</title>
+
+  <link rel="shortcut icon" sizes="32x32" href="images/app-icon-32.png">
+
+  <meta name="theme-color" content="#fff">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Unsupported browser checks need to come before webcomponents.js is loaded,
+       otherwise unsupported browsers will error out and not record a pageview.
+       Analytics lib is also loaded up front for error reporting. -->
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+  <script>
+  (function() {
+    "use strict";
+
+    window.APP_NAME = 'Progressive Web App';
+    window.ENV = 'dev'; // or 'prod'
+    window.COOKIE_PREFIX = '/pwa';
+
+    // Setup Polymer options
+    // Use Polymer's lazy registration feature to speed up initial boot.
+    window.Polymer = window.Polymer || {lazyRegister: true, dom: 'shadow'};
+
+    // Initializes the analytics.js command queue.
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+    // Creates the tracker.
+    ga('create', {
+      trackingId: window.ENV === 'prod' ? 'UA-XXXX-Y' : 'UA-XXXX-Y',
+      cookieDomain: 'auto',
+      cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/pwa' : null,
+      siteSpeedSampleRate: 10, // 10% of users.
+    });
+
+    // Setup error tracking before anything else runs.
+    window.onerror = function(message, file, lineNumber, columnNumber, error) {
+      // We don't want to trigger any errors inside window.onerror, so wrap in a try/catch.
+      try {
+        // Some browsers don't support error param yet.
+        if (error !== undefined) {
+          message = error.stack;
+        }
+        ga('send', 'event', 'error', file + ':' + lineNumber, message);
+      } catch (e) {
+        // no-op
+      }
+    };
+
+    /**
+     * @param {string} param URL parameter to look for.
+     * @return {string|undefined} undefined if the URL parameter does not exist.
+     */
+    function getUrlParameter(param) {
+      if (!window.location.search) {
+        return;
+      }
+      var m = new RegExp(param + '=([^&]*)').exec(window.location.search.substring(1));
+      if (!m) {
+        return;
+      }
+      return decodeURIComponent(m[1]);
+    }
+
+    // If ?ignore_browser_check=true is in the URL, the user is coming back from
+    // "upgrade your browser" and we let them proceed.
+    var ignoreCheck = getUrlParameter('ignore_browser_check') == 'true';
+    // Check if browser is supported by web components polyfill.
+    // Feature detection isn't sufficient; webcomponentsjs attempts to polyfill
+    // missing features, but some browsers are known to not work under it.
+    // https://www.polymer-project.org/resources/compatibility.html
+    var supported = ignoreCheck || (function whatBrowserYouBe() {
+      var uaString = navigator.userAgent;
+      // Sorry IE < 10.
+      var msie = /MSIE +([\d\.]+)/.exec(uaString);
+      if (msie && msie[1]) {
+        if (msie[1] === '7.0') {
+          var tridentVersion = /Trident\/(\d.\d)/.exec(uaString);
+          if (tridentVersion && tridentVersion[1]) {
+            return parseInt(tridentVersion[1], 10) >= 6;
+          } else {
+            return false;
+          }
+        } else {
+          return parseInt(msie[1], 10) >= 10;
+        }
+      }
+      // Sorry older Android browser.
+      if (uaString.indexOf('Chrome') === -1 && uaString.indexOf('Android') !== -1) {
+        return !/^Google/.test(navigator.vendor);
+      }
+      // Sorry Opera < 15.
+      if (uaString.indexOf('Opera') !== -1) {
+        return false;
+      }
+      // Everyone else goes through.
+      return true;
+    })();
+
+    if (!supported) {
+      var redirectToUpgradePage = function() {
+        window.location = 'https://browser-update.org/update.html';
+      };
+      // Sends a pageview here because this code will run before IOWA.Analytics is initialized.
+      ga('send', 'pageview');
+      ga('send', 'event', 'browser', 'unsupported-polymer', navigator.userAgent, {
+        hitCallback: redirectToUpgradePage
+      });
+      // Adds a timeout to redirect in the event that analytics.js fails to
+      // load or is blocked by a browser extension.
+      setTimeout(redirectToUpgradePage, 5000);
+    }
+
+    // Get Chrome, Chromium, Opera, Vivaldi version
+    function getChromeVersion () {
+      var raw = navigator.userAgent.match(/Chrome\/([0-9]+)\./);
+      return raw ? parseInt(raw[1], 10) : false;
+    };
+    // Get Firefox version
+    function getFirefoxVersion () {
+      var raw = navigator.userAgent.match(/Firefox\/([0-9]+)\./);
+      return raw ? parseInt(raw[1], 10) : false;
+    };
+
+    var chromeVer = getChromeVersion();
+    var firefoxVer = getFirefoxVersion();
+
+    // Load ES6, Fetch, Internationalization polyfills if browser does not support it
+    if (!(chromeVer && chromeVer >= 46 || firefoxVer && firefoxVer >= 40)) {
+      var script = document.createElement('script');
+      //script.async = true;
+      script.src = 'https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,fetch,intl';
+      document.head.appendChild(script);
+      ga('send', 'event', 'browser', 'unsupported-es6-fetch-intl', navigator.userAgent);
+      console.log('Your browser is out-of-date. Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
+    }
+
+    // Adds User Timing marks for relevant perf events.
+    // These events correspond to the values tracked in analytics.js;
+    // changes made here must be made there as well.
+    var perfEvents = ['HTMLImportsLoaded', 'WebComponentsReady'];
+    if (window.performance && window.performance.mark) {
+      perfEvents.forEach(function(eventName) {
+        document.addEventListener(eventName, function() {
+          performance.mark(eventName);
+        });
+      });
+    }
+  })();
+  </script>
+
+  <link rel="import" href="src/progressive-app/progressive-app.html">
+
+  <!-- Critical pages styles can go here -->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', 'Noto', sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      background-color: #f5f5f5; /* Grey 100 */
+    }
+
+    /* Single Element CSS Spinner */
+    /* http://projects.lukehaas.me/css-loaders/ */
+    #loader {
+      font-size: 10px;
+      text-indent: -9999em;
+      margin: 300px auto;
+      overflow: hidden; /* fix overflow */
+      width: 11em;
+      height: 11em;
+      border-radius: 50%;
+      background: #3f51b5; /* Indigo 500 */
+      background: -moz-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
+      background: -webkit-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
+      background: -o-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
+      background: -ms-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
+      background: linear-gradient(to right, #3f51b5 10%, rgba(63,81,181, 0) 42%);
+      position: relative;
+      -webkit-animation: load3 1.4s infinite linear;
+      animation: load3 1.4s infinite linear;
+      -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+    #loader:before {
+      width: 50%;
+      height: 50%;
+      background: #3f51b5;
+      border-radius: 100% 0 0 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: '';
+    }
+    #loader:after {
+      background: #3f51b5;
+      background-color: #f5f5f5; /* Grey 100 */
+      width: 75%;
+      height: 75%;
+      border-radius: 50%;
+      content: '';
+      margin: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+    @-webkit-keyframes load3 {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes load3 {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <progressive-app></progressive-app>
+
+  <div id="loader">Loading...</div>
+
+  <script>
+  (function() {
+    'use strict';
+    // Store a time stamp for timing analysis toolkit
+    window.performance && performance.mark && performance.mark('index.html');
+
+    // Load webcomponentsjs polyfill if browser does not support native Web Components
+    var onload = function() {
+      console.log('Imports are loaded and elements have been registered!');
+      // For native Imports, manually fire WebComponentsReady so user code
+      // can use the same code path for native and polyfill'd imports.
+      if (!window.HTMLImports) {
+        document.dispatchEvent(
+          new CustomEvent('WebComponentsReady', {bubbles: true})
+        );
+      }
+    };
+    var webComponentsSupported = (
+      'registerElement' in document
+      && 'import' in document.createElement('link')
+      && 'content' in document.createElement('template')
+    );
+    if (!webComponentsSupported) {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+      script.onload = onload;
+      document.head.appendChild(script);
+      ga('send', 'event', 'browser', 'unsupported-web-components', navigator.userAgent);
+      console.log('Web Components aren\'t supported! Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
+    } else {
+      onload();
+    }
+
+    // Load pre-caching service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+
+    window.addEventListener('app-attached', function() {
+      // Remove loader
+      var loader = document.getElementById('loader');
+      //loader.remove();
+      loader.parentNode.removeChild(loader);
+    });
+  })();
+  </script>
+</body>
+</html>

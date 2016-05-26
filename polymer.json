@@ -1,0 +1,9 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/progressive-app/progressive-app.html",
+  "fragments": [
+    "src/progressive-app/app-pages/app-page-home/app-page-home.html",
+    "src/progressive-app/app-pages/app-page-sign-in/app-page-sign-in.html",
+    "src/progressive-app/app-pages/app-page-sign-in-with-email/app-page-sign-in-with-email.html"
+  ]
+}

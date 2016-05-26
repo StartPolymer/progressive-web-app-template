@@ -1,0 +1,251 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="app-icons.html">
+<link rel="import" href="app-localize-behavior-extended.html">
+
+<dom-module id="progressive-app">
+
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+        --app-primary-color: #3f51b5; /* Indigo 500 */
+        --app-secondary-color: black;
+        --app-conversion-color: #4CAF50; /* Green 500 */
+      }
+      app-drawer {
+        z-index: 10;
+      }
+      app-header {
+        color: #fff;
+        background-color: #3f51b5; /* Indigo 500 */
+      }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        line-height: 40px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+      }
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+      .drawer-list a.subroute {
+        padding-left: 32px;
+      }
+      .header-action-button {
+        margin-right: 16px;
+      }
+      app-header a,
+      app-header a:active,
+      app-header a:visited {
+        color: #fff;
+        text-decoration: none;
+      }
+      app-header paper-button {
+        background-color: var(--app-conversion-color);
+        font-size: 18px;
+        line-height: 18px;
+        height: 34px;
+        text-shadow: none;
+      }
+      app-header.home {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 600px;
+        text-shadow: 0 1px 0 #000;
+        --app-header-background-front-layer: {
+          background-image: url(/images/bg.jpg);
+          background-position: left center;
+        };
+      }
+      .header-content {
+        width: 100%;
+        height: calc(600px - 128px);
+        text-align: center;
+      }
+      .icon-rocket {
+        height: 300px;
+        width: 300px;
+        margin-top: 86px;
+      }
+
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <!-- Responsive handlers -->
+    <iron-media-query id="mq-phone" full query="(min-width:320px) and (max-width:768px)"
+                      query-matches="{{app.isPhoneSize}}"></iron-media-query>
+    <iron-media-query id="mq-tablet" full query="(min-width:769px) and (max-width:959px)"
+                      query-matches="{{app.isTabletSize}}"></iron-media-query>
+    <iron-media-query id="mq-desktop" query="(min-width:960px)"
+                      query-matches="{{app.isDesktopSize}}"></iron-media-query>
+
+    <!-- Drawer content -->
+    <app-drawer id="drawer" swipe-open
+      on-app-drawer-transitioned="_onDrawerTransitioned">
+      <app-toolbar></app-toolbar>
+      <iron-selector class="drawer-list" selected="[[page]]" attr-for-selected="name" role="navigation">
+        <a name="home" href="./">{{localize('home')}}</a>
+        <a name="sign-in" href="/sign-in">{{localize('sign-in')}}</a>
+      </iron-selector>
+    </app-drawer>
+
+    <!-- Header content -->
+    <app-header id="header" class$="[[page]]" condenses reveals effects="waterfall blend-background parallax-background">
+      <app-toolbar role="navigation">
+        <paper-icon-button class="header-action-button"
+          icon="[[_headerActionButtonIcon]]"
+          on-tap="_onHeaderActionButtonTap"
+          aria-label="Open navigation"></paper-icon-button>
+        <div flex disabled$="[[_isPage('home', page)]]">
+          <a href="./" class="app-logo-link"
+              on-click="setSelectedPageToHome"
+              data-track-link="nav-home" data-ajax-link
+              layout center aria-label="Home">
+            <div class="app-logo"></div>
+          </a>
+        </div>
+        <div title>[[_pageTitle]]</div>
+        <a href="/sign-in" tabindex="-1" hidden$="[[_isPage('sign-in', page)]]">
+          <paper-button raised>{{localize('sign-in')}}</paper-button>
+        </a>
+      </app-toolbar>
+      <div class="header-content" hidden$="[[!_isPage('home', page)]]">
+        <iron-icon class="icon-rocket" icon="rocket"></iron-icon>
+      </div>
+    </app-header>
+
+    <!-- Main content -->
+    <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
+      <app-page-home name="home" app="[[app]]"></app-page-home>
+      <app-page-sign-in name="sign-in" app="[[app]]"></app-page-sign-in>
+    </iron-pages>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'progressive-app',
+
+      properties: {
+
+        app: Object,
+
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged'
+        },
+
+        _pageTitle: {
+          type: String,
+          value: window.APP_NAME
+        },
+
+        _headerActionButtonIcon: {
+          type: String,
+          value: 'menu'
+        }
+
+      },
+
+      behaviors: [
+        AppLocalizeBehaviorExtended
+      ],
+
+      observers: [
+        '_routePageChanged(routeData.page)'
+      ],
+
+      attached: function() {
+        this.updateStyles();
+        this.fire('app-attached');
+      },
+
+      _routePageChanged: function(page) {
+        this.page = page || 'home';
+      },
+
+      _pageChanged: function(page) {
+        this.updateStyles();
+        var pageFile = 'app-pages/app-page-' + page + '/app-page-' + page + '.html';
+        // Load page import on demand.
+        this.importHref(this.resolveUrl(pageFile), null, null, true);
+        // Set icon of headerActionButton
+        this._headerActionButtonIcon = page === 'home' ? 'menu' : 'arrow-back';
+        // Set page title
+        if (page === 'home') {
+          this._pageTitle = window.APP_NAME;
+        } else if (page === 'sign-in') {
+          this._pageTitle = this.localize('sign-in');
+        }
+        this.$.drawer.close();
+      },
+
+      _onHeaderActionButtonTap: function() {
+        if (this.page === 'home') {
+          this.$.drawer.toggle();
+        } else {
+          window.history.back();
+        }
+      },
+
+      _onDrawerTransitioned: function() {
+        if (this.page === 'home') {
+          this._headerActionButtonIcon = this.$.drawer.opened ? 'close' : 'menu';
+        } else {
+          this._headerActionButtonIcon = 'arrow-back';
+        }
+      },
+
+      _isPage: function(pageName, selectedPage) {
+        return pageName === selectedPage;
+      }
+
+    });
+
+  </script>
+
+</dom-module>
