@@ -10,19 +10,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/app-layout/helpers/helpers.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="app-icons.html">
 <link rel="import" href="app-localize-behavior-extended.html">
+<link rel="import" href="app-icons.html">
 
 <dom-module id="progressive-app">
 
@@ -75,32 +73,65 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       app-header paper-button {
         background-color: var(--app-conversion-color);
+        border-radius: 3px;
         font-size: 18px;
         line-height: 18px;
-        height: 34px;
+        margin: 0 0.29em;
+        padding: 0.4em 0.57em;
+        height: 32px;
         text-shadow: none;
+        text-transform: uppercase;
+        box-sizing: border-box;
+        display: inline-flex;
       }
       app-header.home {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        height: 600px;
+        height: calc(100% - 120px);
+        min-height: 500px;
         text-shadow: 0 1px 0 #000;
         --app-header-background-front-layer: {
           background-image: url(/images/bg.jpg);
           background-position: left center;
+          background-repeat: no-repeat;
+          background-size: cover;
         };
       }
       .header-content {
         width: 100%;
-        height: calc(600px - 128px);
-        text-align: center;
+        height: calc(100% - 128px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .icon-header-action-button {
+        box-sizing: border-box !important;
+        padding: 8px;
+        width: 40px;
+        height: 40px;
+      }
+      .icon-offline {
+        height: 32px;
+        width: 32px;
+        margin-right: 16px;
       }
       .icon-rocket {
-        height: 300px;
-        width: 300px;
-        margin-top: 86px;
+        height: 400px;
+        width: 400px;
+      }
+      .drawer-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .drawer-toolbar-icon {
+        height: 50px;
+        width: 50px;
+      }
+      [hidden] {
+        display: none !important;
       }
 
     </style>
@@ -120,58 +151,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-media-query id="mq-desktop" query="(min-width:960px)"
                       query-matches="{{app.isDesktopSize}}"></iron-media-query>
 
-    <!-- Drawer content -->
-    <app-drawer id="drawer" swipe-open
-      on-app-drawer-transitioned="_onDrawerTransitioned">
-      <app-toolbar></app-toolbar>
-      <iron-selector class="drawer-list" selected="[[page]]" attr-for-selected="name" role="navigation">
-        <a name="home" href="./">{{localize('home')}}</a>
-        <a name="sign-in" href="/sign-in">{{localize('sign-in')}}</a>
-      </iron-selector>
-    </app-drawer>
-
     <!-- Header content -->
-    <app-header id="header" class$="[[page]]" condenses reveals effects="waterfall blend-background parallax-background">
+    <app-header id="header" class$="{{page}}" condenses reveals effects="waterfall blend-background parallax-background">
       <app-toolbar role="navigation">
         <paper-icon-button class="header-action-button"
-          icon="[[_headerActionButtonIcon]]"
-          on-tap="_onHeaderActionButtonTap"
-          aria-label="Open navigation"></paper-icon-button>
-        <div flex disabled$="[[_isPage('home', page)]]">
-          <a href="./" class="app-logo-link"
-              on-click="setSelectedPageToHome"
+          icon="{{_headerActionButtonIcon}}"
+          on-click="_onHeaderActionButtonClick"
+          aria-label="Open navigation">
+          <!-- Show only icon before lazy load paper-icon-button -->
+          <iron-icon class="icon-header-action-button" icon="{{_headerActionButtonIcon}}"></iron-icon>
+        </paper-icon-button>
+        <div flex disabled$="{{_isPage('home', page)}}">
+          <a href="/" class="app-logo-link"
               data-track-link="nav-home" data-ajax-link
               layout center aria-label="Home">
             <div class="app-logo"></div>
           </a>
         </div>
-        <div title>[[_pageTitle]]</div>
-        <a href="/sign-in" tabindex="-1" hidden$="[[_isPage('sign-in', page)]]">
+        <div title>{{_pageTitle}}</div>
+        <iron-icon class="icon-offline" icon="cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
+        <a href="/sign-in"
+          tabindex="-1"
+          hidden$="{{_isPage('sign-in', page)}}">
           <paper-button raised>{{localize('sign-in')}}</paper-button>
         </a>
       </app-toolbar>
-      <div class="header-content" hidden$="[[!_isPage('home', page)]]">
+      <div class="header-content" hidden$="{{!_isPage('home', page)}}">
         <iron-icon class="icon-rocket" icon="rocket"></iron-icon>
       </div>
     </app-header>
 
-    <!-- Main content -->
-    <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
+    <!-- Main content is lazy-created -->
+    <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
       <app-page-home name="home" app="[[app]]"></app-page-home>
-      <app-page-sign-in name="sign-in" app="[[app]]"></app-page-sign-in>
+      <app-page-sign-in name="sign-in" app="[[app]]" route="[[subroute]]"></app-page-sign-in>
     </iron-pages>
+
+    <!-- Drawer content is lazy-created -->
+    <!-- Two-way bind `_drawerOpened` since app-drawer can update `opened` itself. -->
+    <app-drawer opened="{{_drawerOpened}}" swipe-open hidden$="{{!_lazyLoadComplete}}"
+      on-app-drawer-transitioned="_onDrawerTransitioned">
+      <app-toolbar class="drawer-toolbar"><iron-icon class="drawer-toolbar-icon" icon="rocket"></iron-icon></app-toolbar>
+      <iron-selector class="drawer-list" selected="[[page]]" attr-for-selected="name" role="navigation">
+        <a name="home" href="/">{{localize('home')}}</a>
+        <a name="sign-in" href="/sign-in">{{localize('sign-in')}}</a>
+      </iron-selector>
+    </app-drawer>
 
   </template>
 
   <script>
+
+    // Performance logging
+    window.performance && performance.mark && performance.mark('progressive-app - before register');
 
     Polymer({
 
       is: 'progressive-app',
 
       properties: {
-
-        app: Object,
+        app: {
+          type: Object,
+          value: {
+            isOffline: false
+          }
+        },
 
         page: {
           type: String,
@@ -179,54 +223,114 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           observer: '_pageChanged'
         },
 
-        _pageTitle: {
-          type: String,
-          value: window.APP_NAME
-        },
-
         _headerActionButtonIcon: {
           type: String,
           value: 'menu'
-        }
+        },
 
+        _lazyLoadComplete: {
+          type: Boolean,
+          value: false
+        },
+
+        _pageTitle: {
+          type: String,
+          value: window.APP_NAME
+        }
       },
 
       behaviors: [
         AppLocalizeBehaviorExtended
       ],
 
+      listeners: {
+        'announce': '_onAnnounce',
+        'dom-change': '_domChange'
+      },
+
       observers: [
         '_routePageChanged(routeData.page)'
       ],
 
+      created: function() {
+        window.performance && performance.mark && performance.mark('progressive-app - created');
+        // Custom elements polyfill safe way to indicate an element has been upgraded.
+        this.removeAttribute('unresolved');
+      },
+
+      ready: function() {
+        // Listen for online/offline network status
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          this.listen(window, 'online', '_notifyNetworkStatus');
+          this.listen(window, 'offline', '_notifyNetworkStatus');
+        });
+      },
+
       attached: function() {
+        // Update styles for dynamic changes in app header.
         this.updateStyles();
+        this.loadLocales('/data/locales/progressive-app.json');
         this.fire('app-attached');
       },
 
       _routePageChanged: function(page) {
         this.page = page || 'home';
+        // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
+        // with `behavior: 'silent'` to disable header scroll effects during the scroll.
+        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+        // Close the drawer - in case the *route* change came from a link in the drawer.
+        this._drawerOpened = false;
       },
 
-      _pageChanged: function(page) {
-        this.updateStyles();
-        var pageFile = 'app-pages/app-page-' + page + '/app-page-' + page + '.html';
-        // Load page import on demand.
-        this.importHref(this.resolveUrl(pageFile), null, null, true);
-        // Set icon of headerActionButton
-        this._headerActionButtonIcon = page === 'home' ? 'menu' : 'arrow-back';
-        // Set page title
-        if (page === 'home') {
-          this._pageTitle = window.APP_NAME;
-        } else if (page === 'sign-in') {
-          this._pageTitle = this.localize('sign-in');
+      _pageChanged: function(page, oldPage) {
+        if (page != null) {
+          // Update styles for dynamic changes in app header.
+          this.updateStyles();
+          // Load page import on demand.
+          var pageElement = 'app-pages/app-page-' + page + '/app-page-' + page + '.html';
+          this.importHref(this.resolveUrl(pageElement), function() {
+              this._pageLoaded(Boolean(oldPage));
+            }, null, true);
+          // Set icon of headerActionButton
+          this._headerActionButtonIcon = page === 'home' ? 'menu' : 'arrow-back';
+          // Set page title
+          if (page === 'home') {
+            this._pageTitle = window.APP_NAME;
+          } else if (page === 'sign-in') {
+            this._pageTitle = this.localize('sign-in');
+          }
         }
-        this.$.drawer.close();
       },
 
-      _onHeaderActionButtonTap: function() {
+      _pageLoaded: function(shouldResetLayout) {
+        this._ensureLazyLoaded();
+        if (shouldResetLayout) {
+          // The size of the header depends on the page, so reset the header's layout only when switching pages.
+          this.async(function() {
+            this.$.header.resetLayout();
+          }, 1);
+        }
+      },
+
+      _ensureLazyLoaded: function() {
+        // Load lazy resources after render and set `_lazyLoadComplete` when done.
+        if (!this._lazyLoadComplete) {
+          Polymer.RenderStatus.afterNextRender(this, function() {
+            this.importHref(this.resolveUrl('lazy-resources.html'), function() {
+              // Load pre-caching - register service worker if supported.
+              //if ('serviceWorker' in navigator) {
+              //  navigator.serviceWorker.register('/service-worker.js');
+              //}
+              this._notifyNetworkStatus();
+              this._lazyLoadComplete = true;
+            });
+          });
+        }
+      },
+
+      _onHeaderActionButtonClick: function() {
         if (this.page === 'home') {
-          this.$.drawer.toggle();
+          this._toggleDrawer();
         } else {
           window.history.back();
         }
@@ -234,7 +338,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _onDrawerTransitioned: function() {
         if (this.page === 'home') {
-          this._headerActionButtonIcon = this.$.drawer.opened ? 'close' : 'menu';
+          this._headerActionButtonIcon = this._drawerOpened ? 'close' : 'menu';
         } else {
           this._headerActionButtonIcon = 'arrow-back';
         }
@@ -242,6 +346,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _isPage: function(pageName, selectedPage) {
         return pageName === selectedPage;
+      },
+
+      _notifyNetworkStatus: function() {
+        var oldOffline = this.app.isOffline;
+        this.set('app.isOffline', !navigator.onLine);
+
+        // Show the snackbar if the user is offline when starting a new session
+        // or if the network status changed.
+        if (this.app.isOffline || (!this.app.isOffline && oldOffline === true)) {
+          if (!this._networkSnackbar) {
+            this._networkSnackbar = document.createElement('shop-snackbar');
+            Polymer.dom(this.root).appendChild(this._networkSnackbar);
+          }
+          Polymer.dom(this._networkSnackbar).innerHTML = this.app.isOffline ?
+              'You are offline' : 'You are online';
+          //this._networkSnackbar.open();
+        }
+      },
+
+      // Toggle function for lazy loaded drawer
+      _toggleDrawer: function() {
+        this._drawerOpened = !this._drawerOpened;
+      },
+
+      // Elements in the app can notify a change to be a11y announced.
+      _onAnnounce: function(e) {
+        this._announce(e.detail);
+      },
+
+      // A11y announce the given message.
+      _announce: function(message) {
+        this._a11yLabel = '';
+        this.debounce('_a11yAnnouncer', function() {
+          this._a11yLabel = message;
+        }, 100);
+      },
+
+      // This is for performance logging only.
+      _domChange: function(e) {
+        if (window.performance && performance.mark && !this.__loggedDomChange) {
+          var target = Polymer.dom(e).rootTarget;
+          if (target.domHost.is.match(this.page)) {
+            this.__loggedDomChange = true;
+            performance.mark(target.domHost.is + '.domChange');
+          }
+        }
       }
 
     });

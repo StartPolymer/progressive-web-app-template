@@ -9,7 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
-<link rel="import" href="app-localize-behavior-extended.html">
+<link rel="import" href="../../app-localize-behavior-extended.html">
+<link rel="import" href="app-icons-home.html">
 
 <dom-module id="app-page-home">
 
@@ -18,7 +19,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        padding-top: 600px;
+        padding-top: calc(100vh - 120px);
       }
       .card {
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -95,7 +96,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       behaviors: [
         AppLocalizeBehaviorExtended
-      ]
+      ],
+
+      attached: function() {
+        this.loadLocales('/data/locales/app-page-home.json');
+      }
 
     });
 

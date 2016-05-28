@@ -36,8 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
 
-    attached: function() {
-      this.loadResources(this.resolveUrl('/data/locales.json'));
+    loadLocales: function(url) {
+      this.loadResources(this.resolveUrl(url));
     }
   }
 

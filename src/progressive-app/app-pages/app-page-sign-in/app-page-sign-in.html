@@ -9,7 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
-<link rel="import" href="app-localize-behavior-extended.html">
+<link rel="import" href="../../app-localize-behavior-extended.html">
+<link rel="import" href="app-icons-sign-in.html">
 
 <dom-module id="app-page-sign-in">
 
@@ -19,7 +20,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       :host {
         display: block;
+        background-color: #3f51b5; /* Indigo 500 */
         background-image: url(/images/bg.jpg);
+        background-position: left center;
+        background-repeat: no-repeat;
         background-size: cover;
         height: calc(100vh - 64px);
       }
@@ -36,7 +40,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       behaviors: [
         AppLocalizeBehaviorExtended
-      ]
+      ],
+
+      attached: function() {
+        this.loadLocales('/data/locales/app-page-sign-in.json');
+      }
 
     });
 
