@@ -1,44 +1,64 @@
 # Progressive Web App Template
 
-This template is a starting point for building apps using a drawer-based
-layout.  The layout is provided by `app-layout` elements.
+This template is a starting point for building [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) with motto [#UseThePlatform](https://www.polymer-project.org/1.0/about).
 
-This template, along with the `polymer-cli` toolchain, also demonstrates use
-of the "PRPL pattern" This pattern allows fast first delivery and interaction with
-the content at the initial route requested by the user, along with fast subsequent
-navigation by pre-caching the remaining components required by the app and
-progressively loading them on-demand as the user navigates through the app.
+## Demo
 
-The PRPL pattern, in a nutshell:
+See latest build from master branch at https://pwa-demo.appspot.com
 
-* **Push** components required for the initial route
-* **Render** initial route ASAP
-* **Pre-cache** components for remaining routes
-* **Lazy-load** and progressively upgrade next routes on-demand
+## Features
 
-### Setup
+- Based on [PRPL performance pattern](https://www.polymer-project.org/1.0/toolbox/server)
+  - **Push** components required for the initial route using HTTP/2 Push
+  - **Render** initial route ASAP
+  - **Pre-cache** components for remaining routes using Service Worker
+  - **Lazy-load** and progressively upgrade next routes on-demand
+- Lazy-load app-drawer and all pages with dependencies included icons, locales
+- Locales per page for internationalize application
+- Always Material Design for Mobile First
+- SUIT CSS styling methodology
+- Load ES6, Intl polyfills using service [Polyfill.io](https://cdn.polyfill.io) only on older browsers
+- Google Analytics configured for collect performance events and error tracking
+- Detect older browsers with redirect to site [Browser-Update.org](https://browser-update.org/update.html)
+- Sign-in work-flow with Credential Management API inspired by this videos:
+ - [Who are you, really: Safer and more convenient sign-in on the web - Google I/O 2016](https://www.youtube.com/watch?v=MnvUlGFb3GQ)
+ - [Best practices for a great sign-in experience - Google I/O 2016](https://www.youtube.com/watch?v=0ucjYG_JrEE)
 
-##### Prerequisites
+## Setup
 
-Install [polymer-cli](https://github.com/Polymer/polymer-cli):
+### Prerequisites
 
-    npm install -g polymer-cli
+- Install Git
+- Install the current LTS version (4.x) of Node.js or newer
 
-##### Initialize project from template
+#### Install the latest version of Bower
 
-    mkdir my-app
-    cd my-app
-    polymer init app-drawer-template
+    sudo npm install -g bower
 
-### Start the development server
+#### Install [polymer-cli](https://github.com/Polymer/polymer-cli):
+
+    sudo npm install -g polymer-cli
+
+#### Install generator
+
+    sudo npm install -g generator-polymer-init-startpolymer
+
+### Initialize project from template
+
+    mkdir my-app && cd my-app
+
+    polymer init startpolymer
+
+Choose from menu `Progressive Web App Template`
+
+## Start the development server
 
 This command serves the app at `http://localhost:8080` and provides basic URL
 routing for the app:
 
     polymer serve
 
-
-### Build
+## Build
 
 This command performs HTML, CSS, and JS minification on the application
 dependencies, and generates a service-worker.js file with code to pre-cache the
@@ -52,10 +72,10 @@ H2/push-compatible servers or to clients that do not support H2/Push.
 
     polymer build
 
-### Test the build
+## Test the build
 
 This command serves the minified version of the app in an unbundled state, as it would
-be served by a push-compatible server:
+be served by a **push-compatible server**:
 
     polymer serve build/unbundled
 
@@ -63,7 +83,7 @@ This command serves the minified version of the app generated using fragment bun
 
     polymer serve build/bundled
 
-### Extend
+## Extend
 
 You can extend the app by adding more elements that will be demand-loaded
 e.g. based on the route, or to progressively render non-critical sections
@@ -72,4 +92,12 @@ list of `fragments` in the included `polymer.json` file.  This will ensure
 those components and their dependencies are added to the list of pre-cached
 components (and will have bundles created in the fallback `bundled` build).
 
+## Resources
 
+- [Polymer @ Google I/O 2016](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDnSm7bZRJC36Ca1DYXSQ70)
+- [Web and Chrome @ Google I/O 2016](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDz1TzmmMRBC-kd8zPRTQIP)
+- https://github.com/Polymer/app-drawer-template
+- https://github.com/Polymer/shop
+- https://github.com/PolymerLabs/note-app
+- https://github.com/GoogleChrome/ioweb2016
+- https://github.com/GoogleChrome/credential-management-sample
