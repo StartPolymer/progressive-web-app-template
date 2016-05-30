@@ -15,12 +15,12 @@ See latest build from master branch at https://pwa-demo.appspot.com
   - **Lazy-load** and progressively upgrade next routes on-demand
 - Lazy-load app-drawer and all pages with dependencies included icons, locales
 - Locales per page for internationalize application
-- Always Material Design for Mobile First
+- Always [Material Design](https://www.google.com/design/spec/material-design/introduction.html) for [Mobile First](https://gist.github.com/2c821d3de75b1d1c0cf972ea35b25757)
 - SUIT CSS styling methodology
 - Load ES6, Intl polyfills using service [Polyfill.io](https://cdn.polyfill.io) only on older browsers
 - Google Analytics configured for collect performance events and error tracking
 - Detect older browsers with redirect to site [Browser-Update.org](https://browser-update.org/update.html)
-- Sign-in work-flow with Credential Management API inspired by this videos:
+- Sign-in work-flow with [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api) inspired by this videos:
  - [Who are you, really: Safer and more convenient sign-in on the web - Google I/O 2016](https://www.youtube.com/watch?v=MnvUlGFb3GQ)
  - [Best practices for a great sign-in experience - Google I/O 2016](https://www.youtube.com/watch?v=0ucjYG_JrEE)
 
