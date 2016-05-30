@@ -19,24 +19,115 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
 <link rel="import" href="app-localize-behavior-extended.html">
 <link rel="import" href="app-icons.html">
+<link rel="import" href="app-styles/app-styles-variables.html">
 
 <dom-module id="progressive-app">
 
   <template>
 
-    <style>
+    <style include="app-styles-variables">
+
+      /* Always Design for Mobile First
+         Mobile First means designing for mobile before designing for desktop or any other device
+         (This will make the page display faster on smaller devices).
+         http://www.w3schools.com/css/css_rwd_mediaqueries.asp */
 
       :host {
         display: block;
-        --app-primary-color: #3f51b5; /* Indigo 500 */
-        --app-secondary-color: black;
-        --app-conversion-color: #4CAF50; /* Green 500 */
       }
-      app-drawer {
-        z-index: 10;
+
+      [hidden] {
+        display: none !important;
       }
+
+      section {
+        margin: var(--gutter);
+      }
+
+      .Drawer {
+        --app-drawer-width: 300px;
+      }
+
+      .Drawer-content {
+        @apply(--layout-vertical);
+        @apply(--paper-font-body2);
+
+        background-color: var(--primary-background-color);
+        color: var(--primary-text-color);
+        height: 100%;
+        padding: var(--spacing-unit) 0;
+      }
+
+      .Drawer-header {
+        background-color: var(--primary-background-color);
+        color: var(--primary-text-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .Drawer-headerLogo {
+        height: 50px;
+        width: 50px;
+      }
+
+      .Drawer-link {
+        color: currentColor;
+        text-decoration: none;
+      }
+
+      .Drawer-title {
+        @apply(--paper-font-headline);
+      }
+
+      .Drawer-widget {
+        padding: var(--spacing-unit) 0;
+      }
+
+      .Drawer-widget--bottom {
+        border-top: 1px solid var(--divider-color);
+      }
+
+      .Drawer-widget--footer {
+        @apply(--paper-font-caption);
+
+        border-top: 1px solid var(--divider-color);
+        padding-left: 24px;
+      }
+
+      .Navigation {
+        padding-bottom: 0;
+        padding-top: 0;
+      }
+
+      .Navigation-icon {
+        margin-right: var(--gutter);
+        pointer-events: none;
+      }
+
+      .Navigation-link {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+
+        color: currentColor;
+        min-height: 48px;
+        padding-left: var(--screen-edge-margin);
+        padding-right: var(--gutter);
+        text-decoration: none;
+        outline: none;
+      }
+
+      .Navigation-link.iron-selected {
+        color: var(--accent-color);
+      }
+
+      .Navigation-text {
+        pointer-events: none;
+      }
+
       app-header {
         color: #fff;
         background-color: #3f51b5; /* Indigo 500 */
@@ -45,23 +136,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --paper-icon-button-ink-color: white;
       }
 
-      .drawer-list {
-        margin: 0 20px;
-      }
-      .drawer-list a {
-        display: block;
-        padding: 0 16px;
-        line-height: 40px;
-        text-decoration: none;
-        color: var(--app-secondary-color);
-      }
-      .drawer-list a.iron-selected {
-        color: black;
-        font-weight: bold;
-      }
-      .drawer-list a.subroute {
-        padding-left: 32px;
-      }
       .header-action-button {
         margin-right: 16px;
       }
@@ -72,13 +146,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: none;
       }
       app-header paper-button {
-        background-color: var(--app-conversion-color);
+        background-color: var(--conversion-color);
         border-radius: 3px;
         font-size: 18px;
         line-height: 18px;
         margin: 0 0.29em;
-        padding: 0.4em 0.57em;
-        height: 32px;
+        padding: 0.5em 0.57em;
+        height: 36px;
         text-shadow: none;
         text-transform: uppercase;
         box-sizing: border-box;
@@ -89,7 +163,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         top: 0;
         left: 0;
         width: 100%;
-        height: calc(100% - 120px);
+        height: calc(100% - 128px);
         min-height: 500px;
         text-shadow: 0 1px 0 #000;
         --app-header-background-front-layer: {
@@ -121,42 +195,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 400px;
         width: 400px;
       }
-      .drawer-toolbar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+      /* Laptop size */
+      @media screen and (min-width: 960px) {
+
       }
-      .drawer-toolbar-icon {
-        height: 50px;
-        width: 50px;
-      }
-      [hidden] {
-        display: none !important;
+
+      /* Laptop large size */
+      @media screen and (min-width: 1600px) {
+
       }
 
     </style>
 
     <app-location route="{{route}}"></app-location>
-    <app-route
-        route="{{route}}"
-        pattern="/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+    <app-route pattern="/:page" route="{{route}}" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
-    <!-- Responsive handlers -->
-    <iron-media-query id="mq-phone" full query="(min-width:320px) and (max-width:768px)"
-                      query-matches="{{app.isPhoneSize}}"></iron-media-query>
-    <iron-media-query id="mq-tablet" full query="(min-width:769px) and (max-width:959px)"
-                      query-matches="{{app.isTabletSize}}"></iron-media-query>
-    <iron-media-query id="mq-desktop" query="(min-width:960px)"
-                      query-matches="{{app.isDesktopSize}}"></iron-media-query>
+    <!-- Responsive handlers using Material Design breakpoints
+         http://www.google.com/design/spec/layout/adaptive-ui.html#adaptive-ui-breakpoints -->
+    <iron-media-query query="screen and (min-width:600px)"
+                      query-matches="{{app.isTabletSize}}" full></iron-media-query>
+    <iron-media-query query="screen and (min-width:960px)"
+                      query-matches="{{app.isLaptopSize}}" full></iron-media-query>
+    <iron-media-query query="print"
+                      query-matches="{{app.isPrintMode}}" full></iron-media-query>
 
     <!-- Header content -->
     <app-header id="header" class$="{{page}}" condenses reveals effects="waterfall blend-background parallax-background">
       <app-toolbar role="navigation">
         <paper-icon-button class="header-action-button"
           icon="{{_headerActionButtonIcon}}"
-          on-click="_onHeaderActionButtonClick"
+          on-tap="_onHeaderActionButtonTap"
           aria-label="Open navigation">
           <!-- Show only icon before lazy load paper-icon-button -->
           <iron-icon class="icon-header-action-button" icon="{{_headerActionButtonIcon}}"></iron-icon>
@@ -189,13 +258,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Drawer content is lazy-created -->
     <!-- Two-way bind `_drawerOpened` since app-drawer can update `opened` itself. -->
-    <app-drawer opened="{{_drawerOpened}}" swipe-open hidden$="{{!_lazyLoadComplete}}"
+    <app-drawer class="Drawer" opened="{{_drawerOpened}}" swipe-open hidden$="{{!_lazyLoadComplete}}"
       on-app-drawer-transitioned="_onDrawerTransitioned">
-      <app-toolbar class="drawer-toolbar"><iron-icon class="drawer-toolbar-icon" icon="rocket"></iron-icon></app-toolbar>
-      <iron-selector class="drawer-list" selected="[[page]]" attr-for-selected="name" role="navigation">
-        <a name="home" href="/">{{localize('home')}}</a>
-        <a name="sign-in" href="/sign-in">{{localize('sign-in')}}</a>
-      </iron-selector>
+
+      <app-toolbar class="Drawer-header">
+        <iron-icon class="Drawer-headerLogo" icon="rocket"></iron-icon>
+      </app-toolbar>
+
+      <div class="Drawer-content">
+        <div class="Drawer-widget">
+          <iron-selector class="Navigation" attr-for-selected="name" selected="[[page]]" role="navigation">
+            <a class="Navigation-link" name="home" href="/">
+              <iron-icon class="Navigation-icon" icon="drawer:home"></iron-icon>
+              <span class="Navigation-text">{{localize('home')}}</span>
+            </a>
+
+            <a class="Navigation-link" name="sign-in" href="/sign-in">
+              <iron-icon class="Navigation-icon" icon="drawer:supervisor-account"></iron-icon>
+              <span class="Navigation-text">{{localize('sign-in')}}</span>
+            </a>
+
+            <a class="Navigation-link" name="contact-us" href="/contact-us">
+              <iron-icon class="Navigation-icon" icon="drawer:mail"></iron-icon>
+              <span class="Navigation-text">{{localize('contact-us')}}</span>
+            </a>
+          </iron-selector>
+        </div>
+      </div>
     </app-drawer>
 
   </template>
@@ -316,7 +405,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // Load lazy resources after render and set `_lazyLoadComplete` when done.
         if (!this._lazyLoadComplete) {
           Polymer.RenderStatus.afterNextRender(this, function() {
-            this.importHref(this.resolveUrl('lazy-resources.html'), function() {
+            this.importHref(this.resolveUrl('app-lazy-resources.html'), function() {
               // Load pre-caching - register service worker if supported.
               //if ('serviceWorker' in navigator) {
               //  navigator.serviceWorker.register('/service-worker.js');
@@ -328,7 +417,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      _onHeaderActionButtonClick: function() {
+      _onHeaderActionButtonTap: function() {
         if (this.page === 'home') {
           this._toggleDrawer();
         } else {

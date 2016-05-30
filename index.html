@@ -45,7 +45,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       trackingId: window.ENV === 'prod' ? 'UA-XXXX-Y' : 'UA-XXXX-Y',
       cookieDomain: 'auto',
       cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/pwa' : null,
-      siteSpeedSampleRate: 10, // 10% of users.
+      siteSpeedSampleRate: 10 // 10% of users.
     });
 
     // Setup error tracking before anything else runs.
@@ -86,7 +86,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // https://www.polymer-project.org/resources/compatibility.html
     var supported = ignoreCheck || (function whatBrowserYouBe() {
       var uaString = navigator.userAgent;
-      // Sorry IE < 10.
+      // Sorry IE < 11.
       var msie = /MSIE +([\d\.]+)/.exec(uaString);
       if (msie && msie[1]) {
         if (msie[1] === '7.0') {
@@ -97,7 +97,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             return false;
           }
         } else {
-          return parseInt(msie[1], 10) >= 10;
+          return parseInt(msie[1], 10) >= 11;
         }
       }
       // Sorry older Android browser.
@@ -119,11 +119,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // Sends a pageview here because this code will run before IOWA.Analytics is initialized.
       ga('send', 'pageview');
       ga('send', 'event', 'browser', 'unsupported-polymer', navigator.userAgent, {
-        hitCallback: redirectToUpgradePage
+        hitCallback: setTimeout(redirectToUpgradePage, 3000)
       });
       // Adds a timeout to redirect in the event that analytics.js fails to
       // load or is blocked by a browser extension.
-      setTimeout(redirectToUpgradePage, 5000);
+      setTimeout(redirectToUpgradePage, 3000);
     }
 
     // Get Chrome, Chromium, Opera, Vivaldi version

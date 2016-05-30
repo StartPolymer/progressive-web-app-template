@@ -5,6 +5,6 @@
     "src/progressive-app/app-pages/app-page-home/app-page-home.html",
     "src/progressive-app/app-pages/app-page-sign-in/app-page-sign-in.html",
     "src/progressive-app/app-pages/app-page-sign-in-with-email/app-page-sign-in-with-email.html",
-    "src/progressive-app/lazy-resources.html"
+    "src/progressive-app/app-lazy-resources.html"
   ]
 }
