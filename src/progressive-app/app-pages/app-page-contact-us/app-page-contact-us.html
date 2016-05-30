@@ -10,9 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../app-localize-behavior-extended.html">
-<link rel="import" href="app-icons-sign-in.html">
+<link rel="import" href="app-icons-contact-us.html">
 
-<dom-module id="app-page-sign-in">
+<dom-module id="app-page-contact-us">
 
   <template>
 
@@ -20,17 +20,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       :host {
         display: block;
-        background-color: #3f51b5; /* Indigo 500 */
-        background-image: url(/images/bg.jpg);
-        background-position: left center;
-        background-repeat: no-repeat;
-        background-size: cover;
         height: calc(100vh - 64px);
       }
 
     </style>
 
-    {{localize('sign-in')}}
+    <h1>{{localize('contact-us')}}</h1>
 
   </template>
 
@@ -38,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: 'app-page-sign-in',
+      is: 'app-page-contact-us',
 
       properties: {
         app: Object
@@ -53,12 +48,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function() {
-        this.loadLocales('/data/locales/app-page-sign-in.json');
+        this.loadLocales('/data/locales/app-page-contact-us.json');
       },
 
       // AppLocalizeBehaviorExtended behaviour notify loaded an external resources
       _onAppResourcesLoaded: function() {
-        this.set('app.pageTitle', this.localize('sign-in'));
+        this.set('app.pageTitle', this.localize('contact-us'));
       }
 
     });

@@ -1,12 +1,16 @@
 {
   "en": {
+    "back": "Back",
     "contact-us": "Contact us",
     "home": "Home",
+    "menu": "Menu",
     "sign-in": "Sign in"
   },
   "cs": {
+    "back": "Zpět",
     "contact-us": "Kontaktujte nás",
     "home": "Úvodní stránka",
+    "menu": "Menu",
     "sign-in": "Přihlásit se"
   }
 }
