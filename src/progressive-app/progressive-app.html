@@ -43,14 +43,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: none !important;
       }
 
-      section {
-        margin: var(--gutter);
-      }
-
-      .Drawer {
-        --app-drawer-width: 300px;
-      }
-
       .Drawer-content {
         @apply(--layout-vertical);
         @apply(--paper-font-body2);
@@ -67,6 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 128px;
       }
 
       .Drawer-headerLogo {
@@ -95,12 +88,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--paper-font-caption);
 
         border-top: 1px solid var(--divider-color);
-        padding-left: 24px;
+        padding-left: var(--gutter);
       }
 
       .Header {
-        color: #fff;
-        background-color: #3f51b5; /* Indigo 500 */
+        background-color: var(--primary-color);
+        color: var(--text-primary-color);
+        --app-header-background-rear-layer: {
+          /* The header is Indigo when condensed */
+          background-color: var(--primary-color);
+        };
+        --app-header-background-front-layer: {
+          display: none;
+        };
       }
 
       .Header.home {
@@ -112,16 +112,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         min-height: 500px;
         text-shadow: 0 1px 0 #000;
         --app-header-background-front-layer: {
-          background-image: url(/images/bg.jpg);
-          background-position: left center;
-          background-repeat: no-repeat;
-          background-size: cover;
+          display: block;
         };
       }
 
       .Header-actionButton {
-        --paper-icon-button-ink-color: white;
-        margin-right: 16px;
+        --paper-icon-button-ink-color: var(--text-primary-color);
+        margin-right: calc(var(--gutter) - 8px);
       }
 
       .Header-actionButtonIcon {
@@ -129,7 +126,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 8px;
         width: 40px;
         height: 40px;
-        margin-right: 16px;
+        margin-right: calc(var(--gutter) - 8px);
+      }
+
+      .Header-background {
+        opacity: 0;
+        transition: 2s opacity;
+        visibility: hidden;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
       }
 
       .Header-content {
@@ -141,33 +147,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Header-signInButton {
-        background-color: var(--conversion-color);
-        border-radius: 3px;
-        font-size: 18px;
-        line-height: 18px;
-        margin: 0 0.29em;
-        padding: 0.5em 0.57em;
-        height: 36px;
-        text-shadow: none;
-        text-transform: uppercase;
-        box-sizing: border-box;
-        display: inline-flex;
+        color: var(--text-primary-color);
+        text-decoration: none;
+        opacity: 0;
+        transition: 1s opacity;
+        visibility: hidden;
       }
 
-      .Header-signInLink {
-        color: #fff;
-        text-decoration: none;
+      .Header-signInButtonContent {
+        background-color: var(--conversion-color);
+        font-size: 15px;
+        line-height: 21px;
+        padding: 0.5em 0.57em;
+        text-shadow: none;
+        margin: 0;
+      }
+
+      .Header-toolbar {
+        padding: 0 var(--screen-edge-margin) 0 calc(var(--screen-edge-margin) - 8px);
       }
 
       .Icon-offline {
         height: 32px;
         width: 32px;
-        margin-right: 16px;
+        margin-right: var(--gutter);
       }
 
       .Icon-rocket {
         height: 400px;
         width: 400px;
+      }
+
+      .Main-page {
+        opacity: 0;
+        transition: 1s opacity;
+        visibility: hidden;
       }
 
       .Navigation {
@@ -186,8 +200,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         color: currentColor;
         min-height: 48px;
-        padding-left: 16px;
-        padding-right: 16px;
+        padding-left: var(--screen-edge-margin);
+        padding-right: var(--gutter);
         text-decoration: none;
         outline: none;
       }
@@ -206,12 +220,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
 
-      /* Laptop size */
+      /* Tablet wide */
+      @media screen and (min-width: 600px) {
+        .Header-signInButtonContent {
+          font-size: 18px;
+          line-height: 24px;
+          padding: 0.4em 0.57em;
+        }
+      }
+
+      /* Laptop wide */
       @media screen and (min-width: 960px) {
 
       }
 
-      /* Laptop large size */
+      /* Large wide */
       @media screen and (min-width: 1600px) {
 
       }
@@ -224,16 +247,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Responsive handlers using Material Design breakpoints
          http://www.google.com/design/spec/layout/adaptive-ui.html#adaptive-ui-breakpoints -->
     <iron-media-query query="screen and (min-width:600px)"
-                      query-matches="{{app.isTabletSize}}" full></iron-media-query>
+                      query-matches="{{app.isTabletWide}}" full></iron-media-query>
     <iron-media-query query="screen and (min-width:960px)"
-                      query-matches="{{app.isLaptopSize}}" full></iron-media-query>
+                      query-matches="{{app.isLaptopWide}}" full></iron-media-query>
+    <iron-media-query query="screen and (min-width:1600px)"
+                      query-matches="{{app.isLargeWide}}" full></iron-media-query>
     <iron-media-query query="print"
                       query-matches="{{app.isPrintMode}}" full></iron-media-query>
 
     <!-- Header content -->
     <app-header class$="Header {{page}}" id="header"
                 condenses reveals effects="waterfall blend-background parallax-background">
-      <app-toolbar role="navigation">
+      <app-toolbar class="Header-toolbar" role="navigation">
         <paper-icon-button class="Header-actionButton" id="actionButton"
           on-tap="_onHeaderActionButtonTap"
           icon="{{_headerActionButtonIcon}}"
@@ -253,17 +278,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
         </div>
 
-        <div title>
+        <div class="Header-title" title>
           <span>{{app.name}}</span><span hidden$="{{!app.pageTitle}}">&nbsp;&nbsp;-&nbsp;&nbsp;{{app.pageTitle}}</span>
         </div>
 
         <iron-icon class="Icon-offline" icon="cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
 
-        <a class="Header-signInLink" href="/sign-in" tabindex="-1"
+        <a class="Header-signInButton" id="headerSignInButton" href="/sign-in" tabindex="-1"
           hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, page)}}">
-          <paper-button class="Header-signInButton" raised>{{localize('sign-in')}}</paper-button>
+          <paper-button class="Header-signInButtonContent" raised>{{localize('sign-in')}}</paper-button>
         </a>
       </app-toolbar>
+
+      <img class="Header-background" id="headerBackground" backgroundFrontLayer
+           src="/images/bg.jpg" on-load="_onHeaderBackgroundLoad" on-error="_onHeaderBackgroundError">
 
       <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
         <iron-icon class="Icon-rocket" icon="rocket"></iron-icon>
@@ -271,10 +299,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </app-header>
 
     <!-- Main content is lazy-created -->
-    <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-      <app-page-contact-us name="contact-us" app="{{app}}"></app-page-contact-us>
-      <app-page-home name="home" app="{{app}}"></app-page-home>
-      <app-page-sign-in name="sign-in" app="{{app}}" route="[[subroute]]"></app-page-sign-in>
+    <iron-pages class="Main" id="main" role="main"
+                selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+      <app-page-contact-us class="Main-page" id="contact-us" name="contact-us" app="{{app}}"></app-page-contact-us>
+      <app-page-home class="Main-page" id="home" name="home" app="{{app}}"></app-page-home>
+      <app-page-sign-in class="Main-page" id="sign-in" name="sign-in" app="{{app}}" route="[[subroute]]"></app-page-sign-in>
     </iron-pages>
 
     <!-- Drawer content is lazy-created -->
@@ -364,7 +393,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       created: function() {
-        window.performance && performance.mark && performance.mark('progressive-app - created');
+        window.performance && performance.mark && performance.mark(this.is + ' - created');
         // Custom elements polyfill safe way to indicate an element has been upgraded.
         this.removeAttribute('unresolved');
       },
@@ -375,17 +404,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.listen(window, 'online', '_notifyNetworkStatus');
           this.listen(window, 'offline', '_notifyNetworkStatus');
         });
+        this._setStyles();
       },
 
       attached: function() {
         // Update styles for dynamic changes in app header.
         this.updateStyles();
-        this.loadLocales('/data/locales/progressive-app.json');
+        this.loadLocales(this.is);
         this.fire('app-attached');
       },
 
       _computeSignInButtonHidden: function(isLazyLoadComplete, page) {
-        return !isLazyLoadComplete || page === 'sign-in';
+        return page === 'sign-in';
       },
 
       _routePageChanged: function(page) {
@@ -428,6 +458,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.$.header.resetLayout();
           }, 1);
         }
+        if (!this.$[this.page].style.opacity) {
+          this.$[this.page].style.opacity = 1;
+          this.$[this.page].style.visibility = 'visible';
+        }
       },
 
       _ensureLazyLoaded: function() {
@@ -441,6 +475,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               //}
               //this._notifyNetworkStatus();
               this._isLazyLoadComplete = true;
+              this.$.headerSignInButton.style.opacity = 1;
+              this.$.headerSignInButton.style.visibility = 'visible';
             });
           });
         }
@@ -452,6 +488,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         } else {
           window.history.back();
         }
+      },
+
+      _onHeaderBackgroundLoad: function() {
+        this.$.headerBackground.style.opacity = 1;
+        this.$.headerBackground.style.visibility = 'visible';
       },
 
       _isPage: function(pageName, selectedPage) {
@@ -507,6 +548,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             performance.mark(target.domHost.is + '.domChange');
           }
         }
+      },
+
+      // Set CSS custom properties using shim that Polymer provides
+      // Issue https://github.com/Polymer/polymer/issues/2149
+      _setStyles: function() {
+        if (this.app.isLargeWide) {
+          this.customStyle['--gutter'] = '24px';
+          this.customStyle['--screen-edge-margin'] = '40px';
+          this.customStyle['--app-drawer-width'] = '296px';
+        } else if (this.app.isLaptopWide) {
+          this.customStyle['--gutter'] = '24px';
+          this.customStyle['--screen-edge-margin'] = '24px';
+        }
+        this.updateStyles();
       }
 
     });

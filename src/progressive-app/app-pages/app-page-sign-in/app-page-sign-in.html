@@ -20,8 +20,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       :host {
         display: block;
-        background-color: #3f51b5; /* Indigo 500 */
-        background-image: url(/images/bg.jpg);
+        background-color: var(--primary-color);
+        background-image: url('/images/bg.jpg');
         background-position: left center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -30,7 +30,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    {{localize('sign-in')}}
+    <div class="button-content signIn" tabindex="0"
+        on-click="signIn" on-keydown="_signInKeyPress">
+      <span class="icon"><iron-icon icon="sign-in:google"></iron-icon></span>
+      <span class="buttonText">{{_labelSignin}}</span>
+    </div>
 
   </template>
 
@@ -53,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function() {
-        this.loadLocales('/data/locales/app-page-sign-in.json');
+        this.loadLocales(this.is);
       },
 
       // AppLocalizeBehaviorExtended behaviour notify loaded an external resources

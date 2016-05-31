@@ -112,26 +112,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   --spacing-unit: 8px;
 
   /* Gutter and Margin */
-  --gutter: calc(var(--spacing-unit) * 2);
-  --screen-edge-margin: calc(var(--spacing-unit) * 2);
-
-}
-
-/* Laptop size */
-@media screen and (min-width: 960px) {
-  :root {
-    /* TODO: not working due issue https://github.com/Polymer/polymer/issues/3474 */
-    --gutter: calc(var(--spacing-unit) * 3);
-    --screen-edge-margin: calc(var(--spacing-unit) * 3);
-  }
-}
-
-/* Laptop large size */
-@media screen and (min-width: 1600px) {
-  :root {
-    --gutter: calc(var(--spacing-unit) * 3);
-    --screen-edge-margin: calc(var(--spacing-unit) * 5);
-  }
+  --gutter: 16px;
+  --screen-edge-margin: 16px;
 }
 
 </style></template>
