@@ -19,7 +19,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        padding-top: calc(100vh - 128px);
+        padding-top: calc(100vh - 64px);
       }
       .card {
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -45,6 +45,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 16px 0;
         color: #212121;
       }
+
+      /* Tablet wide */
+      @media screen and (min-width: 600px) {
+        :host {
+          padding-top: calc(100vh - 128px);
+        }
+      }
+
+      /* Laptop wide */
+      @media screen and (min-width: 960px) {
+
+      }
+
+      /* Large wide */
+      @media screen and (min-width: 1600px) {
+
+      }
+
+      /* Landscape phone height */
+      @media screen and (orientation: landscape) and (max-height: 450px) {
+        :host {
+          padding-top: 100vh;
+        }
+      }
+
+      /* Print mode */
+      @media print {
+
+      }
+
     </style>
 
     <div class="card">

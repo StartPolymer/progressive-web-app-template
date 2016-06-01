@@ -21,7 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
 <link rel="import" href="app-localize-behavior-extended.html">
-<link rel="import" href="app-icons.html">
+<link rel="import" href="app-icons-header.html">
 <link rel="import" href="app-styles/app-styles-variables.html">
 
 <dom-module id="progressive-app">
@@ -108,8 +108,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         top: 0;
         left: 0;
         width: 100%;
-        height: calc(100% - 128px);
-        min-height: 500px;
+        height: calc(100% - 64px);
+        min-height: 350px;
         text-shadow: 0 1px 0 #000;
         --app-header-background-front-layer: {
           display: block;
@@ -165,6 +165,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Header-toolbar {
         padding: 0 var(--screen-edge-margin) 0 calc(var(--screen-edge-margin) - 8px);
+        z-index: 10;
       }
 
       .Icon-offline {
@@ -174,8 +175,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Icon-rocket {
-        height: 400px;
-        width: 400px;
+        height: 200px;
+        width: 200px;
       }
 
       .Main-page {
@@ -222,10 +223,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       /* Tablet wide */
       @media screen and (min-width: 600px) {
+        .Header.home {
+          height: calc(100% - 128px);
+        }
         .Header-signInButtonContent {
           font-size: 18px;
           line-height: 24px;
           padding: 0.4em 0.57em;
+        }
+        .Icon-rocket {
+          height: 400px;
+          width: 400px;
         }
       }
 
@@ -236,6 +244,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       /* Large wide */
       @media screen and (min-width: 1600px) {
+
+      }
+
+      /* Landscape phone height */
+      @media screen and (orientation: landscape) and (max-height: 450px) {
+        .Header.home {
+          height: 100%;
+        }
+        .Icon-rocket {
+          height: 200px;
+          width: 200px;
+        }
+      }
+
+      /* Print */
+      @media print {
 
       }
 
@@ -261,12 +285,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-toolbar class="Header-toolbar" role="navigation">
         <paper-icon-button class="Header-actionButton" id="actionButton"
           on-tap="_onHeaderActionButtonTap"
-          icon="{{_headerActionButtonIcon}}"
+          icon="header:{{_headerActionButtonIcon}}"
           aria-label="Open navigation"
           hidden$="{{!_isLazyLoadComplete}}">
         </paper-icon-button>
         <iron-icon class="Header-actionButtonIcon"
-                   icon="{{_headerActionButtonIcon}}" hidden$="{{_isLazyLoadComplete}}"></iron-icon>
+                   icon="header:{{_headerActionButtonIcon}}" hidden$="{{_isLazyLoadComplete}}"></iron-icon>
         <paper-tooltip class="Tooltip" for="actionButton" offset="0"
                        hidden$="{{!_isLazyLoadComplete}}">{{localize(_headerActionButtonIcon)}}</paper-tooltip>
 
@@ -282,7 +306,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span>{{app.name}}</span><span hidden$="{{!app.pageTitle}}">&nbsp;&nbsp;-&nbsp;&nbsp;{{app.pageTitle}}</span>
         </div>
 
-        <iron-icon class="Icon-offline" icon="cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
+        <iron-icon class="Icon-offline" icon="header:cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
 
         <a class="Header-signInButton" id="headerSignInButton" href="/sign-in" tabindex="-1"
           hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, page)}}">
@@ -294,7 +318,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            src="/images/bg.jpg" on-load="_onHeaderBackgroundLoad" on-error="_onHeaderBackgroundError">
 
       <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
-        <iron-icon class="Icon-rocket" icon="rocket"></iron-icon>
+        <iron-icon class="Icon-rocket" icon="header:rocket"></iron-icon>
       </div>
     </app-header>
 
@@ -310,7 +334,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Two-way bind `_drawerOpened` since app-drawer can update `opened` itself. -->
     <app-drawer class="Drawer" opened="{{_drawerOpened}}" swipe-open hidden$="{{!_isLazyLoadComplete}}">
       <app-toolbar class="Drawer-header">
-        <iron-icon class="Drawer-headerLogo" icon="rocket"></iron-icon>
+        <iron-icon class="Drawer-headerLogo" icon="header:rocket"></iron-icon>
       </app-toolbar>
 
       <div class="Drawer-content">
@@ -404,14 +428,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.listen(window, 'online', '_notifyNetworkStatus');
           this.listen(window, 'offline', '_notifyNetworkStatus');
         });
-        this._setStyles();
       },
 
       attached: function() {
-        // Update styles for dynamic changes in app header.
-        this.updateStyles();
         this.loadLocales(this.is);
         this.fire('app-attached');
+        this._setStyles();
       },
 
       _computeSignInButtonHidden: function(isLazyLoadComplete, page) {
@@ -429,8 +451,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _pageChanged: function(page, oldPage) {
         if (page != null) {
-          // Update styles for dynamic changes in app header.
-          this.updateStyles();
           // Load page import on demand.
           var pageElement = 'app-pages/app-page-' + page + '/app-page-' + page + '.html';
           this.importHref(this.resolveUrl(pageElement), function() {
@@ -450,9 +470,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      _pageLoaded: function(shouldResetLayout) {
-        this._ensureLazyLoaded();
-        if (shouldResetLayout) {
+      _pageLoaded: function(isPageChanged) {
+        if (isPageChanged) {
+          // Update header styles for dynamic loading background image
+          this.$.header.updateStyles();
           // The size of the header depends on the page, so reset the header's layout only when switching pages.
           this.async(function() {
             this.$.header.resetLayout();
@@ -462,6 +483,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$[this.page].style.opacity = 1;
           this.$[this.page].style.visibility = 'visible';
         }
+        this._ensureLazyLoaded();
       },
 
       _ensureLazyLoaded: function() {
