@@ -16,7 +16,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/app-layout/helpers/helpers.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
@@ -268,17 +267,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-location route="{{route}}"></app-location>
     <app-route pattern="/:page" route="{{route}}" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
-    <!-- Responsive handlers using Material Design breakpoints
-         http://www.google.com/design/spec/layout/adaptive-ui.html#adaptive-ui-breakpoints -->
-    <iron-media-query query="screen and (min-width:600px)"
-                      query-matches="{{app.isTabletWide}}" full></iron-media-query>
-    <iron-media-query query="screen and (min-width:960px)"
-                      query-matches="{{app.isLaptopWide}}" full></iron-media-query>
-    <iron-media-query query="screen and (min-width:1600px)"
-                      query-matches="{{app.isLargeWide}}" full></iron-media-query>
-    <iron-media-query query="print"
-                      query-matches="{{app.isPrintMode}}" full></iron-media-query>
-
     <!-- Header content -->
     <app-header class$="Header {{page}}" id="header"
                 condenses reveals effects="waterfall blend-background parallax-background">
@@ -309,7 +297,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-icon class="Icon-offline" icon="header:cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
 
         <a class="Header-signInButton" id="headerSignInButton" href="/sign-in" tabindex="-1"
-          hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, page)}}">
+          hidden$="{{_computeSignInButtonHidden(page)}}">
           <paper-button class="Header-signInButtonContent" raised>{{localize('sign-in')}}</paper-button>
         </a>
       </app-toolbar>
@@ -339,7 +327,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <div class="Drawer-content">
         <div class="Drawer-widget">
-          <iron-selector class="Navigation" attr-for-selected="name" selected="[[page]]" role="navigation">
+          <iron-selector class="Navigation" selected="[[page]]" attr-for-selected="name" role="navigation">
             <a class="Navigation-link" name="home" href="/">
               <iron-icon class="Navigation-icon" icon="drawer:home"></iron-icon>
               <span class="Navigation-text">{{localize('home')}}</span>
@@ -374,6 +362,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         app: {
           type: Object,
           value: {
+            // Responsive handlers using Material Design breakpoints
+            // http://www.google.com/design/spec/layout/adaptive-ui.html#adaptive-ui-breakpoints
+            isTabletWide: window.matchMedia('screen and (min-width:600px)').matches,
+            isLaptopWide: window.matchMedia('screen and (min-width:960px)').matches,
+            isLargeWide: window.matchMedia('screen and (min-width:1600px)').matches,
+            isPrintMode: window.matchMedia('print').matches,
             isOffline: false,
             name: window.APP_NAME,
             pageTitle: ''
@@ -436,8 +430,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this._setStyles();
       },
 
-      _computeSignInButtonHidden: function(isLazyLoadComplete, page) {
-        return page === 'sign-in';
+      _computeSignInButtonHidden: function(page) {
+        return page === 'sign-in' ||
+               page === 'contact-us' && !this.app.isTabletWide;
       },
 
       _routePageChanged: function(page) {
