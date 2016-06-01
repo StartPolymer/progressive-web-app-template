@@ -2,6 +2,21 @@
 
 This template is a starting point for building [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) with motto [#UseThePlatform](https://www.polymer-project.org/1.0/about).
 
+## Progressive Web Apps
+
+Progressive Web Applications are always up to date, accessible from anywhere, like native apps.
+
+1. Instant loading
+2. Fast navigations
+3. Full screen mode
+4. Can be added to mobile device Home Screen
+5. Supports Push Notifications
+6. Application cache
+7. Offline support
+8. Secure
+9. Responsive
+10. Use The Platform
+
 ## Demo
 
 See latest build from master branch at https://pwa-demo.appspot.com
@@ -16,10 +31,10 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - Lazy-load app-drawer and all pages with dependencies included icons, locales
 - Locales per page for internationalize application
 - Always [Material Design](https://www.google.com/design/spec/material-design/introduction.html) for [Mobile First](https://gist.github.com/2c821d3de75b1d1c0cf972ea35b25757)
-- SUIT CSS styling methodology
-- Load ES6, Intl polyfills using service [Polyfill.io](https://cdn.polyfill.io) only on older browsers
+- [SUIT CSS](https://suitcss.github.io) styling methodology
+- Load ES6, Intl polyfills using service [Polyfill.io](https://cdn.polyfill.io) only on older browsers (FF < 40, CH < 46)
 - Google Analytics configured for collect performance events and error tracking
-- Detect older browsers with redirect to site [Browser-Update.org](https://browser-update.org/update.html)
+- Detect older browsers (IE < 11, OP < 15) with redirect to site [Browser-Update.org](https://browser-update.org/update.html)
 - Sign-in work-flow with [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api) inspired by this videos:
  - [Who are you, really: Safer and more convenient sign-in on the web - Google I/O 2016](https://www.youtube.com/watch?v=MnvUlGFb3GQ)
  - [Best practices for a great sign-in experience - Google I/O 2016](https://www.youtube.com/watch?v=0ucjYG_JrEE)
