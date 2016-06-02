@@ -31,7 +31,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - Lazy-load app-drawer and all pages with dependencies included icons, locales
 - Locales per page for internationalize application
 - Always [Material Design](https://www.google.com/design/spec/material-design/introduction.html) for [Mobile First](https://gist.github.com/2c821d3de75b1d1c0cf972ea35b25757)
-- [SUIT CSS](https://suitcss.github.io) styling methodology
+- [SUIT CSS naming conventions](https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md)
 - Load ES6, Intl polyfills using service [Polyfill.io](https://cdn.polyfill.io) only on older browsers (FF < 40, CH < 46)
 - Google Analytics configured for collect performance events and error tracking
 - Detect older browsers (IE < 11, OP < 15) with redirect to site [Browser-Update.org](https://browser-update.org/update.html)
@@ -109,6 +109,7 @@ components (and will have bundles created in the fallback `bundled` build).
 
 ## Resources
 
+- [Polycasts with Rob Dodson](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDdS7HWIC_BYRunV6MHs5xo)
 - [Polymer @ Google I/O 2016](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDnSm7bZRJC36Ca1DYXSQ70)
 - [Web and Chrome @ Google I/O 2016](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDz1TzmmMRBC-kd8zPRTQIP)
 - https://github.com/Polymer/app-drawer-template
