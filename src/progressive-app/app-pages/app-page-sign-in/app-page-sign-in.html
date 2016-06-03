@@ -20,12 +20,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       :host {
         display: block;
-        background-color: var(--primary-color);
-        background-image: url('/images/bg.jpg');
-        background-position: left center;
-        background-repeat: no-repeat;
-        background-size: cover;
         height: calc(100vh - 64px);
+      }
+
+      .Background {
+        opacity: 0;
+        transition: 1s opacity;
+        visibility: hidden;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
       }
 
       /* Tablet wide */
@@ -54,6 +58,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
+
+    <img class="Background" id="background"
+         src="/images/bg.jpg" alt="Background"
+         on-load="_onBackgroundLoad" on-error="_onBackgroundError">
 
     <div class="button-content signIn" tabindex="0"
         on-click="signIn" on-keydown="_signInKeyPress">
@@ -88,6 +96,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // AppLocalizeBehaviorExtended behaviour notify loaded an external resources
       _onAppResourcesLoaded: function() {
         this.set('app.pageTitle', this.localize('sign-in'));
+      },
+
+      _onBackgroundLoad: function() {
+        this.$.background.style.opacity = 1;
+        this.$.background.style.visibility = 'visible';
       }
 
     });
