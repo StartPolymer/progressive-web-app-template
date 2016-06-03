@@ -15,7 +15,7 @@ Progressive Web Applications are always up to date, accessible from anywhere, li
 7. Offline support
 8. Secure
 9. Responsive
-10. Use The Platform
+10. Accessible
 
 ## Demo
 
@@ -32,6 +32,8 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - [App Shell architecture](https://developers.google.com/web/updates/2015/11/app-shell)
 - Locales per page for internationalize application
 - Always [Material Design](https://www.google.com/design/spec/material-design/introduction.html) for [Mobile First](https://gist.github.com/2c821d3de75b1d1c0cf972ea35b25757)
+- [Accessible design](https://www.google.com/design/spec/usability/accessibility.html)
+ - [Accessibility is My Favorite Part of the Platform - Google I/O 2016](https://www.youtube.com/watch?v=2qjgxH384Nc&list=PLNYkxOF6rcIDnSm7bZRJC36Ca1DYXSQ70&index=5)
 - [SUIT CSS naming conventions](https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md)
 - Load ES6, Intl polyfills using service [Polyfill.io](https://cdn.polyfill.io) only on older browsers (FF < 40, CH < 46)
 - Google Analytics configured for collect performance events and error tracking
