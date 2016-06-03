@@ -29,7 +29,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
   - **Pre-cache** components for remaining routes using Service Worker
   - **Lazy-load** and progressively upgrade next routes on-demand
 - Lazy-load app-drawer element and all pages with dependencies included icons, locales
-- [Application shell architecture](https://developers.google.com/web/updates/2015/11/app-shell)
+- [App Shell architecture](https://developers.google.com/web/updates/2015/11/app-shell)
 - Locales per page for internationalize application
 - Always [Material Design](https://www.google.com/design/spec/material-design/introduction.html) for [Mobile First](https://gist.github.com/2c821d3de75b1d1c0cf972ea35b25757)
 - [SUIT CSS naming conventions](https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md)
