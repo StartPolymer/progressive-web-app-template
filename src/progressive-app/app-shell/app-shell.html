@@ -108,15 +108,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Header-actionButton {
         --paper-icon-button-ink-color: var(--text-primary-color);
-        margin-right: calc(var(--gutter) - 8px);
+        padding: calc((var(--touch-target-size) - var(--icon-size)) / 2);
+        width: var(--touch-target-size);
+        height: var(--touch-target-size);
+        /* margin-right = gutter - padding */
+        margin-right: calc(var(--gutter) - (var(--touch-target-size) - var(--icon-size)) / 2);
       }
 
       .Header-actionButtonIcon {
         box-sizing: border-box !important;
-        padding: 8px;
-        width: 40px;
-        height: 40px;
-        margin-right: calc(var(--gutter) - 8px);
+        padding: calc((var(--touch-target-size) - var(--icon-size)) / 2);
+        width: var(--touch-target-size);
+        height: var(--touch-target-size);
+        /* margin-right = gutter - padding */
+        margin-right: calc(var(--gutter) - (var(--touch-target-size) - var(--icon-size)) / 2);
       }
 
       .Header-background {
@@ -137,8 +142,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Header-signInButtonLink {
+        box-sizing: border-box;
         color: var(--text-primary-color);
         text-decoration: none;
+        height: var(--touch-target-size);
+        padding: calc((var(--touch-target-size) - var(--button-height)) / 2) 0;
+        outline: none;
         opacity: 0;
         transition: 1s opacity;
         visibility: hidden;
@@ -147,8 +156,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Header-signInButton {
         background-color: var(--conversion-color);
         font-size: 15px;
-        line-height: 21px;
-        padding: 0.5em 0.57em;
+        height: var(--button-height);
+        line-height: 20px;
+        padding: 8px 0.57em;
         text-shadow: none;
         margin: 0;
       }
@@ -184,7 +194,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-center);
 
         color: currentColor;
-        min-height: 48px;
+        height: var(--touch-target-size);
         padding-left: var(--screen-edge-margin);
         padding-right: var(--gutter);
         text-decoration: none;
@@ -210,10 +220,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .Header.home {
           height: calc(100% - 128px);
         }
-        .Header-signInButtonContent {
+        .Header-signInButton {
           font-size: 18px;
           line-height: 24px;
-          padding: 0.4em 0.57em;
+          padding: 6px 0.57em;
         }
         .Icon-rocket {
           height: 400px;
@@ -260,7 +270,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-icon-button class="Header-actionButton" id="actionButton"
           on-tap="_onHeaderActionButtonTap"
           icon="header:{{_headerActionButtonIcon}}"
-          aria-label="Open navigation"
+          aria-label$="{{localize(_headerActionButtonIcon)}}"
           hidden$="{{!_isLazyLoadComplete}}"></paper-icon-button>
 
         <paper-tooltip class="Tooltip" for="actionButton" offset="0"
@@ -268,7 +278,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <div flex disabled$="{{_isPage('home', page)}}">
           <a class="Header-logoLink" href="/"
-             data-track-link="nav-home" data-ajax-link aria-label="Home">
+             data-track-link="nav-home" data-ajax-link
+             aria-label$="{{localize('home')}}">
             <div class="Header-logo"></div>
           </a>
         </div>
@@ -287,7 +298,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-toolbar>
 
       <img class="Header-background" id="headerBackground" backgroundFrontLayer
-           src="/images/bg.jpg" on-load="_onHeaderBackgroundLoad" on-error="_onHeaderBackgroundError">
+           src="/images/bg.jpg" alt="Background"
+           on-load="_onHeaderBackgroundLoad" on-error="_onHeaderBackgroundError">
 
       <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
         <iron-icon class="Icon-rocket" icon="header:rocket"></iron-icon>
