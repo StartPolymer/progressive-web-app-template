@@ -30,13 +30,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 100vh;
       }
 
+      .Shell.sign-in>.Pages {
+        background-image: url('/images/bg.jpg');
+      }
+
     </style>
 
     <app-location route="{{route}}"></app-location>
     <app-route pattern="/:page" route="{{route}}" data="{{routeData}}" tail="{{routeTail}}"></app-route>
 
     <app-shell class$="Shell {{page}}" app="{{app}}" page=[[page]]>
-      <app-pages app="{{app}}" page=[[page]]></app-pages>
+      <app-pages class="Pages" app="{{app}}" page=[[page]]></app-pages>
     </app-shell>
 
   </template>

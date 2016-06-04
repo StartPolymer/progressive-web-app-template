@@ -8,14 +8,10 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../../../bower_components/app-layout/helpers/helpers.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../../../bower_components/paper-styles/typography.html">
 <link rel="import" href="../app-behaviors/app-localize-behavior-extended.html">
 <link rel="import" href="app-icons-header.html">
 
@@ -33,63 +29,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: none !important;
       }
 
-      .Drawer-content {
-        @apply(--layout-vertical);
-        @apply(--paper-font-body2);
-
-        background-color: var(--primary-background-color);
-        color: var(--primary-text-color);
-        height: 100%;
-        padding: var(--spacing-unit) 0;
-      }
-
-      .Drawer-header {
-        background-color: var(--primary-background-color);
-        color: var(--primary-text-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 128px;
-      }
-
-      .Drawer-headerLogo {
-        height: 50px;
-        width: 50px;
-      }
-
-      .Drawer-link {
-        color: currentColor;
-        text-decoration: none;
-      }
-
-      .Drawer-title {
-        @apply(--paper-font-headline);
-      }
-
-      .Drawer-widget {
-        padding: var(--spacing-unit) 0;
-      }
-
-      .Drawer-widget--bottom {
-        border-top: 1px solid var(--divider-color);
-      }
-
-      .Drawer-widget--footer {
-        @apply(--paper-font-caption);
-
-        border-top: 1px solid var(--divider-color);
-        padding-left: var(--gutter);
-      }
-
       .Header {
         background-color: var(--primary-color);
         color: var(--text-primary-color);
         --app-header-background-rear-layer: {
           /* The header is Indigo when condensed */
           background-color: var(--primary-color);
-        };
-        --app-header-background-front-layer: {
-          display: none;
         };
       }
 
@@ -101,10 +46,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: calc(100% - 64px);
         min-height: 350px;
         text-shadow: 0 1px 0 #000;
+        background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wgARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/aAAwDAQACEAMQAAABFM9pJ//EABcQAQADAAAAAAAAAAAAAAAAAAABAhH/2gAIAQEAAQUCrDH/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFX/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwI//8QAFhABAQEAAAAAAAAAAAAAAAAAACEB/9oACAEBAAE/IbMh/9oADAMBAAIAAwAAABCj/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EF1gv//EABYRAQEBAAAAAAAAAAAAAAAAAAEAIf/aAAgBAgEBPxBwmf/EABYQAQEBAAAAAAAAAAAAAAAAACEAQf/aAAgBAQABPxAcBy//2Q==');
+        background-size: cover;
         --app-header-background-front-layer: {
-          display: block;
-          background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wgARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/aAAwDAQACEAMQAAABFM9pJ//EABcQAQADAAAAAAAAAAAAAAAAAAABAhH/2gAIAQEAAQUCrDH/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFX/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwI//8QAFhABAQEAAAAAAAAAAAAAAAAAACEB/9oACAEBAAE/IbMh/9oADAMBAAIAAwAAABCj/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EF1gv//EABYRAQEBAAAAAAAAAAAAAAAAAAEAIf/aAAgBAgEBPxBwmf/EABYQAQEBAAAAAAAAAAAAAAAAACEAQf/aAAgBAQABPxAcBy//2Q==');
-          background-size: cover;
+          opacity: 0;
+        };
+      }
+
+      .Header.home.background-loaded {
+        --app-header-background-front-layer: {
+          background-image: url('/images/bg.jpg');
+          transition: opacity 1s;
+          opacity: 1;
+        };
+      }
+
+      .Header.home.background-loaded.remove-transition {
+        --app-header-background-front-layer: {
+          background-image: url('/images/bg.jpg');
+          opacity: 1;
         };
       }
 
@@ -124,15 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: var(--touch-target-size);
         /* margin-right = gutter - padding */
         margin-right: calc(var(--gutter) - (var(--touch-target-size) - var(--icon-size)) / 2);
-      }
-
-      .Header-background {
-        opacity: 0;
-        transition: 1s opacity;
-        visibility: hidden;
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
       }
 
       .Header-content {
@@ -179,36 +130,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Icon-rocket {
         height: 200px;
         width: 200px;
-      }
-
-      .Navigation {
-        padding-bottom: 0;
-        padding-top: 0;
-      }
-
-      .Navigation-icon {
-        margin-right: var(--gutter);
-        pointer-events: none;
-      }
-
-      .Navigation-link {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-
-        color: currentColor;
-        height: var(--touch-target-size);
-        padding-left: var(--screen-edge-margin);
-        padding-right: var(--gutter);
-        text-decoration: none;
-        outline: none;
-      }
-
-      .Navigation-link.iron-selected {
-        color: var(--accent-color);
-      }
-
-      .Navigation-text {
-        pointer-events: none;
       }
 
       .Tooltip {
@@ -261,8 +182,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <app-header class$="Header {{page}}" id="header"
-                condenses reveals effects="waterfall blend-background parallax-background">
+    <app-header class$="Header {{page}}" id="header" condenses reveals>
 
       <app-toolbar class="Header-toolbar" role="navigation">
 
@@ -299,10 +219,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       </app-toolbar>
 
-      <img class="Header-background" id="headerBackground" backgroundFrontLayer
-           src="/images/bg.jpg" alt="Background"
-           on-load="_onHeaderBackgroundLoad" on-error="_onHeaderBackgroundError">
-
       <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
         <iron-icon class="Icon-rocket" icon="header:rocket"></iron-icon>
       </div>
@@ -311,42 +227,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <content role="main"></content>
 
-    <!-- Drawer content is lazy-created -->
-    <!-- Two-way bind `_drawerOpened` since app-drawer can update `opened` itself. -->
-    <app-drawer class="Drawer" opened="{{_drawerOpened}}" swipe-open hidden$="{{!_isLazyLoadComplete}}">
+    <!-- Drawer is lazy-created. -->
+    <!-- Two-way bind `_isDrawerOpened` since app-drawer can update `opened` itself. -->
+    <app-shell-drawer opened="{{_isDrawerOpened}}"
+                      page=[[page]]
+                      hidden$="{{!_isDrawerLazyLoadComplete}}"></app-shell-drawer>
 
-      <app-toolbar class="Drawer-header">
-        <iron-icon class="Drawer-headerLogo" icon="header:rocket"></iron-icon>
-      </app-toolbar>
-
-      <div class="Drawer-content">
-
-        <div class="Drawer-widget">
-
-          <iron-selector class="Navigation" selected="[[page]]" attr-for-selected="name" role="navigation">
-
-            <a class="Navigation-link" name="home" href="/">
-              <iron-icon class="Navigation-icon" icon="drawer:home"></iron-icon>
-              <span class="Navigation-text">{{localize('home')}}</span>
-            </a>
-
-            <a class="Navigation-link" name="sign-in" href="/sign-in">
-              <iron-icon class="Navigation-icon" icon="drawer:supervisor-account"></iron-icon>
-              <span class="Navigation-text">{{localize('sign-in')}}</span>
-            </a>
-
-            <a class="Navigation-link" name="contact-us" href="/contact-us">
-              <iron-icon class="Navigation-icon" icon="drawer:mail"></iron-icon>
-              <span class="Navigation-text">{{localize('contact-us')}}</span>
-            </a>
-
-          </iron-selector>
-
-        </div>
-
-      </div>
-
-    </app-drawer>
+    <!-- Dummy <img> to use for loading the background image for the app-header. -->
+    <img id="headerBackground" hidden
+         on-load="_onHeaderBackgroundLoad" on-error="_onHeaderBackgroundError">
 
   </template>
 
@@ -366,6 +255,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         _headerActionButtonIcon: {
           type: String,
           value: 'menu'
+        },
+
+        _isDrawerLazyLoadComplete: {
+          type: Boolean,
+          value: false
+        },
+
+        _isHeaderBackgroundLoaded: {
+          type: Boolean,
+          value: false
         },
 
         _isLazyLoadComplete: {
@@ -409,7 +308,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
 
           // Close the drawer - in case the *route* change came from a link in the drawer.
-          this._drawerOpened = false;
+          this._isDrawerOpened = false;
 
           this._isPageSwitched = Boolean(oldPage);
 
@@ -425,11 +324,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           }
 
+          if (page === 'home' && !this._isHeaderBackgroundLoaded) {
+            this.$.headerBackground.src = '/images/bg.jpg';
+          }
+
+          if (this._isHeaderBackgroundLoaded) {
+            this.$.header.classList.add('background-loaded');
+            this.$.header.classList.add('remove-transition');
+          }
+
           if (this._isPageSwitched) {
             // Update header styles for dynamic loading background image
             this.$.header.updateStyles();
           }
         }
+      },
+
+      _onHeaderBackgroundLoad: function() {
+        this.$.header.classList.add('background-loaded');
+        this.$.header.updateStyles();
+        this._isHeaderBackgroundLoaded = true;
+        // Remove transition effect after background loaded for blend-background app-scroll-effect
+        this.async(function() {
+          this.$.header.classList.add('remove-transition');
+          this.$.header.updateStyles();
+        }, 1000);
       },
 
       _onAppPageLoaded: function() {
@@ -448,9 +367,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           Polymer.RenderStatus.afterNextRender(this, function() {
             this.importHref(this.resolveUrl('app-shell-lazy-resources.html'), function() {
               this._isLazyLoadComplete = true;
+
               this.$.headerSignInButton.style.opacity = 1;
               this.$.headerSignInButton.style.visibility = 'visible';
+
+              this.$.header.setAttribute('effects', 'waterfall blend-background parallax-background');
+              this.$.header.updateStyles();
             });
+          });
+        }
+
+        if (this.page === 'home' && !this._isDrawerLazyLoadComplete) {
+          this.importHref(this.resolveUrl('app-shell-drawer.html'), function() {
+            this._isDrawerLazyLoadComplete = true;
           });
         }
       },
@@ -463,18 +392,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      _onHeaderBackgroundLoad: function() {
-        this.$.headerBackground.style.opacity = 1;
-        this.$.headerBackground.style.visibility = 'visible';
-      },
-
       _isPage: function(pageName, selectedPage) {
         return pageName === selectedPage;
       },
 
       // Toggle function for lazy loaded drawer
       _toggleDrawer: function() {
-        this._drawerOpened = !this._drawerOpened;
+        this._isDrawerOpened = !this._isDrawerOpened;
       },
 
       // AppLocalizeBehaviorExtended behaviour notify loaded an external resources
