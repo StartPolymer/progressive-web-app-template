@@ -104,7 +104,6 @@ handlers:
            </images/bg.jpg>; rel=preload; as=image,
            </src/progressive-app/app-pages/app-page-home/app-page-home.html>; rel=preload; as=document,
            </src/progressive-app/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document,
-           </src/progressive-app/app-pages/app-page-contact-us/app-page-contact-us.html>; rel=preload; as=document,
            </src/progressive-app/app-pages/app-page-sign-in/app-page-sign-in.html>; rel=preload; as=document'
     X-UA-Compatible: "IE=edge"
     #Content-Security-Policy: "script-src 'self'; object-src 'self'"
