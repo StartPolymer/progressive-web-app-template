@@ -23,7 +23,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Page {
         opacity: 0;
         transition: 1s opacity;
-        visibility: hidden;
       }
 
     </style>
@@ -46,6 +45,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'app-pages',
 
       properties: {
+        app: Object,
+
         page: {
           type: String,
           reflectToAttribute: true,
@@ -58,18 +59,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // Load page import on demand.
           var pageElement = 'app-page-' + page + '/app-page-' + page + '.html';
           this.importHref(this.resolveUrl(pageElement), function() {
-              this._pageLoaded();
-            }, null, true);
+            this._pageLoaded();
+          }, null, true);
         }
       },
 
       _pageLoaded: function() {
         this.fire('app-page-loaded');
-
-        if (!this.$[this.page].style.opacity) {
-          this.$[this.page].style.opacity = 1;
-          this.$[this.page].style.visibility = 'visible';
-        }
+        this.$[this.page].style.opacity = 1;
       }
 
     });

@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <style>
       :host {
-        display: block;
+        display: none;
         padding-top: calc(100vh - 64px);
       }
       .card {
@@ -124,22 +124,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       is: 'app-page-home',
 
+      properties: {
+        app: Object
+      },
+
       behaviors: [
         AppLocalizeBehaviorExtended
       ],
 
       listeners: {
-        'app-resources-loaded': '_onAppResourcesLoaded'
+        'app-resources-loaded': '_onAppLocalesLoaded'
       },
 
       attached: function() {
         this.loadLocales(this.is);
-        this.set('app.pageTitle', '');
       },
 
-      // AppLocalizeBehaviorExtended behaviour notify loaded an external resources
-      _onAppResourcesLoaded: function() {
-
+      _onAppLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this.style.display = 'block';
       }
 
     });

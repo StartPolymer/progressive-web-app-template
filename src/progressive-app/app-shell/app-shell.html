@@ -25,6 +25,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
+      @keyframes fadeIn {
+        from { opacity: 0; } to { opacity: 1; }
+      }
+
       [hidden] {
         display: none !important;
       }
@@ -56,6 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Header.home.background-loaded {
         --app-header-background-front-layer: {
           background-image: url('/images/bg.jpg');
+          height: 100%;
           transition: opacity 1s;
           opacity: 1;
         };
@@ -64,6 +69,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Header.home.background-loaded.remove-transition {
         --app-header-background-front-layer: {
           background-image: url('/images/bg.jpg');
+          height: 100%;
           opacity: 1;
         };
       }
@@ -73,6 +79,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: calc((var(--touch-target-size) - var(--icon-size)) / 2);
         width: var(--touch-target-size);
         height: var(--touch-target-size);
+        /* margin-left = screen-edge-margin - padding */
+        margin-left: calc(var(--screen-edge-margin) - (var(--touch-target-size) - var(--icon-size)) / 2);
         /* margin-right = gutter - padding */
         margin-right: calc(var(--gutter) - (var(--touch-target-size) - var(--icon-size)) / 2);
       }
@@ -82,6 +90,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: calc((var(--touch-target-size) - var(--icon-size)) / 2);
         width: var(--touch-target-size);
         height: var(--touch-target-size);
+        /* margin-left = screen-edge-margin - padding */
+        margin-left: calc(var(--screen-edge-margin) - (var(--touch-target-size) - var(--icon-size)) / 2);
         /* margin-right = gutter - padding */
         margin-right: calc(var(--gutter) - (var(--touch-target-size) - var(--icon-size)) / 2);
       }
@@ -95,15 +105,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Header-signInButtonLink {
+        animation: fadeIn 1s;
         box-sizing: border-box;
         color: var(--text-primary-color);
         text-decoration: none;
         height: var(--touch-target-size);
         padding: calc((var(--touch-target-size) - var(--button-height)) / 2) 0;
         outline: none;
-        opacity: 0;
-        transition: 1s opacity;
-        visibility: hidden;
       }
 
       .Header-signInButton {
@@ -114,17 +122,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 8px 0.57em;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
         margin: 0;
+        position: fixed;
+        right: var(--screen-edge-margin);
+        z-index: 20;
+      }
+
+      .Header-title {
+        @apply(--layout-horizontal);
+      }
+
+      .Header-titleDash {
+        padding: 0 var(--gutter);
       }
 
       .Header-toolbar {
-        padding: 0 var(--screen-edge-margin) 0 calc(var(--screen-edge-margin) - 8px);
+        padding: 0 var(--screen-edge-margin) 0 0;
         z-index: 10;
       }
 
       .Icon-offline {
+        animation: fadeIn 1s;
         height: 32px;
         width: 32px;
-        margin-right: var(--gutter);
       }
 
       .Icon-rocket {
@@ -207,13 +226,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="Header-title" title>
-          <span>{{app.name}}</span><span hidden$="{{!app.pageTitle}}">&nbsp;&nbsp;-&nbsp;&nbsp;{{app.pageTitle}}</span>
+          <span hidden$="{{_computeAppNameHidden(app, page)}}">{{app.name}}</span>
+          <span class="Header-titleDash" hidden$="{{_isTitleDashHidden}}">-</span>
+          <span hidden$="{{!app.pageTitle}}">{{app.pageTitle}}</span>
         </div>
 
-        <iron-icon class="Icon-offline" icon="header:cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
+        <iron-icon class="Icon-offline" id="iconOffline"
+                   icon="header:cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
+
+        <paper-tooltip class="Tooltip" for="iconOffline" offset="0"
+                       hidden$="{{!_isLazyLoadComplete}}">{{localize('offline')}}</paper-tooltip>
 
         <a class="Header-signInButtonLink" id="headerSignInButton" href="/sign-in" tabindex="-1"
-          hidden$="{{_computeSignInButtonHidden(page)}}">
+          hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, app.isOffline, page)}}">
           <paper-button class="Header-signInButton" raised>{{localize('sign-in')}}</paper-button>
         </a>
 
@@ -246,6 +271,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'app-shell',
 
       properties: {
+        app: Object,
+
         page: {
           type: String,
           reflectToAttribute: true,
@@ -280,6 +307,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         _isPageSwitched: {
           type: Boolean,
           value: false
+        },
+
+        _isTitleDashHidden: {
+          type: Boolean,
+          value: false
         }
       },
 
@@ -289,16 +321,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'app-page-loaded': '_onAppPageLoaded',
-        'app-resources-loaded': '_onAppResourcesLoaded'
+        'app-resources-loaded': '_onAppLocalesLoaded'
       },
 
       attached: function() {
+        this._setPageTitleDash();
         this.loadLocales(this.is);
       },
 
-      _computeSignInButtonHidden: function(page) {
-        return page === 'sign-in' ||
-               page === 'contact-us' && !this.app.isTabletWide;
+      _computeAppNameHidden: function(app, page) {
+        return page !== 'home' && !app.isTabletWide;
+      },
+
+      _computeSignInButtonHidden: function(isLazyLoadComplete, offline, page) {
+        return page === 'sign-in' || offline || !isLazyLoadComplete;
+      },
+
+      _onAppLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this.set('_isLocalesLoaded', true);
+        this._setPageTitle();
+      },
+
+      _onHeaderActionButtonTap: function() {
+        if (this.page === 'home') {
+          this._toggleDrawer();
+        } else {
+          window.history.back();
+        }
+      },
+
+      _onHeaderBackgroundLoad: function() {
+        this._isHeaderBackgroundLoaded = true;
+        this.async(function() {
+          this.$.header.classList.add('background-loaded');
+          this.$.header.updateStyles();
+        }, 100);
+        // Remove transition effect after background loaded for blend-background app-scroll-effect
+        this.async(function() {
+          this.$.header.classList.add('remove-transition');
+          this.$.header.updateStyles();
+        }, 1000);
+      },
+
+      _onAppPageLoaded: function() {
+        if (this._isPageSwitched) {
+          // The size of the header depends on the page, so reset the header's layout only when switching pages.
+          this.async(function() {
+            this.$.header.resetLayout();
+          }, 1);
+        }
+        this._ensureLazyLoaded();
       },
 
       _pageChanged: function(page, oldPage) {
@@ -316,12 +389,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this._headerActionButtonIcon = page === 'home' ? 'menu' : 'back';
 
           if (this._isLocalesLoaded) {
-            // Set page title
-            if (page === 'home') {
-              this.set('app.pageTitle', '');
-            } else {
-              this.set('app.pageTitle', this.localize(page));
-            }
+            this._setPageTitle();
+            this._setPageTitleDash();
           }
 
           if (page === 'home' && !this._isHeaderBackgroundLoaded) {
@@ -340,36 +409,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      _onHeaderBackgroundLoad: function() {
-        this.$.header.classList.add('background-loaded');
-        this.$.header.updateStyles();
-        this._isHeaderBackgroundLoaded = true;
-        // Remove transition effect after background loaded for blend-background app-scroll-effect
-        this.async(function() {
-          this.$.header.classList.add('remove-transition');
-          this.$.header.updateStyles();
-        }, 1000);
-      },
-
-      _onAppPageLoaded: function() {
-        if (this._isPageSwitched) {
-          // The size of the header depends on the page, so reset the header's layout only when switching pages.
-          this.async(function() {
-            this.$.header.resetLayout();
-          }, 1);
-        }
-        this._ensureLazyLoaded();
-      },
-
       _ensureLazyLoaded: function() {
         // Load lazy resources after render and set `_isLazyLoadComplete` when done.
         if (!this._isLazyLoadComplete) {
           Polymer.RenderStatus.afterNextRender(this, function() {
             this.importHref(this.resolveUrl('app-shell-lazy-resources.html'), function() {
               this._isLazyLoadComplete = true;
-
-              this.$.headerSignInButton.style.opacity = 1;
-              this.$.headerSignInButton.style.visibility = 'visible';
 
               this.$.header.setAttribute('effects', 'waterfall blend-background parallax-background');
               this.$.header.updateStyles();
@@ -384,26 +429,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      _onHeaderActionButtonTap: function() {
-        if (this.page === 'home') {
-          this._toggleDrawer();
-        } else {
-          window.history.back();
-        }
-      },
-
       _isPage: function(pageName, selectedPage) {
         return pageName === selectedPage;
+      },
+
+      _setPageTitle: function() {
+        if (this.page === 'home') {
+          this.set('app.pageTitle', '');
+        } else {
+          this.set('app.pageTitle', this.localize(this.page));
+        }
+        window.document.title = this.localize(this.page) + ' - ' + window.APP_NAME;
+      },
+
+      _setPageTitleDash: function() {
+        if (this.page === 'home') {
+          this._isTitleDashHidden = true;
+        } else {
+          this._isTitleDashHidden = false;
+          if (!this.app.isTabletWide) {
+            this._isTitleDashHidden = true;
+          }
+        }
       },
 
       // Toggle function for lazy loaded drawer
       _toggleDrawer: function() {
         this._isDrawerOpened = !this._isDrawerOpened;
-      },
-
-      // AppLocalizeBehaviorExtended behaviour notify loaded an external resources
-      _onAppResourcesLoaded: function() {
-        this._isLocalesLoaded = true;
       }
 
     });

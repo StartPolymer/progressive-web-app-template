@@ -185,20 +185,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       min-height: 100vh;
     }
 
-    progressive-app[unresolved] .header {
+    progressive-app[unresolved] .Header {
       background-color: #3f51b5; /* Indigo 500 */
       color: #fff;
       font-size: 20px;
       line-height: 64px;
-      padding: 0 72px;
+      padding: 0 88px;
     }
 
     /* Single Element CSS Spinner */
     /* http://projects.lukehaas.me/css-loaders/ */
-    #loader {
+    progressive-app[unresolved] .Loader {
       font-size: 10px;
       text-indent: -9999em;
-      margin: 300px auto;
       overflow: hidden; /* fix overflow */
       width: 11em;
       height: 11em;
@@ -216,18 +215,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       -ms-transform: translateZ(0);
       transform: translateZ(0);
     }
-    #loader:before {
+
+    progressive-app[unresolved] .Loader:before {
       width: 50%;
       height: 50%;
-      background: #3f51b5;
+      background: #3f51b5; /* Indigo 500 */
       border-radius: 100% 0 0 0;
       position: absolute;
       top: 0;
       left: 0;
       content: '';
     }
-    #loader:after {
-      background: #3f51b5;
+
+    progressive-app[unresolved] .Loader:after {
+      background: #3f51b5; /* Indigo 500 */
       background-color: #f5f5f5; /* Grey 100 */
       width: 75%;
       height: 75%;
@@ -240,6 +241,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       bottom: 0;
       right: 0;
     }
+
+    progressive-app[unresolved] .Main {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
     @-webkit-keyframes load3 {
       0% {
         -webkit-transform: rotate(0deg);
@@ -266,8 +280,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body>
 
   <progressive-app unresolved>
-    <div class="header">Progressive Web App</div>
-    <div id="loader">Loading...</div>
+    <div class="Header">Progressive Web App</div>
+    <div class="Main">
+      <div class="Loader">Loading...</div>
+    </div>
   </progressive-app>
 
   <script>
@@ -312,11 +328,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
     }
 
-    window.addEventListener('app-attached', function() {
-      // Remove loader
-      var loader = document.getElementById('loader');
-      loader.parentNode.removeChild(loader);
-    });
   })();
   </script>
 </body>

@@ -44,16 +44,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       listeners: {
-        'app-resources-loaded': '_onAppResourcesLoaded'
+        'app-resources-loaded': '_onAppLocalesLoaded'
       },
 
       attached: function() {
         this.loadLocales(this.is);
       },
 
-      // AppLocalizeBehaviorExtended behaviour notify loaded an external resources
-      _onAppResourcesLoaded: function() {
-        this.set('app.pageTitle', this.localize('contact-us'));
+      _onAppLocalesLoaded: function(event) {
+        event.stopPropagation();
       }
 
     });

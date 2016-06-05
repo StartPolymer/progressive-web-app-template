@@ -32,6 +32,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Shell.sign-in>.Pages {
         background-image: url('/images/bg.jpg');
+        background-size: cover;
+        height: calc(100vh - 64px);
       }
 
     </style>
@@ -64,7 +66,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             isLaptopWide: window.matchMedia('screen and (min-width:960px)').matches,
             isLargeWide: window.matchMedia('screen and (min-width:1600px)').matches,
             isPrintMode: window.matchMedia('print').matches,
-            isOffline: false,
+            isOffline: !navigator.onLine,
             name: window.APP_NAME,
             pageTitle: ''
           }
@@ -100,7 +102,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function() {
-        this.fire('app-attached');
         this._setStyles();
       },
 
@@ -160,7 +161,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.customStyle['--gutter'] = '24px';
           this.customStyle['--screen-edge-margin'] = '24px';
         }
-        this.updateStyles();
+        this.async(function() {
+          this.updateStyles();
+        });
       }
 
     });
