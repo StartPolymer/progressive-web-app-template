@@ -17,19 +17,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
 
     <style>
+
       :host {
         display: none;
         padding-top: calc(100vh - 64px);
       }
-      .card {
+
+      .Card {
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-        padding: 16px;
-        margin: 24px;
-        border-radius: 5px;
-        background-color: #fff;
-        color: #757575;
+        padding: var(--gutter);
+        margin: 0;
+        border-radius: 2px;
+        background-color: var(--primary-background-color);
+        color: var(--primary-text-color);
       }
-      .circle {
+
+      .Circle {
         display: inline-block;
         height: 64px;
         width: 64px;
@@ -40,6 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #555;
         text-align: center;
       }
+
       h1 {
         font-size: 22px;
         margin: 16px 0;
@@ -55,7 +59,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       /* Laptop wide */
       @media screen and (min-width: 960px) {
-
+        .Card {
+          margin: var(--gutter) var(--screen-edge-margin);
+        }
       }
 
       /* Large wide */
@@ -70,6 +76,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
 
+      /* Landscape phone minimal height - iPhone 4 */
+      @media screen and (orientation: landscape) and (max-height: 320px) {
+        :host {
+          padding-top: 320px;
+        }
+      }
+
       /* Print mode */
       @media print {
 
@@ -77,7 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <div class="card">
+    <div class="Card">
       <h1>{{localize('home')}}</h1>
       <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
       <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
