@@ -101,7 +101,6 @@ handlers:
   mime_type: text/html; charset=UTF-8
   http_headers:
     Link: '</src/progressive-app/progressive-app.html>; rel=preload; as=document,
-           </images/bg.jpg>; rel=preload; as=image,
            </src/progressive-app/app-pages/app-page-home/app-page-home.html>; rel=preload; as=document,
            </src/progressive-app/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document,
            </src/progressive-app/app-pages/app-page-sign-in/app-page-sign-in.html>; rel=preload; as=document'
