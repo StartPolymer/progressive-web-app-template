@@ -12,7 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../app-behaviors/app-localize-behavior-extended.html">
+<link rel="import" href="../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="app-icons-header.html">
 
 <dom-module id="app-shell">
@@ -29,18 +29,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         from { opacity: 0; } to { opacity: 1; }
       }
 
-      /* IE 10 support for HTML5 hidden attr */
       [hidden] {
         display: none !important;
       }
 
       .Header {
-        background-color: var(--primary-color);
-        color: var(--text-primary-color);
+        /* elevation="2" */
+        @apply(--shadow-elevation-4dp);
         --app-header-background-rear-layer: {
-          /* The header is Indigo when condensed */
           background-color: var(--primary-color);
         };
+        background-color: var(--primary-color);
+        color: var(--text-primary-color);
       }
 
       .Header.home {
@@ -52,6 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         min-height: 320px; /* iPhone 4 Landscape */
         text-shadow: 0 1px 0 #000;
         background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wgARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/aAAwDAQACEAMQAAABFM9pJ//EABcQAQADAAAAAAAAAAAAAAAAAAABAhH/2gAIAQEAAQUCrDH/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFX/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwI//8QAFhABAQEAAAAAAAAAAAAAAAAAACEB/9oACAEBAAE/IbMh/9oADAMBAAIAAwAAABCj/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EF1gv//EABYRAQEBAAAAAAAAAAAAAAAAAAEAIf/aAAgBAgEBPxBwmf/EABYQAQEBAAAAAAAAAAAAAAAAACEAQf/aAAgBAQABPxAcBy//2Q==');
+        background-position: center 0;
         background-size: cover;
         --app-header-background-front-layer: {
           opacity: 0;
@@ -61,6 +62,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Header.home.background-loaded {
         --app-header-background-front-layer: {
           background-image: url('/images/bg.jpg');
+          background-position: center 0;
+          background-size: cover;
           height: 100%;
           transition: opacity 1s;
           opacity: 1;
@@ -70,6 +73,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Header.home.background-loaded.remove-transition {
         --app-header-background-front-layer: {
           background-image: url('/images/bg.jpg');
+          background-position: center 0;
+          background-size: cover;
           height: 100%;
           opacity: 1;
         };
@@ -137,6 +142,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Header-toolbar {
+        height: var(--header-toolbar-height);
         padding: 0 var(--screen-edge-margin) 0 0;
         z-index: 10;
       }
@@ -147,7 +153,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 32px;
       }
 
-      .Icon-rocket {
+      .Logo {
         height: 200px;
         width: 200px;
       }
@@ -167,8 +173,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           font-size: 18px;
           line-height: 24px;
           padding: 6px 0.57em;
+          position: relative;
+          right: 0;
         }
-        .Icon-rocket {
+        .Logo {
           height: 400px;
           width: 400px;
         }
@@ -189,7 +197,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .Header.home {
           height: 100%;
         }
-        .Icon-rocket {
+        .Logo {
           height: 200px;
           width: 200px;
         }
@@ -229,7 +237,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="Header-title" title>
           <span hidden$="{{_computeAppNameHidden(app, page)}}">{{app.name}}</span>
           <span class="Header-titleDash" hidden$="{{_isTitleDashHidden}}">-</span>
-          <span hidden$="{{!app.pageTitle}}">{{app.pageTitle}}</span>
+          <span hidden$="{{!_pageTitleComputed}}">{{_pageTitleComputed}}</span>
         </div>
 
         <iron-icon class="Icon-offline" id="iconOffline"
@@ -246,7 +254,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-toolbar>
 
       <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
-        <iron-icon class="Icon-rocket" icon="header:rocket"></iron-icon>
+        <iron-icon class="Logo" icon="header:rocket"></iron-icon>
       </div>
 
     </app-header>
@@ -313,11 +321,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         _isTitleDashHidden: {
           type: Boolean,
           value: false
+        },
+
+        _pageTitleComputed: {
+          type: Function,
+          computed: '_computePageTitle(app.pageTitle)'
         }
       },
 
       behaviors: [
-        AppLocalizeBehaviorExtended
+        AppBehaviors.AppLocalizeBehavior
       ],
 
       listeners: {
@@ -326,7 +339,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function() {
-        this._setPageTitleDash();
         this.loadLocales(this.is);
       },
 
@@ -334,80 +346,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return page !== 'home' && !app.isTabletWide;
       },
 
+      _computePageTitle: function(title) {
+        window.document.title = title + ' - ' + window.APP_NAME;
+        return title;
+      },
+
       _computeSignInButtonHidden: function(isLazyLoadComplete, offline, page) {
-        return page === 'sign-in' || offline || !isLazyLoadComplete;
-      },
-
-      _onAppLocalesLoaded: function(event) {
-        event.stopPropagation();
-        this.set('_isLocalesLoaded', true);
-        this._setPageTitle();
-      },
-
-      _onHeaderActionButtonTap: function() {
-        if (this.page === 'home') {
-          this._toggleDrawer();
-        } else {
-          window.history.back();
-        }
-      },
-
-      _onHeaderBackgroundLoad: function() {
-        this._isHeaderBackgroundLoaded = true;
-        this.async(function() {
-          this.$.header.classList.add('background-loaded');
-          this.$.header.updateStyles();
-        }, 100);
-        // Remove transition effect after background loaded for blend-background app-scroll-effect
-        this.async(function() {
-          this.$.header.classList.add('remove-transition');
-          this.$.header.updateStyles();
-        }, 1000);
-      },
-
-      _onAppPageLoaded: function() {
-        if (this._isPageSwitched) {
-          // The size of the header depends on the page, so reset the header's layout only when switching pages.
-          this.async(function() {
-            this.$.header.resetLayout();
-          }, 1);
-        }
-        this._ensureLazyLoaded();
-      },
-
-      _pageChanged: function(page, oldPage) {
-        if (page) {
-          // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
-          // with `behavior: 'silent'` to disable header scroll effects during the scroll.
-          Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
-
-          // Close the drawer - in case the *route* change came from a link in the drawer.
-          this._isDrawerOpened = false;
-
-          this._isPageSwitched = Boolean(oldPage);
-
-          // Set icon of headerActionButton
-          this._headerActionButtonIcon = page === 'home' ? 'menu' : 'back';
-
-          if (this._isLocalesLoaded) {
-            this._setPageTitle();
-            this._setPageTitleDash();
-          }
-
-          if (page === 'home' && !this._isHeaderBackgroundLoaded) {
-            this.$.headerBackground.src = '/images/bg.jpg';
-          }
-
-          if (this._isHeaderBackgroundLoaded) {
-            this.$.header.classList.add('background-loaded');
-            this.$.header.classList.add('remove-transition');
-          }
-
-          if (this._isPageSwitched) {
-            // Update header styles for dynamic loading background image
-            this.$.header.updateStyles();
-          }
-        }
+        return page === 'sign-in' ||
+               page === 'dashboard' ||
+               offline || !isLazyLoadComplete;
       },
 
       _ensureLazyLoaded: function() {
@@ -416,8 +363,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           Polymer.RenderStatus.afterNextRender(this, function() {
             this.importHref(this.resolveUrl('app-shell-lazy-resources.html'), function() {
               this._isLazyLoadComplete = true;
-
-              this.$.header.setAttribute('effects', 'waterfall blend-background parallax-background');
+              // Set header effects after lazy loaded scroll effect elements
+              this.$.header.setAttribute('effects', 'blend-background parallax-background');
               this.$.header.updateStyles();
             });
           });
@@ -434,13 +381,73 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return pageName === selectedPage;
       },
 
-      _setPageTitle: function() {
-        if (this.page === 'home') {
-          this.set('app.pageTitle', '');
-        } else {
-          this.set('app.pageTitle', this.localize(this.page));
+      _onAppLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this.set('_isLocalesLoaded', true);
+      },
+
+      _onAppPageLoaded: function() {
+        if (this._isPageSwitched) {
+          // The size of the header depends on the page, so reset the header's layout only when switching pages.
+          this.async(function() {
+            this.$.header.resetLayout();
+          });
         }
-        window.document.title = this.localize(this.page) + ' - ' + window.APP_NAME;
+        this._ensureLazyLoaded();
+      },
+
+      _onHeaderActionButtonTap: function() {
+        if (this.page === 'home') {
+          this._toggleDrawer();
+        } else {
+          window.history.back();
+        }
+      },
+
+      _onHeaderBackgroundLoad: function() {
+        this._isHeaderBackgroundLoaded = true;
+        // TODO: Improve lazy loading effect of header background image on quick network
+        this.async(function() {
+          this.$.header.classList.add('background-loaded');
+          this.$.header.updateStyles();
+        }, 500);
+        // Remove transition effect after background loaded for blend-background app-scroll-effect
+        this.async(function() {
+          this.$.header.classList.add('remove-transition');
+          this.$.header.updateStyles();
+        }, 1500);
+      },
+
+      _pageChanged: function(page, oldPage) {
+        if (page) {
+          // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
+          // with `behavior: 'silent'` to disable header scroll effects during the scroll.
+          //Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+
+          // Close the drawer - in case the *route* change came from a link in the drawer.
+          this._isDrawerOpened = false;
+
+          this._isPageSwitched = Boolean(oldPage);
+
+          // Set icon of headerActionButton
+          this._headerActionButtonIcon = page === 'home' ? 'menu' : 'back';
+
+          this._setPageTitleDash();
+
+          if (page === 'home' && !this._isHeaderBackgroundLoaded) {
+            this.$.headerBackground.src = '/images/bg.jpg';
+          }
+
+          if (this._isHeaderBackgroundLoaded) {
+            this.$.header.classList.add('background-loaded');
+            this.$.header.classList.add('remove-transition');
+          }
+
+          if (this._isPageSwitched) {
+            // Update header styles for dynamic loading background image
+            this.$.header.updateStyles();
+          }
+        }
       },
 
       _setPageTitleDash: function() {

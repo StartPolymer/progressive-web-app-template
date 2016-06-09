@@ -1,0 +1,122 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
+
+<dom-module id="app-page-404">
+
+  <template>
+
+    <style include="page-shared-styles">
+
+      :host {
+        display: flex;
+      }
+
+      .Page-card {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+      }
+
+      .Container {
+        @apply(--layout-vertical);
+      }
+
+      .Polymerosaurus {
+        max-width: 200px;
+      }
+
+      /* Laptop wide */
+      @media screen and (min-width: 960px) {
+        .Page-card {
+          @apply(--layout-horizontal);
+        }
+
+        .Polymerosaurus {
+          max-width: 300px;
+          margin-right: 64px;
+        }
+      }
+
+    </style>
+
+    <paper-material class="Page-card Page-card--fixedHeight" elevation="2">
+
+      <img class="Polymerosaurus" alt="Polymerosaurus"
+           src$="{{app.baseUrl}}images/logos/polymerosaurus.png">
+
+      <div class="Container">
+        <h1>{{localize('not-found')}}</h1>
+        <h2>{{localize('we-are-sorry')}}</h2>
+        <h3>
+          <span>{{localize('maybe-head-back')}}</span>
+          <a href$="{{app.baseUrl}}">{{localize('homepage')}}</a>
+          <span>{{localize('or-use-links')}}</span>
+        </h3>
+      </div>
+
+    </paper-material>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-page-404',
+
+      properties: {
+        active: {
+          type: Boolean,
+          value: false,
+          observer: '_activeChanged'
+        },
+
+        app: Object,
+
+        _isLocalesLoaded: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      behaviors: [
+        AppBehaviors.AppLocalizeBehavior
+      ],
+
+      listeners: {
+        'app-resources-loaded': '_onLocalesLoaded'
+      },
+
+      attached: function() {
+        this.loadLocales(this.is);
+      },
+
+      _activeChanged: function() {
+        if (this.active && this._isLocalesLoaded) {
+          this.set('app.pageTitle', this.localize('404'));
+        }
+      },
+
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this._isLocalesLoaded = true;
+        this.set('app.pageTitle', this.localize('404'));
+      }
+
+    });
+
+  </script>
+
+</dom-module>

@@ -27,12 +27,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <iron-pages selected="[[page]]" attr-for-selected="id">
+    <iron-pages selected="[[page]]" selected-attribute="active"
+                attr-for-selected="id" fallback-selection="404">
 
       <app-page-contact-us class="Page" id="contact-us" app="{{app}}"></app-page-contact-us>
       <app-page-home class="Page" id="home" app="{{app}}"></app-page-home>
       <app-page-sign-in class="Page" id="sign-in" app="{{app}}"></app-page-sign-in>
-      <app-page-sign-in-with-email class="Page" id="sign-in-with-email" app="{{app}}"></app-page-sign-in-with-email>
+      <app-page-sign-in-with-email class="Page" id="sign-in-with-email" app="{{app}}" route={{route}}></app-page-sign-in-with-email>
+      <app-page-404 class="Page" id="404" app="{{app}}"></app-page-404>
 
     </iron-pages>
 
@@ -51,12 +53,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           reflectToAttribute: true,
           observer: '_pageChanged'
-        }
+        },
+
+        route: Object
+      },
+
+      listeners: {
+        'app-subpage-loaded': '_onSubpageLoaded'
+      },
+
+      _onSubpageLoaded: function(event) {
+        event.stopPropagation();
+        this.fire('app-page-loaded');
+        this.$[this.page].style.opacity = 1;
+        console.log('_onSubPageLoaded');
       },
 
       _pageChanged: function(page) {
-        if (page) {
-          // Load page import on demand.
+        if (Polymer.isInstance(this.$[page])) {
+          this.async(function() {
+            this._pageLoaded();
+          });
+        } else {
+          // Async load page import on demand.
           var pageElement = 'app-page-' + page + '/app-page-' + page + '.html';
           this.importHref(this.resolveUrl(pageElement), function() {
             this._pageLoaded();
@@ -65,8 +84,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _pageLoaded: function() {
-        this.fire('app-page-loaded');
-        this.$[this.page].style.opacity = 1;
+        console.log('_pageLoaded1', this.page);
+        if (this.page !== 'sign-in-with-email') {
+          this.fire('app-page-loaded');
+          this.$[this.page].style.opacity = 1;
+          console.log('_pageLoaded2', this.page);
+        }
       }
 
     });

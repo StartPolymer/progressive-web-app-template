@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../app-behaviors/app-localize-behavior-extended.html">
+<link rel="import" href="../../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="app-icons-contact-us.html">
 
 <dom-module id="app-page-contact-us">
@@ -19,7 +19,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
 
       :host {
-        display: block;
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
         height: calc(100vh - 64px);
       }
 
@@ -40,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       behaviors: [
-        AppLocalizeBehaviorExtended
+        AppBehaviors.AppLocalizeBehavior
       ],
 
       listeners: {
@@ -53,6 +54,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _onAppLocalesLoaded: function(event) {
         event.stopPropagation();
+        this.set('app.pageTitle', this.localize('contact-us'));
       }
 
     });

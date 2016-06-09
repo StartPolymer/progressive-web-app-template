@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../../bower_components/paper-styles/typography.html">
-<link rel="import" href="../app-behaviors/app-localize-behavior-extended.html">
+<link rel="import" href="../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="app-icons-drawer.html">
 
 <dom-module id="app-shell-drawer">
@@ -125,7 +125,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </a>
 
             <a class="Navigation-link" name="sign-in" href="/sign-in">
-              <iron-icon class="Navigation-icon" icon="drawer:supervisor-account"></iron-icon>
+              <iron-icon class="Navigation-icon" icon="drawer:sign-in"></iron-icon>
               <span class="Navigation-text">{{localize('sign-in')}}</span>
             </a>
 
@@ -162,7 +162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       behaviors: [
-        AppLocalizeBehaviorExtended
+        AppBehaviors.AppLocalizeBehavior
       ],
 
       listeners: {

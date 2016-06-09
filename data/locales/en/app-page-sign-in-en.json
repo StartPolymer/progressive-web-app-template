@@ -13,6 +13,7 @@
     "check-email-follow": "Check your email - Follow the instructions sent to {email} to recover your password.",
     "choose-name": "Choose name",
     "choose-password": "Choose password",
+    "invalid-email-address": "Invalid email address",
     "next": "Next",
     "password": "Password",
     "please-enter-email": "Please enter your email.",

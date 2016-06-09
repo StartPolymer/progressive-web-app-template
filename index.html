@@ -11,8 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!doctype html>
 <html lang="en">
 <head>
+  <base href="/">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="generator" content="StartPolymer - Progressive Web App Template">
 
   <title>Progressive Web App</title>
 
@@ -23,13 +25,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- Unsupported browser checks need to come before webcomponents.js is loaded,
        otherwise unsupported browsers will error out and not record a pageview.
-       Analytics lib is also loaded up front for error reporting. -->
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+       Analytics lib is also loaded up front for error reporting.
+  <script src="https://www.google-analytics.com/analytics.js" async></script> -->
   <script>
   (function() {
     "use strict";
 
+    // Global constants
     window.APP_NAME = 'Progressive Web App';
+    window.BASE_URL = '/';
     window.ENV = 'dev'; // or 'prod'
     window.COOKIE_PREFIX = '/pwa';
 
@@ -172,9 +176,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     body {
       margin: 0;
-      font-family: 'Roboto', 'Noto', sans-serif;
+      font-family: 'Roboto', 'Noto', 'Helvetica', 'Arial', sans-serif;
       font-size: 16px;
-      line-height: 1.5;
+      font-weight: 400;
+      line-height: 24px;
       min-height: 100vh;
       background-color: #f5f5f5; /* Grey 100 */
     }
@@ -289,6 +294,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
   (function() {
     'use strict';
+
     // Store a time stamp for timing analysis toolkit
     window.performance && performance.mark && performance.mark('index.html');
 

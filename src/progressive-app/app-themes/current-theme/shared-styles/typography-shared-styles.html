@@ -1,0 +1,157 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../../../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../global-styles/layout.html">
+<link rel="import" href="../global-styles/typography.html">
+
+<dom-module id="typography-shared-styles">
+<template>
+
+<style>
+
+  /* Typography styles from Material Design Lite
+     https://github.com/google/material-design-lite/blob/master/src/typography/_typography.scss */
+
+  a {
+    color: var(--accent-color);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  address {
+    @apply(--paper-font-caption);
+
+    font-style: normal;
+  }
+
+  blockquote {
+    @apply(--paper-font-blockquote);
+  }
+
+  blockquote:before {
+    position: absolute;
+    left: -0.5em;
+    content: '“';
+  }
+
+  blockquote:after {
+    content: '”';
+    margin-left: -0.05em;
+  }
+
+  dt {
+    font-weight: 700;
+  }
+
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+    @apply(--paper-font-display3);
+
+    font-size: 0.6em;
+    opacity: 0.54;
+  }
+
+  h1 {
+    @apply(--paper-font-display3);
+
+    margin-top: var(--gutter);
+    margin-bottom: var(--gutter);
+  }
+
+  h2 {
+    @apply(--paper-font-display2);
+
+    margin-top: var(--gutter);
+    margin-bottom: var(--gutter);
+  }
+
+  h3 {
+    @apply(--paper-font-display1);
+
+    margin-top: var(--gutter);
+    margin-bottom: var(--gutter);
+  }
+
+  h4 {
+    @apply(--paper-font-headline);
+
+    margin-top: var(--gutter);
+    margin-bottom: calc(var(--gutter) / 2);
+  }
+
+  h5 {
+    @apply(--paper-font-title);
+
+    margin-top: var(--gutter);
+    margin-bottom: calc(var(--gutter) / 2);
+  }
+
+  h6 {
+    @apply(--paper-font-subhead);
+
+    margin-top: var(--gutter);
+    margin-bottom: calc(var(--gutter) / 2);
+  }
+
+  mark {
+    background-color: var(--paper-lime-a100);
+  }
+
+  p {
+    @apply(--paper-font-body1);
+
+    margin-bottom: calc(var(--gutter) / 2);
+  }
+
+  ul, ol {
+    @apply(--paper-font-body1);
+  }
+
+  /* Tablet wide */
+  @media screen and (min-width: 600px) {
+
+  }
+
+  /* Laptop wide */
+  @media screen and (min-width: 960px) {
+
+  }
+
+  /* Large wide */
+  @media screen and (min-width: 1600px) {
+
+  }
+
+  /* Landscape phone height */
+  @media screen and (orientation: landscape) and (max-height: 450px) {
+
+  }
+
+  /* Landscape phone minimal height - iPhone 4 */
+  @media screen and (orientation: landscape) and (max-height: 320px) {
+
+  }
+
+  /* Print mode */
+  @media print {
+
+  }
+
+</style>
+
+</template>
+</dom-module>

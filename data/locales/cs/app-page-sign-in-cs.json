@@ -13,6 +13,7 @@
     "check-email-follow": "Zkontrolujte svůj e-mail - Postupujte podle pokynů zaslané na adresu {email} pro obnovu svého hesla.",
     "choose-name": "Zvolte jméno",
     "choose-password": "Zvolte heslo",
+    "invalid-email-address": "Neplatná e-mailová adresa",
     "next": "Další",
     "password": "Heslo",
     "please-enter-email": "Zadejte svoji e-mailovou adresu.",

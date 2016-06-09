@@ -10,7 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/app-localize-behavior/app-localize-behavior.html">
 
 <script>
-  AppLocalizeBehaviorExtendedImpl = {
+
+  AppLocalizeBehaviorImpl = {
+
     properties: {
       /* Overriden from AppLocalizeBehavior */
       formats: {
@@ -21,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           };
         }
       },
+
       /* Overriden from AppLocalizeBehavior */
       language: {
         value: function() {
@@ -37,11 +40,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     loadLocales: function(element) {
-      var url = '/data/locales/' + this.language + '/' + element + '-' + this.language + '.json';
-      this.loadResources(this.resolveUrl(url));
+      var url = window.BASE_URL + 'data/locales/' + this.language + '/' +
+                element + '-' + this.language + '.json';
+      this.loadResources(url);
     }
+
   }
 
   // Define the behavior
-  AppLocalizeBehaviorExtended = [ Polymer.AppLocalizeBehavior, AppLocalizeBehaviorExtendedImpl ]
+  AppBehaviors.AppLocalizeBehavior = [Polymer.AppLocalizeBehavior, AppLocalizeBehaviorImpl]
+
 </script>

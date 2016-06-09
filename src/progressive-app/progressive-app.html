@@ -7,18 +7,27 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
+
+<script>
+
+  // Create namespace for app behaviors
+  window.AppBehaviors = window.AppBehaviors || {};
+
+</script>
+
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
 <link rel="import" href="app-pages/app-pages.html">
 <link rel="import" href="app-shell/app-shell.html">
-<link rel="import" href="app-styles/app-styles-variables.html">
+<link rel="import" href="app-themes/current-theme/global-styles/global-styles.html">
 
 <dom-module id="progressive-app">
 
   <template>
 
-    <style include="app-styles-variables">
+    <style>
 
       :host {
         display: block;
@@ -41,8 +50,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-location route="{{route}}"></app-location>
     <app-route pattern="/:page" route="{{route}}" data="{{routeData}}" tail="{{routeTail}}"></app-route>
 
+    <app-scrollpos-control selected="[[page]]"></app-scrollpos-control>
+
     <app-shell class$="Shell {{page}}" app="{{app}}" page=[[page]]>
-      <app-pages class="Pages" app="{{app}}" page=[[page]]></app-pages>
+      <app-pages class="Pages" id="pages" app="{{app}}" page=[[page]] route={{routeTail}}></app-pages>
     </app-shell>
 
   </template>
@@ -60,6 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         app: {
           type: Object,
           value: {
+            baseUrl: window.BASE_URL,
             // Responsive handlers using Material Design breakpoints
             // http://www.google.com/design/spec/layout/adaptive-ui.html#adaptive-ui-breakpoints
             isTabletWide: window.matchMedia('screen and (min-width:600px)').matches,
@@ -84,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       observers: [
-        '_routePageChanged(routeData.page)'
+        '_routePageChanged(routeData.page, routeTail)'
       ],
 
       created: function() {
@@ -105,8 +117,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this._setStyles();
       },
 
-      _routePageChanged: function(page) {
-        this.page = page || 'home';
+      _routePageChanged: function(page, routeTail) {
+        if (page !== 'sign-in-with-email' && routeTail.path !== '') {
+          this.page = '404';
+          return;
+        }
+
+        if (page) {
+          if (this.$.pages.$[page]) {
+            this.page = page;
+          } else {
+            this.page = '404';
+          }
+        } else {
+          this.page = 'home';
+        }
       },
 
       _notifyNetworkStatus: function() {
@@ -154,9 +179,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // Issue https://github.com/Polymer/polymer/issues/2149
       _setStyles: function() {
         if (this.app.isLargeWide) {
+          this.customStyle['--app-drawer-width'] = '296px';
+          this.customStyle['--header-toolbar-height'] = '96px';
           this.customStyle['--gutter'] = '24px';
           this.customStyle['--screen-edge-margin'] = '40px';
-          this.customStyle['--app-drawer-width'] = '296px';
         } else if (this.app.isLaptopWide) {
           this.customStyle['--gutter'] = '24px';
           this.customStyle['--screen-edge-margin'] = '24px';
