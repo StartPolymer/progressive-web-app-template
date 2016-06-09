@@ -1,5 +1,7 @@
 # Progressive Web App Template
 
+[![Join the chat at https://gitter.im/StartPolymer/progressive-web-app-template](https://badges.gitter.im/StartPolymer/progressive-web-app-template.svg)](https://gitter.im/StartPolymer/progressive-web-app-template?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This template is a starting point for building [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) based on [Polymer](https://www.polymer-project.org) & [Material Design](https://material.google.com) with motto [#UseThePlatform](https://www.polymer-project.org/1.0/about).
 
 ## Progressive Web Apps
