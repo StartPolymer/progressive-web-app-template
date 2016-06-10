@@ -10,7 +10,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../../bower_components/paper-material/paper-material.html">
-<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
 
@@ -51,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <paper-material class="Page-card Page-card--fixedHeight" elevation="2">
+    <paper-material class="Page-card Page-card--fullHeight" elevation="2">
 
       <img class="Polymerosaurus" alt="Polymerosaurus"
            src$="{{app.baseUrl}}images/logos/polymerosaurus.png">
@@ -100,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function() {
-        this.loadLocales(this.is);
+        this.loadLocales(this.app.baseUrl, this.is);
       },
 
       _activeChanged: function() {

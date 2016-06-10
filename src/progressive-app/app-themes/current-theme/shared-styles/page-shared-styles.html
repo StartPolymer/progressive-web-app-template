@@ -9,8 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../global-styles/color.html">
-<link rel="import" href="../global-styles/layout.html">
 <link rel="import" href="typography-shared-styles.html">
 <link rel="import" href="utilities-shared-styles.html">
 
@@ -28,7 +26,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     position: inherit;
   }
 
-  .Page-card--fixedHeight {
+  .Page-card--fullHeight,
+  .Page-container--fullHeight {
     min-height: calc(100vh - var(--header-toolbar-height));
     width: 100%;
   }
@@ -40,11 +39,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* Laptop wide */
   @media screen and (min-width: 960px) {
-    .Page-card {
+    .Page-card,
+    .Page-container {
       margin: var(--gutter) var(--screen-edge-margin);
     }
 
-    .Page-card--fixedHeight {
+    .Page-card--fullHeight,
+    .Page-container--fullHeight {
       min-height: calc(100vh - var(--header-toolbar-height) - var(--gutter) * 2);
     }
   }

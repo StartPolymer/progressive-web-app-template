@@ -151,10 +151,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'app-shell-drawer',
 
       properties: {
+        app: Object,
+
         opened: {
           type: Boolean,
           notify: true
         },
+
         page: {
           type: String,
           reflectToAttribute: true
@@ -166,14 +169,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       listeners: {
-        'app-resources-loaded': '_onAppLocalesLoaded'
+        'app-resources-loaded': '_onLocalesLoaded'
       },
 
       attached: function() {
-        this.loadLocales('app-shell');
+        this.loadLocales(this.app.baseUrl, 'app-shell');
       },
 
-      _onAppLocalesLoaded: function(event) {
+      _onLocalesLoaded: function(event) {
         event.stopPropagation();
       }
 

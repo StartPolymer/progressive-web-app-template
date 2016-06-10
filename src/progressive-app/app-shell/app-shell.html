@@ -263,8 +263,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Drawer is lazy-created. -->
     <!-- Two-way bind `_isDrawerOpened` since app-drawer can update `opened` itself. -->
-    <app-shell-drawer opened="{{_isDrawerOpened}}"
-                      page=[[page]]
+    <app-shell-drawer opened="{{_isDrawerOpened}}" page=[[page]] app=[[app]]
                       hidden$="{{!_isDrawerLazyLoadComplete}}"></app-shell-drawer>
 
     <!-- Dummy <img> to use for loading the background image for the app-header. -->
@@ -335,11 +334,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'app-page-loaded': '_onAppPageLoaded',
-        'app-resources-loaded': '_onAppLocalesLoaded'
+        'app-resources-loaded': '_onLocalesLoaded'
       },
 
       attached: function() {
-        this.loadLocales(this.is);
+        this.loadLocales(this.app.baseUrl, this.is);
       },
 
       _computeAppNameHidden: function(app, page) {
@@ -381,11 +380,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return pageName === selectedPage;
       },
 
-      _onAppLocalesLoaded: function(event) {
-        event.stopPropagation();
-        this.set('_isLocalesLoaded', true);
-      },
-
       _onAppPageLoaded: function() {
         if (this._isPageSwitched) {
           // The size of the header depends on the page, so reset the header's layout only when switching pages.
@@ -416,6 +410,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.header.classList.add('remove-transition');
           this.$.header.updateStyles();
         }, 1500);
+      },
+
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this.set('_isLocalesLoaded', true);
       },
 
       _pageChanged: function(page, oldPage) {

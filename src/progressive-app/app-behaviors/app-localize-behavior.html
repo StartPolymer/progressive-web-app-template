@@ -7,6 +7,8 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/app-localize-behavior/app-localize-behavior.html">
 
 <script>
@@ -14,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   AppLocalizeBehaviorImpl = {
 
     properties: {
-      /* Overriden from AppLocalizeBehavior */
+      /* Overriden from Polymer.AppLocalizeBehavior */
       formats: {
         type: Object,
         value: function() {
@@ -24,8 +26,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      /* Overriden from AppLocalizeBehavior */
+      /* Overriden from Polymer.AppLocalizeBehavior */
       language: {
+        type: String,
         value: function() {
           var lang = window.navigator.languages ? window.navigator.languages[0] : null;
           lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
@@ -34,13 +37,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if (lang.indexOf('_') !== -1)
             lang = lang.split('_')[0];
           return lang;
-        },
-        type: String
+        }
       }
     },
 
-    loadLocales: function(element) {
-      var url = window.BASE_URL + 'data/locales/' + this.language + '/' +
+    loadLocales: function(baseUrl, element) {
+      var url = baseUrl + 'data/locales/' + this.language + '/' +
                 element + '-' + this.language + '.json';
       this.loadResources(url);
     }

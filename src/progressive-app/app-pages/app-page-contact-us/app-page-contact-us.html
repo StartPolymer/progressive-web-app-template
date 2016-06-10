@@ -9,24 +9,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
 <link rel="import" href="app-icons-contact-us.html">
 
 <dom-module id="app-page-contact-us">
 
   <template>
 
-    <style>
+    <style include="page-shared-styles">
 
       :host {
+        display: flex;
+      }
+
+      .Page-card {
         @apply(--layout-vertical);
         @apply(--layout-center-center);
-        height: calc(100vh - 64px);
       }
 
     </style>
 
-    <h1>{{localize('contact-us')}}</h1>
+    <paper-material class="Page-card Page-card--fullHeight" elevation="2">
+
+      <h1>{{localize('contact-us')}}</h1>
+
+    </paper-material>
 
   </template>
 
@@ -37,7 +46,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'app-page-contact-us',
 
       properties: {
-        app: Object
+        active: {
+          type: Boolean,
+          value: false,
+          observer: '_activeChanged'
+        },
+
+        app: Object,
+
+        _isLocalesLoaded: {
+          type: Boolean,
+          value: false
+        }
       },
 
       behaviors: [
@@ -45,15 +65,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       listeners: {
-        'app-resources-loaded': '_onAppLocalesLoaded'
+        'app-resources-loaded': '_onLocalesLoaded'
       },
 
       attached: function() {
-        this.loadLocales(this.is);
+        this.loadLocales(this.app.baseUrl, this.is);
       },
 
-      _onAppLocalesLoaded: function(event) {
+      _activeChanged: function() {
+        if (this.active && this._isLocalesLoaded) {
+          this.set('app.pageTitle', this.localize('contact-us'));
+        }
+      },
+
+      _onLocalesLoaded: function(event) {
         event.stopPropagation();
+        this._isLocalesLoaded = true;
         this.set('app.pageTitle', this.localize('contact-us'));
       }
 

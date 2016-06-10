@@ -42,7 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Shell.sign-in>.Pages {
         background-image: url('/images/bg.jpg');
         background-size: cover;
-        height: calc(100vh - 64px);
+        height: calc(100vh - var(--header-toolbar-height));
       }
 
     </style>
@@ -180,7 +180,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _setStyles: function() {
         if (this.app.isLargeWide) {
           this.customStyle['--app-drawer-width'] = '296px';
-          this.customStyle['--header-toolbar-height'] = '96px';
           this.customStyle['--gutter'] = '24px';
           this.customStyle['--screen-edge-margin'] = '40px';
         } else if (this.app.isLaptopWide) {
