@@ -324,7 +324,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         _pageTitleComputed: {
           type: Function,
-          computed: '_computePageTitle(app.pageTitle)'
+          computed: '_computePageTitle(page, app.pageTitle)'
         }
       },
 
@@ -345,9 +345,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return page !== 'home' && !app.isTabletWide;
       },
 
-      _computePageTitle: function(title) {
-        window.document.title = title + ' - ' + window.APP_NAME;
-        return title;
+      _computePageTitle: function(page, title) {
+        window.document.title = title + ' - ' + this.app.name;
+        return page === 'home' ? '' : title;
       },
 
       _computeSignInButtonHidden: function(isLazyLoadComplete, offline, page) {
