@@ -14,9 +14,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   :root {
 
-    --paper-font-common-base: {
-    };
-
     --paper-font-blockquote: {
       position: relative;
       font-size: 24px;
@@ -24,6 +21,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       font-style: italic;
       line-height: 1.35;
       letter-spacing: 0.08em;
+    };
+
+    /* Clear bad mixins */
+    /* font-family is defined in index.html */
+    --paper-font-common-base: {
+    };
+
+    /* nowrap font is bad for responsive design */
+    --paper-font-common-nowrap: {
     };
 
   }

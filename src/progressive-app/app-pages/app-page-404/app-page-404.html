@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="page-shared-styles">
 
       :host {
-        display: flex;
+        @apply(--layout);
       }
 
       .Page-card {
@@ -30,14 +30,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Container {
         @apply(--layout-vertical);
+        width: 100%;
       }
 
       .Polymerosaurus {
         max-width: 200px;
+        margin: 24px 0;
       }
 
       /* Laptop wide */
       @media screen and (min-width: 960px) {
+        .Container {
+          width: auto;
+        }
+
         .Page-card {
           @apply(--layout-horizontal);
         }

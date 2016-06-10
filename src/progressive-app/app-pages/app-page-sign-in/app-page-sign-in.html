@@ -25,7 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="page-shared-styles">
 
       :host {
-        display: flex;
+        @apply(--layout);
       }
 
       .Container-buttons {
@@ -37,6 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-vertical);
         @apply(--layout-center-center);
         height: calc(100vh - 284px);
+        min-height: 96px;
       }
 
       .Logo {
