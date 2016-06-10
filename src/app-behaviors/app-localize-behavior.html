@@ -1,0 +1,55 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-localize-behavior/app-localize-behavior.html">
+
+<script>
+
+  AppLocalizeBehaviorImpl = {
+
+    properties: {
+      /* Overriden from Polymer.AppLocalizeBehavior */
+      formats: {
+        type: Object,
+        value: function() {
+          return {
+            number: { USD: { style: 'currency', currency: 'USD' } }
+          };
+        }
+      },
+
+      /* Overriden from Polymer.AppLocalizeBehavior */
+      language: {
+        type: String,
+        value: function() {
+          var lang = window.navigator.languages ? window.navigator.languages[0] : null;
+          lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+          if (lang.indexOf('-') !== -1)
+            lang = lang.split('-')[0];
+          if (lang.indexOf('_') !== -1)
+            lang = lang.split('_')[0];
+          return lang;
+        }
+      }
+    },
+
+    loadLocales: function(baseUrl, element) {
+      var url = baseUrl + 'data/locales/' + this.language + '/' +
+                element + '-' + this.language + '.json';
+      this.loadResources(url);
+    }
+
+  }
+
+  // Define the behavior
+  AppBehaviors.AppLocalizeBehavior = [Polymer.AppLocalizeBehavior, AppLocalizeBehaviorImpl]
+
+</script>

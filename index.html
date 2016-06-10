@@ -169,7 +169,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   })();
   </script>
 
-  <link rel="import" href="src/progressive-app/progressive-app.html">
+  <link rel="import" href="src/progressive-app.html">
 
   <!-- Critical pages styles can go here -->
   <style>
@@ -320,7 +320,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     if (!webComponentsSupported) {
       var script = document.createElement('script');
       script.async = true;
-      script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+      script.src = 'bower_components/webcomponentsjs/webcomponents-lite.min.js';
       script.onload = onload;
       document.head.appendChild(script);
       ga('send', 'event', 'browser', 'unsupported-web-components', navigator.userAgent);

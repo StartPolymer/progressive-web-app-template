@@ -1,0 +1,76 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="typography-shared-styles.html">
+<link rel="import" href="utilities-shared-styles.html">
+
+<dom-module id="page-shared-styles">
+<template>
+
+<style include="typography-shared-styles utilities-shared-styles">
+
+  .Page-card {
+    background-color: var(--primary-background-color);
+    color: var(--primary-text-color);
+    border-radius: 2px;
+    box-sizing: border-box;
+    padding: var(--gutter);
+    position: inherit;
+  }
+
+  .Page-card--fullHeight,
+  .Page-container--fullHeight {
+    min-height: calc(100vh - var(--header-toolbar-height));
+    width: 100%;
+  }
+
+  /* Tablet wide */
+  @media screen and (min-width: 600px) {
+
+  }
+
+  /* Laptop wide */
+  @media screen and (min-width: 960px) {
+    .Page-card,
+    .Page-container {
+      margin: var(--gutter) var(--screen-edge-margin);
+    }
+
+    .Page-card--fullHeight,
+    .Page-container--fullHeight {
+      min-height: calc(100vh - var(--header-toolbar-height) - var(--gutter) * 2);
+    }
+  }
+
+  /* Large wide */
+  @media screen and (min-width: 1600px) {
+
+  }
+
+  /* Landscape phone height */
+  @media screen and (orientation: landscape) and (max-height: 450px) {
+
+  }
+
+  /* Landscape phone minimal height - iPhone 4 */
+  @media screen and (orientation: landscape) and (max-height: 320px) {
+
+  }
+
+  /* Print mode */
+  @media print {
+
+  }
+
+</style>
+
+</template>
+</dom-module>

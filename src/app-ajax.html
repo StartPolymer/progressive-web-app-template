@@ -1,0 +1,127 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="app-ajax">
+
+  <template>
+
+    <iron-ajax id="ajax"
+               url="[[_urlComputed]]"
+               method="[[method]]"
+               handle-as="json"
+               headers="[[_headersComputed]]"
+               body$="[[body]]"
+               last-response="{{lastResponse}}"
+               last-error="{{lastError}}"
+               on-response="_onSuccess"
+               on-error="_onError"></iron-ajax>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+        is: 'app-ajax',
+
+        properties: {
+            endpoint: String,
+
+            _urlComputed: {
+              type: Function,
+              computed: '_computeUrl(endpoint)'
+            },
+
+            method: {
+              type: String,
+              value: 'GET'
+            },
+
+            body: {
+              type: Object
+            },
+
+            lastResponse: {
+              type: Object,
+              value: {}
+            },
+
+            lastError: {
+              type: Object,
+              value: {}
+            },
+
+            token: {
+              type: String,
+              value: ''
+            },
+
+            _headersComputed: {
+              type: Function,
+              computed: '_computeHeaders(token)'
+            }
+        },
+
+        _computeHeaders: function(token) {
+          var headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          };
+
+          if (token) {
+            headers.Authorization = token;
+          }
+
+          return headers;
+        },
+
+        _computeUrl: function(endpoint) {
+          return window.API_BASE_URL + endpoint;
+        },
+
+        generateRequest: function() {
+          this.$.ajax.generateRequest();
+        },
+
+        go: function() {
+          this.generateRequest();
+        },
+
+        /**
+         * Stop the original iron-ajax event from bubbling up
+         * and fire custom one with response data parsed (reponse & status)
+         */
+        _onSuccess: function(event) {
+            event.stopPropagation();
+            this.fire('success', {
+                response: this.lastResponse,
+                status: 200
+            });
+        },
+
+        /**
+         * Stop the original iron-ajax event from bubbling up
+         * and fire custom one with response data parsed (reponse & status)
+         */
+        _onError: function(event) {
+            event.stopPropagation();
+            var xhr = this.lastError.request.xhr;
+
+            this.fire('error', {
+                response: xhr.response,
+                status: xhr.status
+            });
+        }
+    });
+  </script>
+
+</dom-module>

@@ -1,0 +1,187 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="app-icons-drawer.html">
+
+<dom-module id="app-shell-drawer">
+
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+      }
+
+      .Drawer-content {
+        @apply(--layout-vertical);
+        @apply(--paper-font-body2);
+
+        background-color: var(--primary-background-color);
+        color: var(--primary-text-color);
+        height: 100%;
+        padding: var(--spacing-unit) 0;
+      }
+
+      .Drawer-header {
+        background-color: var(--primary-background-color);
+        color: var(--primary-text-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 128px;
+      }
+
+      .Drawer-headerLogo {
+        height: 50px;
+        width: 50px;
+      }
+
+      .Drawer-link {
+        color: currentColor;
+        text-decoration: none;
+      }
+
+      .Drawer-title {
+        @apply(--paper-font-headline);
+      }
+
+      .Drawer-widget {
+        padding: var(--spacing-unit) 0;
+      }
+
+      .Drawer-widget--bottom {
+        border-top: 1px solid var(--divider-color);
+      }
+
+      .Drawer-widget--footer {
+        @apply(--paper-font-caption);
+
+        border-top: 1px solid var(--divider-color);
+        padding-left: var(--gutter);
+      }
+
+      .Navigation {
+        padding-bottom: 0;
+        padding-top: 0;
+      }
+
+      .Navigation-icon {
+        margin-right: var(--gutter);
+        pointer-events: none;
+      }
+
+      .Navigation-link {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+
+        color: currentColor;
+        height: var(--touch-target-size);
+        padding-left: var(--screen-edge-margin);
+        padding-right: var(--gutter);
+        text-decoration: none;
+        outline: none;
+      }
+
+      .Navigation-link.iron-selected {
+        color: var(--accent-color);
+      }
+
+      .Navigation-text {
+        pointer-events: none;
+      }
+
+    </style>
+
+    <app-drawer class="Drawer" opened="{{opened}}" swipe-open>
+
+      <app-toolbar class="Drawer-header">
+        <iron-icon class="Drawer-headerLogo" icon="header:rocket"></iron-icon>
+      </app-toolbar>
+
+      <div class="Drawer-content">
+
+        <div class="Drawer-widget">
+
+          <iron-selector class="Navigation" selected="[[page]]" attr-for-selected="name" role="navigation">
+
+            <a class="Navigation-link" name="home" href="/">
+              <iron-icon class="Navigation-icon" icon="drawer:home"></iron-icon>
+              <span class="Navigation-text">{{localize('home')}}</span>
+            </a>
+
+            <a class="Navigation-link" name="sign-in" href="/sign-in">
+              <iron-icon class="Navigation-icon" icon="drawer:sign-in"></iron-icon>
+              <span class="Navigation-text">{{localize('sign-in')}}</span>
+            </a>
+
+            <a class="Navigation-link" name="contact-us" href="/contact-us">
+              <iron-icon class="Navigation-icon" icon="drawer:mail"></iron-icon>
+              <span class="Navigation-text">{{localize('contact-us')}}</span>
+            </a>
+
+          </iron-selector>
+
+        </div>
+
+      </div>
+
+    </app-drawer>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-shell-drawer',
+
+      properties: {
+        app: Object,
+
+        opened: {
+          type: Boolean,
+          notify: true
+        },
+
+        page: {
+          type: String,
+          reflectToAttribute: true
+        }
+      },
+
+      behaviors: [
+        AppBehaviors.AppLocalizeBehavior
+      ],
+
+      listeners: {
+        'app-resources-loaded': '_onLocalesLoaded'
+      },
+
+      attached: function() {
+        this.loadLocales(this.app.baseUrl, 'app-shell');
+      },
+
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+      }
+
+    });
+
+  </script>
+
+</dom-module>

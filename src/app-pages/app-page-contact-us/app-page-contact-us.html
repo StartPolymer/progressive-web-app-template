@@ -1,0 +1,91 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
+<link rel="import" href="app-icons-contact-us.html">
+
+<dom-module id="app-page-contact-us">
+
+  <template>
+
+    <style include="page-shared-styles">
+
+      :host {
+        @apply(--layout);
+      }
+
+      .Page-card {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+      }
+
+    </style>
+
+    <paper-material class="Page-card Page-card--fullHeight" elevation="2">
+
+      <h1>{{localize('contact-us')}}</h1>
+
+    </paper-material>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-page-contact-us',
+
+      properties: {
+        active: {
+          type: Boolean,
+          value: false,
+          observer: '_activeChanged'
+        },
+
+        app: Object,
+
+        _isLocalesLoaded: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      behaviors: [
+        AppBehaviors.AppLocalizeBehavior
+      ],
+
+      listeners: {
+        'app-resources-loaded': '_onLocalesLoaded'
+      },
+
+      attached: function() {
+        this.loadLocales(this.app.baseUrl, this.is);
+      },
+
+      _activeChanged: function() {
+        if (this.active && this._isLocalesLoaded) {
+          this.set('app.pageTitle', this.localize('contact-us'));
+        }
+      },
+
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this._isLocalesLoaded = true;
+        this.set('app.pageTitle', this.localize('contact-us'));
+      }
+
+    });
+
+  </script>
+
+</dom-module>

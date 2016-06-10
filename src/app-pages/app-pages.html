@@ -1,0 +1,96 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
+<dom-module id="app-pages">
+
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+      }
+
+      .Page {
+        opacity: 0;
+        transition: 1s opacity;
+      }
+
+    </style>
+
+    <iron-pages selected="[[page]]" selected-attribute="active"
+                attr-for-selected="id" fallback-selection="404">
+
+      <app-page-contact-us class="Page" id="contact-us" app="{{app}}"></app-page-contact-us>
+      <app-page-home class="Page" id="home" app="{{app}}"></app-page-home>
+      <app-page-sign-in class="Page" id="sign-in" app="{{app}}"></app-page-sign-in>
+      <app-page-sign-in-with-email class="Page" id="sign-in-with-email" app="{{app}}" route={{route}}></app-page-sign-in-with-email>
+      <app-page-404 class="Page" id="404" app="{{app}}"></app-page-404>
+
+    </iron-pages>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-pages',
+
+      properties: {
+        app: Object,
+
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged'
+        },
+
+        route: Object
+      },
+
+      listeners: {
+        'app-subpage-loaded': '_onSubpageLoaded'
+      },
+
+      _onSubpageLoaded: function(event) {
+        event.stopPropagation();
+        this.fire('app-page-loaded');
+        this.$[this.page].style.opacity = 1;
+      },
+
+      _pageChanged: function(page) {
+        if (Polymer.isInstance(this.$[page])) {
+          this.async(function() {
+            this._pageLoaded();
+          });
+        } else {
+          // Async load page import on demand.
+          var pageElement = 'app-page-' + page + '/app-page-' + page + '.html';
+          this.importHref(this.resolveUrl(pageElement), function() {
+            this._pageLoaded();
+          }, null, true);
+        }
+      },
+
+      _pageLoaded: function() {
+        if (this.page !== 'sign-in-with-email') {
+          this.fire('app-page-loaded');
+          this.$[this.page].style.opacity = 1;
+        }
+      }
+
+    });
+
+  </script>
+
+</dom-module>
