@@ -66,7 +66,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         event.stopPropagation();
         this.fire('app-page-loaded');
         this.$[this.page].style.opacity = 1;
-        console.log('_onSubPageLoaded');
       },
 
       _pageChanged: function(page) {
@@ -84,11 +83,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _pageLoaded: function() {
-        console.log('_pageLoaded1', this.page);
         if (this.page !== 'sign-in-with-email') {
           this.fire('app-page-loaded');
           this.$[this.page].style.opacity = 1;
-          console.log('_pageLoaded2', this.page);
         }
       }
 
