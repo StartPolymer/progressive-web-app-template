@@ -32,6 +32,10 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - [App Shell architecture](https://developers.google.com/web/updates/2015/11/app-shell)
 - Locales per page for internationalize application
 - Always [Material Design](https://material.google.com) for [Mobile First](https://gist.github.com/2c821d3de75b1d1c0cf972ea35b25757)
+ - [Material Design Color](https://material.google.com/style/color.html)
+ - [Material Design Icons](https://material.google.com/style/icons.html)
+ - [Material Design Layout](https://material.google.com/layout/principles.html)
+ - [Material Design Typography](https://material.google.com/style/typography.html)
 - Always [Accessible Design](https://www.google.com/design/spec/usability/accessibility.html) inspired by this lessons:
  - [Accessibility is My Favorite Part of the Platform - Google I/O 2016](https://www.youtube.com/watch?v=2qjgxH384Nc&list=PLNYkxOF6rcIDnSm7bZRJC36Ca1DYXSQ70&index=5)
  - [Accessibility - Chrome Dev Summit 2015](https://www.youtube.com/watch?v=RkKl1O56w-c)
@@ -114,11 +118,7 @@ components (and will have bundles created in the fallback `bundled` build).
 
 ## Resources
 
-- [Polycasts with Rob Dodson](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDdS7HWIC_BYRunV6MHs5xo)
-- [Polymer @ Google I/O 2016](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDnSm7bZRJC36Ca1DYXSQ70)
-- [Web and Chrome @ Google I/O 2016](https://www.youtube.com/playlist?list=PLNYkxOF6rcIDz1TzmmMRBC-kd8zPRTQIP)
-- [Design Highlights @ Google I/O 2016](https://www.youtube.com/playlist?list=PLJ21zHI2TNh-RpdsZdynAnvn6026Pw7Rr)
-- [Firebase @ Google I/O 2016](https://www.youtube.com/playlist?list=PLl-K7zZEsYLlAyGS6_paVoGJ9YKC7J3NN)
+- [StartPolymer YouTube Playlists](https://www.youtube.com/channel/UCXZPqn_e1Oa7_XP7Kp1eRBw/playlists)
 - [Google Codelabs](https://codelabs.developers.google.com/?cat=Web)
 - [Udacity Courses](https://www.udacity.com/courses/web-development)
 - [Google’s Polymer Project with Rob Dodson](http://softwareengineeringdaily.com/2016/06/05/googles-polymer-project-rob-dodson/)
