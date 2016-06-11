@@ -2,8 +2,8 @@
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UARLJTE9JFPLC&lc=CZ&item_name=StartPolymer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 [![Gitter](https://img.shields.io/badge/Chat-Gitter-green.svg)](https://gitter.im/StartPolymer/progressive-web-app-template?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Lighthouse 100%](https://img.shields.io/badge/Lighthouse-100%-green.svg)](https://github.com/GoogleChrome/lighthouse)
-[![PageSpeed 97%](https://img.shields.io/badge/PageSpeed-97%-green.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fpwa-demo.appspot.com&tab=desktop)
+[![Lighthouse 100](https://img.shields.io/badge/Lighthouse-100-green.svg)](https://github.com/GoogleChrome/lighthouse)
+[![PageSpeed 97](https://img.shields.io/badge/PageSpeed-97-green.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fpwa-demo.appspot.com&tab=desktop)
 [![Resizer Responsive UI](https://img.shields.io/badge/Resizer-Responsive%20UI-green.svg)](http://design.google.com/resizer/#url=https%3A%2F%2Fpwa-demo.appspot.com)
 [![BrowserStack](https://img.shields.io/badge/BrowserStack-App%20tested-green.svg)](https://www.browserstack.com)
 [![bitHound Score](https://www.bithound.io/github/StartPolymer/progressive-web-app-template/badges/score.svg)](https://www.bithound.io/github/StartPolymer/progressive-web-app-template)
