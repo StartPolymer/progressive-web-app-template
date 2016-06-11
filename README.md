@@ -74,6 +74,8 @@ See latest build from master branch at https://pwa-demo.appspot.com
 
 #### Install generator
 
+:warning: Generator is not working
+
     sudo npm install -g generator-polymer-init-startpolymer
 
 ### Initialize project from template
