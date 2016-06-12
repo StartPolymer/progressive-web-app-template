@@ -1,6 +1,6 @@
 # Progressive Web App Template
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UARLJTE9JFPLC&lc=CZ&item_name=StartPolymer&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UARLJTE9JFPLC&lc=CZ&item_name=StartPolymer%2Fprogressive-web-app-template&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 [![Gitter](https://img.shields.io/badge/Chat-Gitter-green.svg)](https://gitter.im/StartPolymer/progressive-web-app-template?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Lighthouse 100](https://img.shields.io/badge/Lighthouse-100-green.svg)](https://github.com/GoogleChrome/lighthouse)
 [![PageSpeed 97](https://img.shields.io/badge/PageSpeed-97-green.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fpwa-demo.appspot.com&tab=desktop)
@@ -57,6 +57,14 @@ See latest build from master branch at https://pwa-demo.appspot.com
  - [Who are you, really: Safer and more convenient sign-in on the web - Google I/O 2016](https://www.youtube.com/watch?v=MnvUlGFb3GQ)
  - [Best practices for a great sign-in experience - Google I/O 2016](https://www.youtube.com/watch?v=0ucjYG_JrEE)
 
+## TODO
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UARLJTE9JFPLC&lc=CZ&item_name=StartPolymer%2Fprogressive-web-app-template&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+
+- [ ] Sign-in work-flow with [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api)
+- [ ] Create `generator-polymer-init-startpolymer`
+- [ ] Support for `push_manifest.json`
+
 ## Setup
 
 ### Prerequisites
@@ -74,7 +82,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
 
 #### Install generator
 
-:warning: Generator is not working
+:warning: Generator is not working now
 
     sudo npm install -g generator-polymer-init-startpolymer
 
