@@ -11,20 +11,23 @@
 
 This template is a starting point for building [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) based on [Polymer](https://www.polymer-project.org) & [Material Design](https://material.google.com) with motto [#UseThePlatform](https://www.polymer-project.org/1.0/about).
 
-## Progressive Web Apps
+## What is a Progressive Web App?
 
-Progressive Web Applications are always up to date, accessible from anywhere, like native apps.
+Progressive Web Apps are:
 
-1. Instant loading
-2. Fast navigations
-3. Full screen mode
-4. Can be added to mobile device Home Screen
-5. Responsive First - Mobile First
-6. Secure First
-7. Accessible First
-8. Offline First
-9. Supports Push Notifications
-10. Supports Background Sync
+- **Progressive** - Work for every user, regardless of browser choice because they’re built with progressive enhancement as a core tenet.
+- **Responsive** - Fit any form factor: desktop, mobile, tablet, or whatever is next.
+- **Instant Loading** - Service Workers allow your apps to load nearly instantly and reliably, no matter what kind of network connection your user is on.
+- **Fast** - Smooth animations, scrolling, and navigations keep the experience silky smooth.
+- **Accessible** - Accessible design allows users of all abilities to navigate, understand, and use your UI successfully.
+- **Connectivity independent** - Enhanced with Service Workers to work offline or on low quality networks.
+- **App-like** - Feel like an app to the user with app-style interactions and navigation because they’re built on the App Shell model with full screen mode.
+- **Fresh** - Always up-to-date thanks to the Service Worker update process.
+- **Safe** - Served via HTTPS to prevent snooping and ensure content hasn’t been tampered with.
+- **Discoverable** - Are identifiable as “applications” thanks to W3C Web App Manifest and Service Worker registration scope allowing search engines to find them.
+- **Re-engageable** - Make re-engagement easy through features like Push Notifications.
+- **Installable** - Allow users to “keep” apps they find most useful on their Home Screen without the hassle of an app store.
+- **Linkable** - Easily share via URL and not require complex installation.
 
 ## Demo
 
@@ -39,6 +42,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
   - **Lazy-load** and progressively upgrade next routes on-demand
 - Lazy-loading App Shell and all pages with dependencies included icons, locales
 - [App Shell architecture](https://developers.google.com/web/updates/2015/11/app-shell)
+- Connectivity independent using Service Worker
 - Locales per page for internationalize application
 - Always [Material Design](https://material.google.com) for [Mobile First](https://gist.github.com/2c821d3de75b1d1c0cf972ea35b25757)
  - [Material Design Color](https://material.google.com/style/color.html)
@@ -50,7 +54,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
  - [Accessibility - Chrome Dev Summit 2015](https://www.youtube.com/watch?v=RkKl1O56w-c)
 - [SUIT CSS naming conventions](https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md)
 - Load ES6, Intl polyfills using service [Polyfill.io](https://cdn.polyfill.io) only on older browsers (FF < 40, CH < 46)
-- Google Analytics configured for collect performance events and error tracking
+- Google Analytics for real-time collect performance events and error tracking
 - Detect older browsers (IE < 11, OP < 15) with redirect to site [Browser-Update.org](https://browser-update.org/update.html)
 - Support for more themes for [A/B testing](https://en.wikipedia.org/wiki/A/B_testing)
 - Sign-in Flow using [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api) inspired by this lessons:
@@ -68,6 +72,10 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - [ ] Authentication behavior for REST API on [Google App Engine](https://cloud.google.com/appengine/)
 - [ ] Authentication behavior for [Firebase Auth](https://firebase.google.com/docs/auth/)
 - [ ] Authentication behavior for [Auth0](https://auth0.com)
+- [ ] Responsive images using DPR + [WebP + Service Workers](https://github.com/deanhume/Service-Workers-WebP)
+- [ ] Detect low quality networks
+- [ ] Enabling Push Notifications Flow
+- [ ] Report unhandled promise rejections
 - [ ] Add support for [Gulp](https://github.com/gulpjs/gulp) tasks
 - [ ] Add support for [Cordova](https://cordova.apache.org/) framework
 
@@ -82,7 +90,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
 
     sudo npm install -g bower
 
-#### Install [polymer-cli](https://github.com/Polymer/polymer-cli):
+#### Install [Polymer CLI](https://github.com/Polymer/polymer-cli):
 
     sudo npm install -g polymer-cli
 
@@ -141,8 +149,20 @@ list of `fragments` in the included `polymer.json` file.  This will ensure
 those components and their dependencies are added to the list of pre-cached
 components (and will have bundles created in the fallback `bundled` build).
 
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Make your changes
+4. Run the tests, adding new ones for your own code if necessary
+5. Commit your changes (`git commit -am 'Added some feature'`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request
+
 ## Resources
 
+- [Getting Started with Progressive Web Apps](https://developers.google.com/web/updates/2015/12/getting-started-pwa)
+- [Your First Progressive Web App](https://developers.google.com/web/fundamentals/getting-started/your-first-progressive-web-app/)
 - [StartPolymer YouTube Playlists](https://www.youtube.com/channel/UCXZPqn_e1Oa7_XP7Kp1eRBw/playlists)
 - [Google Codelabs](https://codelabs.developers.google.com/?cat=Web)
 - [Udacity Courses](https://www.udacity.com/courses/web-development)
