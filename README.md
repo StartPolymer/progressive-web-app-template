@@ -53,7 +53,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - Google Analytics configured for collect performance events and error tracking
 - Detect older browsers (IE < 11, OP < 15) with redirect to site [Browser-Update.org](https://browser-update.org/update.html)
 - Support for more themes for [A/B testing](https://en.wikipedia.org/wiki/A/B_testing)
-- Sign-in work-flow with [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api) inspired by this lessons:
+- Sign-in Flow using [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api) inspired by this lessons:
  - [Who are you, really: Safer and more convenient sign-in on the web - Google I/O 2016](https://www.youtube.com/watch?v=MnvUlGFb3GQ)
  - [Best practices for a great sign-in experience - Google I/O 2016](https://www.youtube.com/watch?v=0ucjYG_JrEE)
 
@@ -61,9 +61,15 @@ See latest build from master branch at https://pwa-demo.appspot.com
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UARLJTE9JFPLC&lc=CZ&item_name=StartPolymer%2Fprogressive-web-app-template&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
-- [ ] Sign-in work-flow with [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api)
-- [ ] Create `generator-polymer-init-startpolymer`
-- [ ] Support for `push_manifest.json`
+- [ ] Sign-in Flow using [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api)
+- [ ] Lite version without content using custom branch
+- [ ] Generator for [Polymer CLI](https://github.com/Polymer/polymer-cli)
+- [ ] Generator for [push_manifest.json](https://github.com/GoogleChrome/http2-push-manifest)
+- [ ] Authentication behavior for REST API on [Google App Engine](https://cloud.google.com/appengine/)
+- [ ] Authentication behavior for [Firebase Auth](https://firebase.google.com/docs/auth/)
+- [ ] Authentication behavior for [Auth0](https://auth0.com)
+- [ ] Add support for [Gulp](https://github.com/gulpjs/gulp) tasks
+- [ ] Add support for [Cordova](https://cordova.apache.org/) framework
 
 ## Setup
 
