@@ -41,9 +41,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
 
-    loadLocales: function(baseUrl, element) {
-      var url = baseUrl + 'data/locales/' + this.language + '/' +
+    loadLocales: function(element) {
+      var url = window.BASE_URL + 'data/locales/' + this.language + '/' +
                 element + '-' + this.language + '.json';
+
       this.loadResources(url);
     }
 
