@@ -1,0 +1,13 @@
+{
+  "en": {
+    "by-tapping-next-agree": "By tapping NEXT you are indicating that you agree to the",
+    "create-account": "Create an account",
+    "email": "Email",
+    "choose-password": "Choose password",
+    "invalid-email-address": "Invalid email address.",
+    "next": "Next",
+    "password-must-contain": "The password must contain at least 6 characters.",
+    "sign-up": "Sign up",
+    "terms-of-service": "Terms of Service"
+  }
+}

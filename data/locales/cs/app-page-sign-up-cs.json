@@ -1,0 +1,13 @@
+{
+  "cs": {
+    "by-tapping-next-agree": "Klepnutím na tlačítko DALŠÍ vyjadřujete svůj souhlas s dokumentem",
+    "create-account": "Vytvořit účet",
+    "email": "E-mail",
+    "choose-password": "Zvolte heslo",
+    "invalid-email-address": "Neplatná e-mailová adresa.",
+    "next": "Další",
+    "password-must-contain": "Heslo musí obsahovat nejméně 6 znaků.",
+    "sign-up": "Registrace",
+    "terms-of-service": "Smluvní podmínky služby"
+  }
+}
