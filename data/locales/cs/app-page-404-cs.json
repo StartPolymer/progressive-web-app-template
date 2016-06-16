@@ -1,10 +1,10 @@
 {
   "cs": {
-    "404": "Stránka nenalezena [404]",
+    "error-404": "Chyba 404 - Stránka nenalezena",
     "homepage": "úvodní stránku",
     "maybe-head-back": "Možná chcete zpět na",
-    "not-found": "Stránka nenalezena.",
     "or-use-links": "nebo použít jeden z odkazů v menu?",
-    "we-are-sorry": "Je nám líto, ale Polymerosaurus nemůže najít stránku, kterou hledáte."
+    "page-not-found": "Stránka nenalezena.",
+    "we-are-sorry": "Je nám líto, ale Polymerosaurus nemůže najít stránku na URL adrese {url}."
   }
 }
