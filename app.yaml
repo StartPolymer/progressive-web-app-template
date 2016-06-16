@@ -7,7 +7,8 @@ runtime: python27
 api_version: 1
 threadsafe: yes
 
-default_expiration: "365d" # 1 year, expiration on GAE is max 1 year
+#default_expiration: "365d" # 1 year, expiration on GAE is max 1 year
+default_expiration: "5m" # 5 minutes for deploy without gulp-rev-all
 
 handlers:
 
