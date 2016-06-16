@@ -18,15 +18,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <title>Progressive Web App</title>
 
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="dns-prefetch" href="https://apis.google.com">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link rel="shortcut icon" sizes="32x32" href="images/app-icon-32.png">
 
-  <meta name="theme-color" content="#fff">
+  <meta name="theme-color" content="#3f51b5"> <!-- Indigo 500 -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Unsupported browser checks need to come before webcomponents.js is loaded,
        otherwise unsupported browsers will error out and not record a pageview.
        Analytics lib is also loaded up front for error reporting.
   <script src="https://www.google-analytics.com/analytics.js" async></script> -->
+
   <script>
   (function() {
     "use strict";
@@ -171,20 +177,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <link rel="import" href="src/progressive-app.html">
 
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin-ext" rel="stylesheet">
+
   <!-- Critical pages styles can go here -->
   <style>
 
     body {
-      margin: 0;
       font-family: 'Roboto', 'Noto', 'Helvetica', 'Arial', sans-serif;
       font-size: 14px;
       font-weight: 400;
       line-height: 24px;
       min-height: 100vh;
       background-color: #f5f5f5; /* Grey 100 */
+
+      /* Remove default margin is currently needed for iOS viewer embeds. */
+      margin: 0;
+
+      /* Remove highlight when tapping on elements. */
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
       /* Font smoothing for OS X */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+
+      /* Text adjust is set to 100% to avoid iOS Safari bugs where the font-size is
+         sometimes not restored during orientation. */
+      -webkit-text-size-adjust: 100%;
     }
 
     /* Styling for render while resources are loading */
@@ -198,7 +216,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       color: #fff;
       font-size: 20px;
       line-height: 64px;
-      padding: 0 88px;
+      padding: 0 0 0 88px;
     }
 
     /* Single Element CSS Spinner */
