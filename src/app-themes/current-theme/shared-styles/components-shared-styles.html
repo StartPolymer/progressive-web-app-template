@@ -1,0 +1,155 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+
+<dom-module id="components-shared-styles">
+<template>
+
+<style>
+
+  /* Material Design Buttons
+     https://material.google.com/components/buttons.html */
+
+  .Button {
+    @apply(--paper-font-common-nowrap);
+
+    background-color: var(--accent-color);
+    border-radius: 2px;
+    color: var(--text-accent-color);
+    font-size: var(--button-font-size);
+    font-weight: 500;
+    height: var(--button-height);
+    letter-spacing: 0.018em;
+    line-height: 24px;
+    margin: 0;
+    min-width: 88px;
+    padding: calc((var(--button-height) - 24px) / 2) 16px;
+    text-transform: uppercase;
+  }
+
+  .Button--shadowText {
+    @apply(--button-text-shadow);
+  }
+
+  .Button-icon {
+    margin-right: 16px;
+  }
+
+  .Button-touchTarget {
+    box-sizing: border-box;
+    cursor: pointer;
+    height: var(--touch-target-size);
+    margin: 0 calc(var(--gutter) / 2);
+    outline: none;
+    padding: calc((var(--touch-target-size) - var(--button-height)) / 2) 0;
+  }
+
+  .Dialog {
+    background-color: var(--tertiary-background-color);
+  }
+
+  .Dialog p {
+    margin-bottom: 24px;
+  }
+
+  .DialogButton {
+    background-color: var(--tertiary-background-color);
+    border-radius: 2px;
+    color: var(--accent-color);
+    font-size: var(--button-font-size);
+    font-weight: 500;
+    height: var(--button-height);
+    line-height: 24px;
+    margin: 0;
+    min-width: 64px;
+    padding: calc((var(--button-height) - 24px) / 2) 8px;
+  }
+
+  .DialogButton.keyboard-focus {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .DialogButton-touchTarget {
+    box-sizing: border-box;
+    cursor: pointer;
+    height: var(--touch-target-size);
+    outline: none;
+    padding: calc((var(--touch-target-size) - var(--button-height)) / 2) 0;
+  }
+
+  .Checkbox {
+    line-height: var(--touch-target-size);
+  }
+
+  /* Material Design Text fields
+     https://material.google.com/components/text-fields.html */
+
+  .Input {
+    height: 72px;
+    margin: calc(var(--gutter) / 2) 0;
+    outline: none;
+
+    --paper-input-container-input: {
+      font-size: var(--input-font-size);
+
+      /* Remove forced yellow input background in Chrome
+         http://stackoverflow.com/a/36140769 */
+      transition: background-color 0s ease-in-out 50000s, color 0s ease-in-out 5000s;
+    };
+
+    --paper-input-container-label: {
+      font-size: var(--input-font-size);
+    };
+
+    --paper-input-error: {
+      font-size: var(--input-error-font-size);
+    };
+  }
+
+  .Input-icon {
+    margin-right: 16px;
+  }
+
+  /* Tablet wide */
+  @media screen and (min-width: 600px) {
+
+  }
+
+  /* Laptop wide */
+  @media screen and (min-width: 960px) {
+
+  }
+
+  /* Large wide */
+  @media screen and (min-width: 1600px) {
+
+  }
+
+  /* Landscape phone height */
+  @media screen and (orientation: landscape) and (max-height: 450px) {
+
+  }
+
+  /* Landscape phone minimal height - iPhone 4 */
+  @media screen and (orientation: landscape) and (max-height: 320px) {
+
+  }
+
+  /* Print mode */
+  @media print {
+
+  }
+
+</style>
+
+</template>
+</dom-module>

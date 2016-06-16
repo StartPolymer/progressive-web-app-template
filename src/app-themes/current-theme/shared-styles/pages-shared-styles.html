@@ -9,13 +9,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="components-shared-styles.html">
 <link rel="import" href="typography-shared-styles.html">
 <link rel="import" href="utilities-shared-styles.html">
 
-<dom-module id="page-shared-styles">
+<dom-module id="pages-shared-styles">
 <template>
 
-<style include="typography-shared-styles utilities-shared-styles">
+<style include="components-shared-styles typography-shared-styles utilities-shared-styles">
 
   .Page-card {
     background-color: var(--primary-background-color);
@@ -29,7 +30,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   .Page-card--fullHeight,
   .Page-container--fullHeight {
     min-height: calc(100vh - var(--header-toolbar-height));
-    width: 100%;
+    width: 100vw;
+  }
+
+  .Page-card--small {
+    @apply(--layout-vertical);
+    @apply(--layout-start-justified);
   }
 
   /* Tablet wide */
@@ -39,14 +45,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* Laptop wide */
   @media screen and (min-width: 960px) {
-    .Page-card,
     .Page-container {
       margin: var(--gutter) var(--screen-edge-margin);
+    }
+
+    .Page-container--center {
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
     }
 
     .Page-card--fullHeight,
     .Page-container--fullHeight {
       min-height: calc(100vh - var(--header-toolbar-height) - var(--gutter) * 2);
+      width: calc(100vw - var(--screen-edge-margin) * 2);
+    }
+
+    .Page-card--small {
+      min-height: 512px;
+      width: 384px;
     }
   }
 
