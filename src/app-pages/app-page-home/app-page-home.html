@@ -11,18 +11,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
-<link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
+<link rel="import" href="../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 <link rel="import" href="app-icons-home.html">
 
 <dom-module id="app-page-home">
 
   <template>
 
-    <style include="page-shared-styles">
+    <style include="pages-shared-styles">
 
       :host {
         display: block;
         padding-top: calc(100vh - 64px);
+      }
+
+      .Page-container {
+        margin-top: 0;
       }
 
       /* Tablet wide */
@@ -63,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <paper-material class="Page-card" elevation="2">
+    <paper-material class="Page-card Page-container" elevation="2">
 
       <h1>{{localize('home')}}</h1>
 
@@ -135,13 +139,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'app-resources-loaded': '_onLocalesLoaded'
       },
 
-      attached: function() {
-        this.loadLocales(this.app.baseUrl, this.is);
-      },
-
       _activeChanged: function() {
-        if (this.active && this._isLocalesLoaded) {
-          this.set('app.pageTitle', this.localize('home'));
+        if (this.active) {
+          if (this._isLocalesLoaded) {
+            this.set('app.pageTitle', '');
+          } else {
+            this.loadLocales(this.is);
+          }
         }
       },
 
@@ -150,7 +154,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this._isLocalesLoaded = true;
         // TODO: Resolve slow localize data binding in Firefox
         //this.style.display = 'block';
-        this.set('app.pageTitle', this.localize('home'));
+        this.set('app.pageTitle', '');
       }
 
     });

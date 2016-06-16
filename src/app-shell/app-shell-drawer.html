@@ -27,6 +27,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
+      .Drawer {
+        z-index: 30;
+      }
+
       .Drawer-content {
         @apply(--layout-vertical);
         @apply(--paper-font-body2);
@@ -124,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <span class="Navigation-text">{{localize('home')}}</span>
             </a>
 
-            <a class="Navigation-link" name="sign-in" href="/sign-in">
+            <a class="Navigation-link" name="sign-in" href="/sign-in/">
               <iron-icon class="Navigation-icon" icon="drawer:sign-in"></iron-icon>
               <span class="Navigation-text">{{localize('sign-in')}}</span>
             </a>
@@ -173,7 +177,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function() {
-        this.loadLocales(this.app.baseUrl, 'app-shell');
+        this.loadLocales('app-shell');
       },
 
       _onLocalesLoaded: function(event) {

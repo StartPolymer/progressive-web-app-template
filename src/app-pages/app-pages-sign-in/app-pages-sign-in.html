@@ -1,0 +1,143 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
+
+<dom-module id="app-pages-sign-in">
+
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+      }
+
+      .Page {
+        opacity: 0;
+        transition: 1s opacity;
+      }
+
+    </style>
+
+    <app-route pattern="/sign-in/:page" route="{{route}}" data="{{_routeData}}"></app-route>
+
+    <iron-pages selected="[[page]]" selected-attribute="active"
+                attr-for-selected="id" fallback-selection="404">
+
+      <app-page-enter-your-email class="Page" id="enter-your-email" app="{{app}}" route="{{route}}"></app-page-enter-your-email>
+      <app-page-forgot-password class="Page" id="forgot-password" app="{{app}}" route="{{route}}"></app-page-forgot-password>
+      <app-page-sign-in class="Page" id="sign-in" app="{{app}}" route="{{route}}"></app-page-sign-in>
+      <app-page-sign-in-with-email class="Page" id="sign-in-with-email" app="{{app}}" route="{{route}}"></app-page-sign-in-with-email>
+      <app-page-404 class="Page" id="404" app="{{app}}"></app-page-404>
+
+    </iron-pages>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-pages-sign-in',
+
+      properties: {
+        active: {
+          type: Boolean,
+          value: false,
+          observer: '_activeChanged'
+        },
+
+        app: Object,
+
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged'
+        },
+
+        route: Object
+      },
+
+      observers: [
+        '_routePageChanged(_routeData.page)'
+      ],
+
+      _activeChanged: function() {
+        if (this.active) {
+          if (this.$[this.page]) {
+            this.$[this.page].active = true;
+          }
+        } else {
+          this.$[this.page].active = false;
+        }
+      },
+
+      _pageChanged: function(page) {
+        if (Polymer.isInstance(this.$[page])) {
+          this.async(function() {
+            this._pageLoaded();
+          });
+        } else {
+          // Async load page import on demand.
+          var pageElementName = this.$[page].localName;
+
+          if (page === '404') {
+            var pageElementPath = '../' + pageElementName + '/' + pageElementName + '.html';
+          } else {
+            var pageElementPath = pageElementName + '/' + pageElementName + '.html';
+          }
+
+          this.importHref(this.resolveUrl(pageElementPath), function() {
+            this._pageLoaded();
+          }, null, true);
+        }
+      },
+
+      _pageLoaded: function() {
+        this.fire('app-page-loaded');
+        this.$[this.page].style.opacity = 1;
+      },
+
+      _routePageChanged: function(page) {
+        // TODO: Remove hack for detect change subroute from /sign-in/* to /sign-in
+        // Temporary solution is using route /sign-in/
+
+        // Detect change in url by history back flow
+        //console.log(page, this.route.path, window.location.pathname);
+        /*if (this.$[page] && this.route.path !== window.location.pathname) {
+          this.page = 'sign-in';
+          return;
+        }*/
+
+        var isRouteTail = this.route.path.split('/').length >= 4;
+        if (isRouteTail) {
+          this.page = '404';
+          return;
+        }
+
+        if (page) {
+          if (this.$[page]) {
+            this.page = page;
+          } else {
+            this.page = '404';
+          }
+        } else {
+          this.page = 'sign-in';
+        }
+      }
+
+    });
+
+  </script>
+
+</dom-module>

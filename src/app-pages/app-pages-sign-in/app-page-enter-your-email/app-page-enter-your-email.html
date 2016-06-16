@@ -1,0 +1,124 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../app-behaviors/app-auth-behavior.html">
+<link rel="import" href="../../../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="../../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
+
+<dom-module id="app-page-enter-your-email">
+
+  <template>
+
+    <style include="pages-shared-styles">
+
+      :host {
+        @apply(--layout);
+      }
+
+      .Button-touchTarget {
+        @apply(--layout-self-end);
+
+        margin-right: 0;
+        margin-top: calc(var(--gutter) * 2);
+      }
+
+    </style>
+
+    <div class="Page-container Page-container--center Page-container--fullHeight">
+      <paper-material class="Page-card Page-card--fullHeight Page-card--small" elevation="2">
+        <h1 hidden$="{{!app.isTabletWide}}">{{localize('enter-your-email')}}</h1>
+        <paper-input class="Input" id="emailInput"
+                     name="username" type="text" autocomplete="username"
+                     autofocus auto-validate
+                     pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                     label="{{localize('email')}}"
+                     error-message="{{localize('invalid-email-address')}}"></paper-input>
+        <div class="Button-touchTarget" on-tap="_onNextButtonTap">
+          <paper-button class="Button Button--shadowText" raised>{{localize('next')}}</paper-button>
+        </div>
+      </paper-material>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-page-enter-your-email',
+
+      properties: {
+        active: {
+          type: Boolean,
+          value: false,
+          observer: '_activeChanged'
+        },
+
+        app: Object,
+
+        route: Object,
+
+        _isLocalesLoaded: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      behaviors: [
+        AppBehaviors.AppAuthBehavior,
+        AppBehaviors.AppLocalizeBehavior
+      ],
+
+      listeners: {
+        'app-resources-loaded': '_onLocalesLoaded'
+      },
+
+      _activeChanged: function() {
+        if (this.active) {
+          if (this._isLocalesLoaded) {
+            this.set('app.pageTitle', this.localize('enter-your-email'));
+          } else {
+            this.loadLocales('app-pages-sign-in-with-email');
+          }
+
+          this.$.emailInput.value = '';
+          this.$.emailInput.focus();
+        }
+      },
+
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this._isLocalesLoaded = true;
+        this.set('app.pageTitle', this.localize('enter-your-email'));
+      },
+
+      _onNextButtonTap: function() {
+        if (!this.$.emailInput.validate() || !this.$.emailInput.value) {
+          this.$.emailInput.focus();
+          return false;
+        }
+
+        if (this.checkEmail(this.$.emailInput.value)) {
+          this.set('app.userAuthEmail', this.$.emailInput.value);
+          this.set('route.path', this.app.baseUrl + 'sign-in/sign-in-with-email');
+        } else {
+          this.set('route.path', this.app.baseUrl + 'sign-up');
+        }
+      }
+
+    });
+
+  </script>
+
+</dom-module>

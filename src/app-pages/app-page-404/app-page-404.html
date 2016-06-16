@@ -11,26 +11,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
-<link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
+<link rel="import" href="../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 
 <dom-module id="app-page-404">
 
   <template>
 
-    <style include="page-shared-styles">
+    <style include="pages-shared-styles">
 
       :host {
         @apply(--layout);
       }
 
+      .Container {
+        @apply(--layout-vertical);
+
+        width: 100%;
+      }
+
       .Page-card {
         @apply(--layout-vertical);
         @apply(--layout-center-center);
-      }
-
-      .Container {
-        @apply(--layout-vertical);
-        width: 100%;
       }
 
       .Polymerosaurus {
@@ -56,19 +57,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <paper-material class="Page-card Page-card--fullHeight" elevation="2">
+    <paper-material class="Page-card Page-container Page-container--fullHeight" elevation="2">
 
       <img class="Polymerosaurus" alt="Polymerosaurus"
            src$="{{app.baseUrl}}images/logos/polymerosaurus.png">
 
       <div class="Container">
-        <h1>{{localize('not-found')}}</h1>
-        <h2>{{localize('we-are-sorry')}}</h2>
+
+        <h1 hidden$="{{!app.isTabletWide}}">{{localize('page-not-found')}}</h1>
+        <h2>{{localize('we-are-sorry', 'url', _url)}}</h2>
         <h3>
           <span>{{localize('maybe-head-back')}}</span>
           <a href$="{{app.baseUrl}}">{{localize('homepage')}}</a>
           <span>{{localize('or-use-links')}}</span>
         </h3>
+
       </div>
 
     </paper-material>
@@ -93,6 +96,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         _isLocalesLoaded: {
           type: Boolean,
           value: false
+        },
+
+        _url: {
+          type: String,
+          value: window.location.pathname
         }
       },
 
@@ -104,20 +112,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'app-resources-loaded': '_onLocalesLoaded'
       },
 
-      attached: function() {
-        this.loadLocales(this.app.baseUrl, this.is);
-      },
-
       _activeChanged: function() {
-        if (this.active && this._isLocalesLoaded) {
-          this.set('app.pageTitle', this.localize('404'));
+        if (this.active) {
+          if (this._isLocalesLoaded) {
+            this.set('app.pageTitle', this.localize('error-404'));
+          } else {
+            this.loadLocales(this.is);
+          }
         }
       },
 
       _onLocalesLoaded: function(event) {
         event.stopPropagation();
         this._isLocalesLoaded = true;
-        this.set('app.pageTitle', this.localize('404'));
+        this.set('app.pageTitle', this.localize('error-404'));
       }
 
     });

@@ -47,13 +47,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <app-location route="{{route}}"></app-location>
-    <app-route pattern="/:page" route="{{route}}" data="{{routeData}}" tail="{{routeTail}}"></app-route>
+    <app-location route="{{_route}}"></app-location>
+    <app-route pattern="/:page" route="{{_route}}" data="{{_routeData}}"></app-route>
 
     <app-scrollpos-control selected="[[page]]"></app-scrollpos-control>
 
-    <app-shell class$="Shell {{page}}" app="{{app}}" page=[[page]]>
-      <app-pages class="Pages" id="pages" app="{{app}}" page=[[page]] route={{routeTail}}></app-pages>
+    <app-shell class$="Shell {{page}}" app="{{app}}" page=[[page]] route={{_route}}>
+      <app-pages class="Pages" id="pages" app="{{app}}" page=[[page]] route={{_route}}></app-pages>
     </app-shell>
 
   </template>
@@ -72,6 +72,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Object,
           value: {
             baseUrl: window.BASE_URL,
+            currentUser: {},
             // Responsive handlers using Material Design breakpoints
             // http://www.google.com/design/spec/layout/adaptive-ui.html#adaptive-ui-breakpoints
             isTabletWide: window.matchMedia('screen and (min-width:600px)').matches,
@@ -80,7 +81,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             isPrintMode: window.matchMedia('print').matches,
             isOffline: !navigator.onLine,
             name: window.APP_NAME,
-            pageTitle: ''
+            pageTitle: '',
+            userAuthEmail: ''
           }
         },
 
@@ -96,7 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       observers: [
-        '_routePageChanged(routeData.page, routeTail)'
+        '_routePageChanged(_routeData.page)'
       ],
 
       created: function() {
@@ -117,8 +119,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this._setStyles();
       },
 
-      _routePageChanged: function(page, routeTail) {
-        if (page !== 'sign-in-with-email' && routeTail.path !== '') {
+      _routePageChanged: function(page) {
+        var isRouteTail = this._route.path.split('/').length >= 3;
+
+        if (page !== 'sign-in' && isRouteTail) {
           this.page = '404';
           return;
         }

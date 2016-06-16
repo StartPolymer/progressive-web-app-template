@@ -8,24 +8,50 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../../bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../app-behaviors/app-auth-behavior.html">
-<link rel="import" href="../../app-behaviors/app-localize-behavior.html">
-<link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../app-behaviors/app-auth-behavior.html">
+<link rel="import" href="../../../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="../../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 <link rel="import" href="app-icons-sign-in.html">
 
 <dom-module id="app-page-sign-in">
 
   <template>
 
-    <style include="page-shared-styles">
+    <style include="pages-shared-styles">
 
       :host {
         @apply(--layout);
+      }
+
+      .Button {
+        @apply(--button-text-shadow);
+        @apply(--layout-start-justified);
+
+        font-weight: 400;
+        letter-spacing: normal;
+        text-transform: none;
+        width: 256px;
+      }
+
+      .Button--email {
+        background-color: var(--google-red-700);
+        color: #fff;
+      }
+
+      .Button--facebook {
+        background-color: #3b5998;
+        color: #fff;
+      }
+
+      .Button--google {
+        background-color: #fff;
+        border: 1px solid #d9d9d9;
+        color: #737373;
       }
 
       .Container-buttons {
@@ -59,38 +85,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 8px 0;
       }
 
-      .SignIn-button {
-        font-size: 15px;
-        height: var(--button-height);
-        width: 256px;
-        line-height: 20px;
-        padding: 6px;
-        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-        margin: 0;
-        text-transform: none;
-        @apply(--layout-start-justified);
-      }
-
-      .SignIn-button--email {
-        background-color: var(--google-red-700);
-        color: #fff;
-      }
-
-      .SignIn-button--facebook {
-        background-color: #3b5998;
-        color: #fff;
-      }
-
-      .SignIn-button--google {
-        background-color: #fff;
-        border: 1px solid #d9d9d9;
-        color: #737373;
-      }
-
-      .SignIn-buttonIcon {
-        margin-right: 16px;
-      }
-
       .SignIn-fab {
         height: 96px;
         width: 96px;
@@ -105,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --paper-fab-background: var(--google-red-700);
         --paper-fab-keyboard-focus-background: var(--paper-red-900);
         color: #fff;
-        margin-bottom: 4px;
+        margin-bottom: 8px;
       }
 
       .SignIn-fab--facebook {
@@ -130,6 +124,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       /* Laptop wide */
       @media screen and (min-width: 960px) {
+        .Button {
+          width: 272px;
+        }
+
         .Container-buttons {
           @apply(--layout-horizontal);
           padding-bottom: 128px;
@@ -138,6 +136,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .Container-logo {
           height: calc(100vh - 400px - var(--header-toolbar-height) - var(--gutter) * 3);
           margin-bottom: var(--gutter);
+        }
+
+        .Input {
+          --paper-input-container-color: #fff;
+          --paper-input-container-focus-color: #fff;
+          --paper-input-container-input-color: #fff;
+          --paper-input-container-invalid-color: var(--paper-orange-a100);
+
+          height: 60px;
+          margin: var(--gutter) 0;
+          width: 208px;
         }
 
         .SignIn {
@@ -161,20 +170,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         .SignIn--google {
           background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .SignIn-button {
-          width: 272px;
-        }
-
-        .SignIn-input {
-          --paper-input-container-color: #fff;
-          --paper-input-container-focus-color: #fff;
-          --paper-input-container-input-color: #fff;
-          --paper-input-container-invalid-color: var(--paper-deep-orange-a100);
-          width: 208px;
-          font-size: 16px;
-          margin: var(--gutter) 0;
         }
       }
 
@@ -219,8 +214,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      title="{{localize('sign-in-google')}}"
                      hidden$="{{!app.isLaptopWide}}"
                      on-tap="_onGoogleButtonTap"></paper-fab>
-          <paper-button class="SignIn-button SignIn-button--google" raised on-tap="_onGoogleButtonTap">
-            <iron-icon class="SignIn-buttonIcon" icon="sign-in:google"></iron-icon>
+          <paper-button class="Button Button--google" raised on-tap="_onGoogleButtonTap">
+            <iron-icon class="Button-icon" icon="sign-in:google"></iron-icon>
             {{localize('sign-in-google')}}
           </paper-button>
         </div>
@@ -230,8 +225,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      title="{{localize('sign-in-facebook')}}"
                      hidden$="{{!app.isLaptopWide}}"
                      on-tap="_onFacebookButtonTap"></paper-fab>
-          <paper-button class="SignIn-button SignIn-button--facebook" raised on-tap="_onFacebookButtonTap">
-            <iron-icon class="SignIn-buttonIcon" icon="sign-in:facebook"></iron-icon>
+          <paper-button class="Button Button--facebook" raised on-tap="_onFacebookButtonTap">
+            <iron-icon class="Button-icon" icon="sign-in:facebook"></iron-icon>
             {{localize('sign-in-facebook')}}
           </paper-button>
         </div>
@@ -242,15 +237,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      hidden$="{{!app.isLaptopWide}}"
                      on-tap="_onEmailButtonTap"></paper-fab>
           <!-- Input pattern attribute from site http://stackoverflow.com/a/36379040 -->
-          <paper-input class="SignIn-input" id="emailInput"
-                       name="email" type="text" autocomplete="username"
-                       auto-validate required autofocus
+          <paper-input class="Input" id="emailInput"
+                       name="username" type="text" autocomplete="username"
+                       autofocus auto-validate required
                        pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                       label="{{localize('enter-email')}}"
+                       label="{{localize('enter-your-email')}}"
                        error-message="{{localize('invalid-email-address')}}"
                        hidden$="{{!app.isLaptopWide}}"></paper-input>
-          <paper-button class="SignIn-button SignIn-button--email" raised on-tap="_onEmailButtonTap">
-            <iron-icon class="SignIn-buttonIcon" icon="sign-in:mail"></iron-icon>
+          <paper-button class="Button Button--email" raised on-tap="_onEmailButtonTap">
+            <iron-icon class="Button-icon" icon="sign-in:mail"></iron-icon>
             {{localize('sign-in-email')}}
           </paper-button>
         </div>
@@ -276,6 +271,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         app: Object,
 
+        route: Object,
+
         _isLocalesLoaded: {
           type: Boolean,
           value: false
@@ -283,6 +280,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       behaviors: [
+        AppBehaviors.AppAuthBehavior,
         AppBehaviors.AppLocalizeBehavior
       ],
 
@@ -290,13 +288,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'app-resources-loaded': '_onLocalesLoaded'
       },
 
-      attached: function() {
-        this.loadLocales(this.app.baseUrl, this.is);
-      },
-
       _activeChanged: function() {
-        if (this.active && this._isLocalesLoaded) {
-          this.set('app.pageTitle', this.localize('sign-in'));
+        if (this.active) {
+          if (this._isLocalesLoaded) {
+            this.set('app.pageTitle', this.localize('sign-in'));
+          } else {
+            this.loadLocales(this.is);
+          }
         }
       },
 
@@ -307,18 +305,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _onEmailButtonTap: function() {
-        if (!this.$.emailInput.validate()) {
-          this.$.emailInput.$.input.focus();
+        if (!this.$.emailInput.validate() && this.app.isLaptopWide) {
+          this.$.emailInput.focus();
           return false;
+        }
+
+        if (this.app.isLaptopWide) {
+          if (this.checkEmail(this.$.emailInput.value)) {
+            this.set('app.userAuthEmail', this.$.emailInput.value);
+            this.set('route.path', this.app.baseUrl + 'sign-in/sign-in-with-email');
+          } else {
+            this.set('route.path', this.app.baseUrl + 'sign-up');
+          }
+          this.$.emailInput.value = '';
+        } else {
+          this.set('route.path', this.app.baseUrl + 'sign-in/enter-your-email');
         }
       },
 
       _onFacebookButtonTap: function() {
-
+        if (this.signInWithPopup('facebook')) {
+          this.set('route.path', this.app.baseUrl + 'dashboard');
+        }
       },
 
       _onGoogleButtonTap: function() {
-
+        if (this.signInWithPopup('google')) {
+          this.set('route.path', this.app.baseUrl + 'dashboard');
+        }
       }
 
     });

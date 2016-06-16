@@ -7,6 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
+
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 
@@ -32,9 +33,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <app-page-contact-us class="Page" id="contact-us" app="{{app}}"></app-page-contact-us>
       <app-page-home class="Page" id="home" app="{{app}}"></app-page-home>
-      <app-page-sign-in class="Page" id="sign-in" app="{{app}}"></app-page-sign-in>
-      <app-page-sign-in-with-email class="Page" id="sign-in-with-email" app="{{app}}" route={{route}}></app-page-sign-in-with-email>
       <app-page-404 class="Page" id="404" app="{{app}}"></app-page-404>
+
+      <app-pages-sign-in class="Pages" id="sign-in" app="{{app}}" route={{route}}></app-pages-sign-in>
 
     </iron-pages>
 
@@ -58,16 +59,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         route: Object
       },
 
-      listeners: {
-        'app-subpage-loaded': '_onSubpageLoaded'
-      },
-
-      _onSubpageLoaded: function(event) {
-        event.stopPropagation();
-        this.fire('app-page-loaded');
-        this.$[this.page].style.opacity = 1;
-      },
-
       _pageChanged: function(page) {
         if (Polymer.isInstance(this.$[page])) {
           this.async(function() {
@@ -75,15 +66,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           });
         } else {
           // Async load page import on demand.
-          var pageElement = 'app-page-' + page + '/app-page-' + page + '.html';
-          this.importHref(this.resolveUrl(pageElement), function() {
+          var pageElementName = this.$[page].localName;
+          var pageElementPath = pageElementName + '/' + pageElementName + '.html';
+          this.importHref(this.resolveUrl(pageElementPath), function() {
             this._pageLoaded();
           }, null, true);
         }
       },
 
       _pageLoaded: function() {
-        if (this.page !== 'sign-in-with-email') {
+        if (this.$[this.page].localName.split('-')[1] !== 'pages') {
           this.fire('app-page-loaded');
           this.$[this.page].style.opacity = 1;
         }

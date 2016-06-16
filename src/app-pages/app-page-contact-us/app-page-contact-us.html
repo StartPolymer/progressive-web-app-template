@@ -11,14 +11,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
-<link rel="import" href="../../app-themes/current-theme/shared-styles/page-shared-styles.html">
+<link rel="import" href="../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 <link rel="import" href="app-icons-contact-us.html">
 
 <dom-module id="app-page-contact-us">
 
   <template>
 
-    <style include="page-shared-styles">
+    <style include="pages-shared-styles">
 
       :host {
         @apply(--layout);
@@ -31,9 +31,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <paper-material class="Page-card Page-card--fullHeight" elevation="2">
+    <paper-material class="Page-card Page-container Page-container--fullHeight" elevation="2">
 
-      <h1>{{localize('contact-us')}}</h1>
+      <h1 hidden$="{{!app.isTabletWide}}">{{localize('contact-us')}}</h1>
 
     </paper-material>
 
@@ -68,13 +68,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'app-resources-loaded': '_onLocalesLoaded'
       },
 
-      attached: function() {
-        this.loadLocales(this.app.baseUrl, this.is);
-      },
-
       _activeChanged: function() {
-        if (this.active && this._isLocalesLoaded) {
-          this.set('app.pageTitle', this.localize('contact-us'));
+        if (this.active) {
+          if (this._isLocalesLoaded) {
+            this.set('app.pageTitle', this.localize('contact-us'));
+          } else {
+            this.loadLocales(this.is);
+          }
         }
       },
 
