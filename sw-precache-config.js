@@ -49,16 +49,16 @@ module.exports = {
     options: {
       cache: {
         maxEntries: 200,
-        name: 'items-cache'
+        name: 'images-cache'
       }
     }
   }, {
-    urlPattern: /\/data\/.*json/,
+    urlPattern: /\/data\/articles\/.*json/,
     handler: 'fastest',
     options: {
       cache: {
         maxEntries: 100,
-        name: 'data-cache'
+        name: 'articles-cache'
       }
     }
   }]
