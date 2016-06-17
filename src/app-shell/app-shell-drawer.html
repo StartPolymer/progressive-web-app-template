@@ -33,7 +33,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Drawer-content {
         @apply(--layout-vertical);
-        @apply(--paper-font-body2);
 
         background-color: var(--primary-background-color);
         color: var(--primary-text-color);
@@ -94,6 +93,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-center);
 
         color: currentColor;
+        font-size: 15px;
         height: var(--touch-target-size);
         padding-left: var(--screen-edge-margin);
         padding-right: var(--gutter);
@@ -102,7 +102,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Navigation-link.iron-selected {
-        color: var(--accent-color);
+        color: var(--accent-link-color);
+        font-weight: 500;
       }
 
       .Navigation-text {

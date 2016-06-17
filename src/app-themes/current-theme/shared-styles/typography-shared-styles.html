@@ -20,9 +20,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      https://github.com/google/material-design-lite/blob/master/src/typography/_typography.scss */
 
   a {
-    color: var(--accent-color);
-    font-weight: 500;
+    color: var(--primary-link-color);
     text-decoration: none;
+  }
+
+  a.AccentLink {
+    color: var(--accent-link-color);
+    font-weight: 500;
+  }
+
+  a.TouchLink {
+    padding: calc((var(--touch-target-size) - var(--line-height)) / 2) 0;
   }
 
   address {
@@ -77,7 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     margin-bottom: var(--gutter);
   }
 
-  p.intro {
+  p.Intro {
     @apply(--paper-font-title);
   }
 

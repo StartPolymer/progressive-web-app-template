@@ -7,10 +7,10 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
+
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="../app-themes/current-theme/shared-styles/components-shared-styles.html">
@@ -41,9 +41,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: var(--conversion-color);
         font-size: 18px;
         font-weight: 400;
-        position: fixed;
-        right: var(--screen-edge-margin);
-        z-index: 30;
       }
 
       .Button-touchTarget--signIn {
@@ -169,13 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .Header.home {
           height: calc(100% - 128px);
         }
-        .Header-signInButton {
-          font-size: 18px;
-          line-height: 24px;
-          padding: 6px 0.57em;
-          position: relative;
-          right: 0;
-        }
+
         .Logo {
           height: 400px;
           width: 400px;
@@ -197,6 +188,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         .Header.home {
           height: 100%;
         }
+
         .Logo {
           height: 200px;
           width: 200px;

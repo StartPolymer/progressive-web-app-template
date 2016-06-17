@@ -38,12 +38,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: var(--gutter);
       }
 
-      .Container-terms a {
-        color: var(--primary-color);
-        font-weight: 400;
-        line-height: var(--touch-target-size);
-      }
-
     </style>
 
     <div class="Page-container Page-container--center Page-container--fullHeight">
@@ -63,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                    error-message="{{localize('password-must-contain')}}"></gold-password-input>
         <p class="Container-terms">
           {{localize('by-tapping-next-agree')}}
-          <a href="{{app.baseUrl}}terms-of-service">{{localize('terms-of-service')}}</a>
+          <a class="TouchLink" href$="{{app.baseUrl}}terms-of-service">{{localize('terms-of-service')}}</a>
         </p>
         <div class="Button-touchTarget" on-tap="_onNextButtonTap">
           <paper-button class="Button Button--shadowText" raised>{{localize('next')}}</paper-button>

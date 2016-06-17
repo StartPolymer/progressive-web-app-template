@@ -42,12 +42,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: var(--gutter);
       }
 
-      .Container-checkbox a {
-        color: var(--primary-color);
-        font-weight: 400;
-        line-height: var(--touch-target-size);
-      }
-
     </style>
 
     <div class="Page-container Page-container--center Page-container--fullHeight">
@@ -68,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="Container-checkbox">
           <paper-checkbox class="Checkbox" id="checkbox" checked>{{localize('stay-signed-in')}}</paper-checkbox>
           <span class="u-spacer"></span>
-          <a href="{{app.baseUrl}}sign-in/forgot-password">{{localize('trouble-signing-in')}}</a>
+          <a class="TouchLink" href$="{{app.baseUrl}}sign-in/forgot-password">{{localize('trouble-signing-in')}}</a>
         </div>
         <div class="Button-touchTarget" on-tap="_onNextButtonTap">
           <paper-button class="Button Button--shadowText" raised>{{localize('next')}}</paper-button>
