@@ -5,6 +5,7 @@
     "src/app-pages/app-page-404/app-page-404.html",
     "src/app-pages/app-page-contact-us/app-page-contact-us.html",
     "src/app-pages/app-page-home/app-page-home.html",
+    "src/app-pages/app-page-sign-up/app-page-sign-up.html",
     "src/app-pages/app-pages-sign-in/app-page-enter-your-email/app-page-enter-your-email.html",
     "src/app-pages/app-pages-sign-in/app-page-forgot-password/app-page-forgot-password.html",
     "src/app-pages/app-pages-sign-in/app-page-sign-in/app-page-sign-in.html",
