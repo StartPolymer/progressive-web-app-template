@@ -39,6 +39,13 @@ Progressive Web Apps are:
 
 See latest build from master branch at https://pwa-demo.appspot.com
 
+#### Check out this pages
+
+- [/sign-in](https://pwa-demo.appspot.com/sign-in)
+- [/sign-in/sign-in-with-email](https://pwa-demo.appspot.com/sign-in/sign-in-with-email)
+- [/sign-up](https://pwa-demo.appspot.com/sign-up)
+- [/404](https://pwa-demo.appspot.com/404)
+
 ## Features
 
 - Based on [PRPL performance pattern](https://www.polymer-project.org/1.0/toolbox/server)
