@@ -43,7 +43,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      autofocus auto-validate
                      pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                      label="{{localize('email')}}"
-                     error-message="{{localize('invalid-email-address')}}"></paper-input>
+                     error-message="{{localize('invalid-email-address')}}"
+                     on-keydown="_onEmailInputKeyDown"></paper-input>
         <div class="Button-touchTarget" on-tap="_onNextButtonTap">
           <paper-button class="Button Button--shadowText" raised>{{localize('next')}}</paper-button>
         </div>
@@ -94,6 +95,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           this.$.emailInput.value = '';
           this.$.emailInput.focus();
+        }
+      },
+
+      _onEmailInputKeyDown: function(event) {
+        if (!this.$.emailInput.validate()) {
+          return false;
+        }
+
+        if (event.which === 13 || event.key === 'Enter') {
+          this._onNextButtonTap();
         }
       },
 

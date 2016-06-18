@@ -18,6 +18,7 @@
     "invalid-email-address": "Neplatná e-mailová adresa.",
     "next": "Další",
     "password": "Heslo",
+    "password-must-contain": "Heslo musí obsahovat nejméně 6 znaků.",
     "please-enter-email": "Zadejte svoji e-mailovou adresu.",
     "please-enter-password": "Zadejte heslo.",
     "please-enter-valid-email": "Litujeme, ale tento e-mail nepoznáváme.",

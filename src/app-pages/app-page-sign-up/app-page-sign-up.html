@@ -49,12 +49,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      value="{{app.userAuthEmail}}"
                      pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                      label="{{localize('email')}}"
-                     error-message="{{localize('invalid-email-address')}}"></paper-input>
+                     error-message="{{localize('invalid-email-address')}}"
+                     on-keydown="_onEmailInputKeyDown"></paper-input>
         <gold-password-input class="Input" id="passwordInput"
                    name="password" autocomplete="new-password"
                    required reveal minlength="6"
                    label="{{localize('choose-password')}}"
-                   error-message="{{localize('password-must-contain')}}"></gold-password-input>
+                   error-message="{{localize('password-must-contain')}}"
+                   on-keydown="_onPasswordInputKeyDown"></gold-password-input>
         <p class="Container-terms">
           {{localize('by-tapping-next-agree')}}
           <a class="TouchLink" href$="{{app.baseUrl}}terms-of-service">{{localize('terms-of-service')}}</a>
@@ -119,6 +121,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
+      _onEmailInputKeyDown: function(event) {
+        if (!this.$.emailInput.validate()) {
+          return false;
+        }
+
+        if (event.which === 13 || event.key === 'Enter') {
+          this._onNextButtonTap();
+        }
+      },
+
       _onLocalesLoaded: function(event) {
         event.stopPropagation();
         this._isLocalesLoaded = true;
@@ -140,6 +152,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.set('route.path', this.app.baseUrl + 'dashboard');
           this.$.emailInput.value = '';
           this.$.passwordInput.value = '';
+        }
+      },
+
+      _onPasswordInputKeyDown: function(event) {
+        if (!this.$.passwordInput.validate()) {
+          return false;
+        }
+
+        if (event.which === 13 || event.key === 'Enter') {
+          this._onNextButtonTap();
         }
       }
 

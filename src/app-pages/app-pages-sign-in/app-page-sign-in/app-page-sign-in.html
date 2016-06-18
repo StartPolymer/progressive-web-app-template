@@ -243,7 +243,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                        pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                        label="{{localize('enter-your-email')}}"
                        error-message="{{localize('invalid-email-address')}}"
-                       hidden$="{{!app.isLaptopWide}}"></paper-input>
+                       hidden$="{{!app.isLaptopWide}}"
+                       on-keydown="_onEmailInputKeyDown"></paper-input>
           <paper-button class="Button Button--email" raised on-tap="_onEmailButtonTap">
             <iron-icon class="Button-icon" icon="sign-in:mail"></iron-icon>
             {{localize('sign-in-email')}}
@@ -320,6 +321,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.emailInput.value = '';
         } else {
           this.set('route.path', this.app.baseUrl + 'sign-in/enter-your-email');
+        }
+      },
+
+      _onEmailInputKeyDown: function(event) {
+        if (!this.$.emailInput.validate()) {
+          return false;
+        }
+
+        if (event.which === 13 || event.key === 'Enter') {
+          this._onEmailButtonTap();
         }
       },
 
