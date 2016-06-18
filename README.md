@@ -11,6 +11,12 @@
 
 This template is a starting point for building [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) based on [Polymer](https://www.polymer-project.org) & [Material Design](https://material.google.com) with motto [#UseThePlatform](https://www.polymer-project.org/1.0/about).
 
+## FAST Progressive Web Apps Solution
+
+- **F**AST - Using PRPL performance pattern.
+- E**A**SY - Based on Web Standards with motto #UseThePlatform.
+- **ST**ABLE - Open-source software tested by community.
+
 ## What is a Progressive Web App?
 
 Progressive Web Apps are:
@@ -140,6 +146,26 @@ This command serves the minified version of the app generated using fragment bun
 
     polymer serve build/bundled
 
+## Deploy
+
+### Google App Engine
+
+Google App Engine is free static hosting supporting HTTP/2 Push & QUIC protocol with powerful configuration on custom domain.
+
+#### [Install Google Cloud SDK](https://cloud.google.com/sdk/#Quick_Start)
+
+#### Deploy to development environment
+
+    ./deploy-gae.sh dev
+
+#### Deploy to staging environment
+
+    ./deploy-gae.sh stage
+
+#### Deploy to production environment
+
+    ./deploy-gae.sh prod
+
 ## Extend
 
 You can extend the app by adding more elements that will be demand-loaded
@@ -168,7 +194,7 @@ components (and will have bundles created in the fallback `bundled` build).
 - [Udacity Courses](https://www.udacity.com/courses/web-development)
 - [Google’s Polymer Project with Rob Dodson](http://softwareengineeringdaily.com/2016/06/05/googles-polymer-project-rob-dodson/)
 
-### GitHub repositories
+#### GitHub repositories
 
 - https://github.com/Polymer/app-drawer-template
 - https://github.com/Polymer/shop
