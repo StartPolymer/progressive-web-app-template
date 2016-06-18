@@ -24,7 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Page {
         opacity: 0;
-        transition: 1s opacity;
+        transition: 0.5s opacity;
       }
 
     </style>
@@ -69,7 +69,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       observers: [
-        '_routePageChanged(_routeData.page)'
+        '_routeChanged(_routeData, route.path)'
       ],
 
       _activeChanged: function() {
@@ -108,26 +108,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$[this.page].style.opacity = 1;
       },
 
-      _routePageChanged: function(page) {
-        // TODO: Remove hack for detect change subroute from /sign-in/* to /sign-in
-        // Temporary solution is using route /sign-in/
-
-        // Detect change in url by history back flow
-        //console.log(page, this.route.path, window.location.pathname);
-        /*if (this.$[page] && this.route.path !== window.location.pathname) {
+      _routeChanged: function(routeData, routePath) {
+        // Handle URL path out of <app-route> pattern
+        if (routePath === '/sign-in') {
           this.page = 'sign-in';
           return;
-        }*/
+        }
 
-        var isRouteTail = this.route.path.split('/').length >= 4;
+        // Handle subroutes that doesn't exists
+        var isRouteTail = routePath.split('/').length >= 4;
         if (isRouteTail) {
           this.page = '404';
           return;
         }
 
-        if (page) {
-          if (this.$[page]) {
-            this.page = page;
+        if (routeData.page) {
+          if (this.$[routeData.page]) {
+            this.page = routeData.page;
           } else {
             this.page = '404';
           }
