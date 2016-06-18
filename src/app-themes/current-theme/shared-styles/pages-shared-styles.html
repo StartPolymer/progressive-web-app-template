@@ -28,6 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   .Page-card--fullHeight,
+  .Page-card--small,
   .Page-container--fullHeight {
     min-height: calc(100vh - var(--header-toolbar-height));
     width: 100vw;
@@ -40,7 +41,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* Tablet wide */
   @media screen and (min-width: 600px) {
+    .Page-card--small {
+      min-height: 512px;
+      width: 384px;
+    }
 
+    .Page-container--center {
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
   }
 
   /* Laptop wide */
@@ -49,20 +58,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       margin: var(--gutter) var(--screen-edge-margin);
     }
 
-    .Page-container--center {
-      @apply(--layout-vertical);
-      @apply(--layout-center-center);
-    }
-
     .Page-card--fullHeight,
     .Page-container--fullHeight {
       min-height: calc(100vh - var(--header-toolbar-height) - var(--gutter) * 2);
       width: calc(100vw - var(--screen-edge-margin) * 2);
-    }
-
-    .Page-card--small {
-      min-height: 512px;
-      width: 384px;
     }
   }
 

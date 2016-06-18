@@ -33,20 +33,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
-      .Shell.sign-in,
-      .Shell.sign-up {
+      .Shell {
+        background-color: var(--primary-background-color);
+      }
+
+      .Shell--backgroundImage {
         background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wgARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/aAAwDAQACEAMQAAABFM9pJ//EABcQAQADAAAAAAAAAAAAAAAAAAABAhH/2gAIAQEAAQUCrDH/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFX/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwI//8QAFhABAQEAAAAAAAAAAAAAAAAAACEB/9oACAEBAAE/IbMh/9oADAMBAAIAAwAAABCj/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EF1gv//EABYRAQEBAAAAAAAAAAAAAAAAAAEAIf/aAAgBAgEBPxBwmf/EABYQAQEBAAAAAAAAAAAAAAAAACEAQf/aAAgBAQABPxAcBy//2Q==');
         background-position: center 0;
         background-size: cover;
-        min-height: 100vh;
       }
 
-      .Shell.sign-in>.Pages,
-      .Shell.sign-up>.Pages {
+      .Shell--backgroundImage>.Pages {
         background-image: url('/images/bg.jpg');
         background-position: center 0;
         background-size: cover;
         min-height: calc(100vh - var(--header-toolbar-height));
+      }
+
+      .Shell--secondaryBackground {
+        background-color: var(--secondary-background-color);
       }
 
     </style>
@@ -56,7 +61,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-scrollpos-control selected="[[page]]"></app-scrollpos-control>
 
-    <app-shell class$="Shell {{page}}" app="{{app}}" page=[[page]] route={{_route}}>
+    <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}" app="{{app}}" page=[[page]] route={{_route}}>
       <app-pages class="Pages" id="pages" app="{{app}}" page=[[page]] route={{_route}}></app-pages>
     </app-shell>
 
@@ -123,23 +128,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this._setStyles();
       },
 
-      _routePageChanged: function(page) {
-        var isRouteTail = this._route.path.split('/').length >= 3;
+      _computeShellBackgroundClasses: function(page) {
+        var classes = '';
+        var route = this._route.path.split('/');
+        var isRouteTail = route.length >= 3 && route[route.length - 1] !== '';
 
-        if (page !== 'sign-in' && isRouteTail) {
-          this.page = '404';
-          return;
+        if (this.app.isLaptopWide) {
+          classes += 'Shell--secondaryBackground'
         }
 
-        if (page) {
-          if (this.$.pages.$[page]) {
-            this.page = page;
-          } else {
-            this.page = '404';
-          }
-        } else {
-          this.page = 'home';
+        if (this.app.isTabletWide && (page === 'sign-in' || page === 'sign-up') ||
+            page === 'sign-in' && !isRouteTail) {
+          classes += ' Shell--backgroundImage';
         }
+
+        return classes;
       },
 
       _notifyNetworkStatus: function() {
@@ -180,6 +183,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.__loggedDomChange = true;
             performance.mark(target.domHost.is + '.domChange');
           }
+        }
+      },
+
+      _routePageChanged: function(page) {
+        // Handle subroutes that doesn't exists
+        var isRouteTail = this._route.path.split('/').length >= 3;
+        if (page !== 'sign-in' && isRouteTail) {
+          this.page = '404';
+          return;
+        }
+
+        if (page) {
+          if (this.$.pages.$[page]) {
+            this.page = page;
+          } else {
+            this.page = '404';
+          }
+        } else {
+          this.page = 'home';
         }
       },
 
