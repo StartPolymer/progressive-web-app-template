@@ -315,7 +315,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if (this.checkEmail(this.$.emailInput.value)) {
             this.set('route.path', this.app.baseUrl + 'sign-in/sign-in-with-email');
           } else {
-            this.set('route.path', this.app.baseUrl + 'sign-up');
+            this.set('route.path', this.app.baseUrl + 'sign-in/create-account');
           }
           this.set('app.userAuthEmail', this.$.emailInput.value);
           this.$.emailInput.value = '';
