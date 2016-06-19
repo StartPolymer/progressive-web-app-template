@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BUILD_VERSION=bundled
+BUILD_VERSION=unbundled
 environment=$1
 
 case $environment in
