@@ -104,7 +104,7 @@ handlers:
     Link: '</src/progressive-app.html>; rel=preload; as=document,
            </src/app-pages/app-page-home/app-page-home.html>; rel=preload; as=document,
            </src/app-shell/app-shell-lazy-resources.html>; rel=preload; as=document,
-           </src/app-pages/app-page-sign-in/app-page-sign-in.html>; rel=preload; as=document'
+           </src/app-pages/app-pages-sign-in/app-pages-sign-in.html>; rel=preload; as=document'
     X-UA-Compatible: "IE=edge"
     #Content-Security-Policy: "script-src 'self'; object-src 'self'"
 
