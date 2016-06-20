@@ -15,7 +15,7 @@ This template is a starting point for building [Progressive Web Apps](https://de
 
 - **F**AST - Using PRPL performance pattern.
 - E**A**SY - Based on Web Standards with motto #UseThePlatform.
-- **ST**ABLE - Open-source software tested by community.
+- **ST**ABLE - Open core tested by community.
 
 ## What is a Progressive Web App?
 
