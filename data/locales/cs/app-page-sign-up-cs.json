@@ -7,7 +7,7 @@
     "invalid-email-address": "Neplatná e-mailová adresa.",
     "next": "Další",
     "password-must-contain": "Heslo musí obsahovat nejméně 6 znaků.",
-    "sign-up": "Registrace",
+    "sorry-dont-recognize-email": "Neznáme tento e-mail. Vytvořte si účet pomocí této adresy.",
     "terms-of-service": "Smluvní podmínky služby"
   }
 }

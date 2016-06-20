@@ -7,7 +7,7 @@
     "invalid-email-address": "Invalid email address.",
     "next": "Next",
     "password-must-contain": "The password must contain at least 6 characters.",
-    "sign-up": "Sign up",
+    "sorry-dont-recognize-email": "Sorry, we don't recognize that email. Create an account using that address.",
     "terms-of-service": "Terms of Service"
   }
 }
