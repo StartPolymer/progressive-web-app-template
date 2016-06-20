@@ -194,10 +194,12 @@ components (and will have bundles created in the fallback `bundled` build).
 
 ## Resources
 
+- [Progressive Web App Dev Summit 2016](https://events.withgoogle.com/progressive-web-app-dev-summit/)
 - [Getting Started with Progressive Web Apps](https://developers.google.com/web/updates/2015/12/getting-started-pwa)
 - [Your First Progressive Web App](https://developers.google.com/web/fundamentals/getting-started/your-first-progressive-web-app/)
 - [StartPolymer YouTube Playlists](https://www.youtube.com/channel/UCXZPqn_e1Oa7_XP7Kp1eRBw/playlists)
-- [Google Codelabs](https://codelabs.developers.google.com/?cat=Web)
+- [PWA Dev Summit 2016 Codelabs](https://codelabs.developers.google.com/pwa-dev-summit)
+- [Web Codelabs](https://codelabs.developers.google.com/?cat=Web)
 - [Udacity Courses](https://www.udacity.com/courses/web-development)
 - [Google’s Polymer Project with Rob Dodson](http://softwareengineeringdaily.com/2016/06/05/googles-polymer-project-rob-dodson/)
 
