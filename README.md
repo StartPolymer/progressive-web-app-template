@@ -200,7 +200,7 @@ components (and will have bundles created in the fallback `bundled` build).
 - [StartPolymer YouTube Playlists](https://www.youtube.com/channel/UCXZPqn_e1Oa7_XP7Kp1eRBw/playlists)
 - [PWA Dev Summit 2016 Codelabs](https://codelabs.developers.google.com/pwa-dev-summit)
 - [Web Codelabs](https://codelabs.developers.google.com/?cat=Web)
-- [Udacity Courses](https://www.udacity.com/courses/web-development)
+- [Web Development Courses](https://www.udacity.com/courses/web-development)
 - [Google’s Polymer Project with Rob Dodson](http://softwareengineeringdaily.com/2016/06/05/googles-polymer-project-rob-dodson/)
 
 #### GitHub repositories
