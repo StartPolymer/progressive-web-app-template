@@ -56,12 +56,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Container-buttons {
         @apply(--layout-vertical);
+
         padding-bottom: 64px;
       }
 
       .Container-logo {
         @apply(--layout-vertical);
         @apply(--layout-center-center);
+
         height: calc(100vh - 284px);
         min-height: 96px;
       }
@@ -85,35 +87,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 8px 0;
       }
 
-      .SignIn-fab {
-        height: 96px;
-        width: 96px;
-        margin-bottom: 116px;
-        --paper-fab-iron-icon: {
-          height: 48px;
-          width: 48px;
-        };
-      }
-
-      .SignIn-fab--email {
-        --paper-fab-background: var(--google-red-700);
-        --paper-fab-keyboard-focus-background: var(--paper-red-900);
-        color: #fff;
-        margin-bottom: 8px;
-      }
-
-      .SignIn-fab--facebook {
-        --paper-fab-background: #3b5998;
-        --paper-fab-keyboard-focus-background: #2F4779;
-        color: #fff;
-      }
-
-      .SignIn-fab--google {
-        --paper-fab-background: #fff;
-        --paper-fab-keyboard-focus-background: #737373;
-        color: #737373;
-      }
-
       /* Tablet wide */
       @media screen and (min-width: 600px) {
         .Logo {
@@ -130,6 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         .Container-buttons {
           @apply(--layout-horizontal);
+
           padding-bottom: 128px;
         }
 
@@ -153,6 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           @apply(--layout-vertical);
           @apply(--layout-center);
           @apply(--layout-end-justified);
+
           border-radius: 3px;
           margin: 0 calc(var(--gutter) / 2);
           height: 272px;
@@ -170,6 +145,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         .SignIn--google {
           background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .SignIn-fab {
+          height: 96px;
+          width: 96px;
+          margin-bottom: 116px;
+          --paper-fab-iron-icon: {
+            height: 48px;
+            width: 48px;
+          };
+        }
+
+        .SignIn-fab--email {
+          --paper-fab-background: var(--google-red-700);
+          --paper-fab-keyboard-focus-background: var(--paper-red-900);
+          color: #fff;
+          margin-bottom: 8px;
+        }
+
+        .SignIn-fab--facebook {
+          --paper-fab-background: #3b5998;
+          --paper-fab-keyboard-focus-background: #2F4779;
+          color: #fff;
+        }
+
+        .SignIn-fab--google {
+          --paper-fab-background: #fff;
+          --paper-fab-keyboard-focus-background: #737373;
+          color: #737373;
         }
       }
 
