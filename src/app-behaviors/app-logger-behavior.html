@@ -1,0 +1,62 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<script>
+
+  AppBehaviors.AppLoggerBehavior = {
+
+    // Overriden from Polymer.Base
+    _log: function() {
+      if (window.DEBUG_MODE) {
+        var args = Array.prototype.slice.call(arguments, 0);
+        this._logger('log', args);
+      }
+    },
+
+    _warn: function() {
+      if (window.DEBUG_MODE) {
+        var args = Array.prototype.slice.call(arguments, 0);
+        this._logger('warn', args);
+      }
+    },
+
+    _error: function() {
+      if (window.DEBUG_MODE) {
+        var args = Array.prototype.slice.call(arguments, 0);
+        this._logger('error', args);
+      }
+    },
+
+    // Detect if Google Analytics is loaded
+    _checkGa: function() {
+      if (typeof ga !== 'function') {
+        setTimeout(function() {
+          this._checkGa();
+        }, 500);
+      }
+    },
+
+    // Send error to Google Analytics
+    _trackError: function() {
+      var args = Array.prototype.slice.call(arguments, 0);
+      if (window.DEBUG_MODE) {
+        this._logger('error', args);
+      }
+      if (window.GA_ENABLED) {
+        this._checkGa();
+        ga('send', 'event', 'error', args.toString());
+      }
+    }
+
+  }
+
+</script>
