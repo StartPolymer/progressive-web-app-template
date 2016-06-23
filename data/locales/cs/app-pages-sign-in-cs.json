@@ -1,8 +1,6 @@
 {
   "cs": {
     "email": "E-mail",
-    "email-doesnt-match": "E-mailová adresa neodpovídá žádnému existujícímu účtu.",
-    "email-password-dont-match": "Zadaný e-mail a heslo se neshodují.",
     "enter-your-email": "Zadejte svůj e-mail",
     "forgot-password": "Zapomenuté heslo",
     "for-convenience-keep-checked": "Bude pro vás pohodlnější, když toto pole necháte zaškrtnuté. Pokud zařízení s někým sdílíte, doporučujeme provést další opatření.",

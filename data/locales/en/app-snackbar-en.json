@@ -1,0 +1,14 @@
+{
+  "en": {
+    "caching-complete": "Caching complete! Future visits will work offline.",
+    "email-doesnt-match": "That email address doesn't match an existing account.",
+    "email-password-dont-match": "The email and password you entered don't match.",
+    "more-info": "More info",
+    "new-version-app": "A new version of this app is available.",
+    "ok": "Ok",
+    "refresh": "Refresh",
+    "you-are-offline": "You are offline. Changes will be saved for later.",
+    "you-are-online": "You are online.",
+    "browser-out-of-date": "Your browser is out of date."
+  }
+}

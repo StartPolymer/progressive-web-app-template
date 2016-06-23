@@ -1,8 +1,6 @@
 {
   "en": {
     "email": "Email",
-    "email-doesnt-match": "That email address doesn't match an existing account.",
-    "email-password-dont-match": "The email and password you entered don't match.",
     "enter-your-email": "Enter your email",
     "forgot-password": "Forgot password",
     "for-convenience-keep-checked": "For your convenience, keep this checked. On shared devices, additional precautions are recommended.",

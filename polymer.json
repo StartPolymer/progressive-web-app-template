@@ -11,7 +11,9 @@
     "src/app-pages/app-pages-sign-in/app-page-sign-in/app-page-sign-in.html",
     "src/app-pages/app-pages-sign-in/app-page-sign-in-with-email/app-page-sign-in-with-email.html",
     "src/app-pages/app-pages-sign-in/app-pages-sign-in.html",
+    "src/app-service-worker.html",
     "src/app-shell/app-shell-drawer.html",
-    "src/app-shell/app-shell-lazy-resources.html"
+    "src/app-shell/app-shell-lazy-resources.html",
+    "src/app-snackbar.html"
   ]
 }

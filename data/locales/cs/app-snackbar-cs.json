@@ -1,0 +1,14 @@
+{
+  "cs": {
+    "caching-complete": "Uloženo do paměti! Další návštěvy budou fungovat v režimu offline.",
+    "email-doesnt-match": "E-mailová adresa neodpovídá žádnému existujícímu účtu.",
+    "email-password-dont-match": "Zadaný e-mail a heslo se neshodují.",
+    "more-info": "Více informací",
+    "new-version-app": "Je k dispozici nová verze aplikace.",
+    "ok": "Ok",
+    "refresh": "Obnovit",
+    "you-are-offline": "Jste v režimu offline. Provedené změny budou uloženy později.",
+    "you-are-online": "Jste v režimu online.",
+    "browser-out-of-date": "Váš prohlížeč je zastaralý."
+  }
+}

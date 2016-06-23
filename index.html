@@ -18,9 +18,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <title>Progressive Web App</title>
 
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
   <link rel="dns-prefetch" href="https://apis.google.com">
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link rel="shortcut icon" sizes="32x32" href="images/app-icon-32.png">
@@ -40,23 +41,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // Global constants
     window.APP_NAME = 'Progressive Web App';
     window.BASE_URL = '/';
-    window.ENV = 'dev'; // or 'prod'
     window.COOKIE_PREFIX = '/pwa';
+    window.ENV = 'dev'; // or 'prod'
+    window.DEBUG_MODE = window.ENV !== 'prod';
+    window.GA_ENABLED = true; // Google Analytics
 
     // Setup Polymer options
     // Use Polymer's lazy registration feature to speed up initial boot.
     window.Polymer = window.Polymer || {lazyRegister: true, dom: 'shadow'};
 
-    // Initializes the analytics.js command queue.
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    if (window.GA_ENABLED) {
+      // Initializes the analytics.js command queue.
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 
-    // Creates the tracker.
-    ga('create', {
-      trackingId: window.ENV === 'prod' ? 'UA-XXXX-Y' : 'UA-XXXX-Y',
-      cookieDomain: 'auto',
-      cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/pwa' : null,
-      siteSpeedSampleRate: 10 // 10% of users.
-    });
+      // Creates the tracker.
+      ga('create', {
+        trackingId: window.ENV === 'prod' ? 'UA-XXXX-Y' : 'UA-XXXX-Y',
+        cookieDomain: 'auto',
+        cookiePath: window.ENV !== 'dev' ? window.COOKIE_PREFIX || '/pwa' : null,
+        siteSpeedSampleRate: 10 // 10% of users.
+      });
+    }
 
     // Setup error tracking before anything else runs.
     window.onerror = function(message, file, lineNumber, columnNumber, error) {
@@ -66,7 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (error !== undefined) {
           message = error.stack;
         }
-        ga('send', 'event', 'error', file + ':' + lineNumber, message);
+        window.GA_ENABLED && ga('send', 'event', 'error', file + ':' + lineNumber, message);
       } catch (e) {
         // no-op
       }
@@ -127,8 +132,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         window.location = 'https://browser-update.org/update.html';
       };
       // Sends a pageview here because this code will run before IOWA.Analytics is initialized.
-      ga('send', 'pageview');
-      ga('send', 'event', 'browser', 'unsupported-polymer', navigator.userAgent, {
+      window.GA_ENABLED && ga('send', 'pageview');
+      window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-polymer', navigator.userAgent, {
         hitCallback: setTimeout(redirectToUpgradePage, 3000)
       });
       // Adds a timeout to redirect in the event that analytics.js fails to
@@ -157,8 +162,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //script.async = true;
       script.src = 'https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,intl';
       document.head.appendChild(script);
-      ga('send', 'event', 'browser', 'unsupported-es6-intl', navigator.userAgent);
-      console.log('Your browser is out-of-date. Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
+      window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-es6-intl', navigator.userAgent);
+      window.DEBUG_MODE && console.log('Your browser is out-of-date. Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
     }
 
     // Adds User Timing marks for relevant perf events.
@@ -341,25 +346,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       script.src = 'bower_components/webcomponentsjs/webcomponents-lite.min.js';
       script.onload = onload;
       document.head.appendChild(script);
-      ga('send', 'event', 'browser', 'unsupported-web-components', navigator.userAgent);
-      console && console.info('Web Components aren\'t supported! Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
+      window.GA_ENABLED && ga('send', 'event', 'browser', 'unsupported-web-components', navigator.userAgent);
+      window.DEBUG_MODE && console.log('Web Components aren\'t supported! Please download one of these up-to-date, free and excellent browsers: Chrome, Chromium, Opera, Vivaldi');
     } else {
       onload();
     }
 
-    // Load pre-caching - register service worker if supported.
-    if ('serviceWorker' in navigator) {
-      // The load event is fired when a resource and its dependent resources have finished loading.
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/service-worker.js');
-      });
-    }
-
-    console && console.info('%cWelcome to StartPolymer Progressive Web App Template!\n' +
-                            '%cStarting point for building Progressive Web Apps based on Polymer & Material Design with motto #UseThePlatform.',
-                            'font-size: 1.5em; color: #3F51B5;', 'color: #F50057; font-size: 1em;');
+    window.DEBUG_MODE && console.log('%cWelcome to StartPolymer Progressive Web App Template!\n' +
+                                     '%cStarting point for building Progressive Web Apps based on Polymer & Material Design with motto #UseThePlatform.',
+                                     'font-size: 1.5em; color: #3F51B5;', 'color: #F50057; font-size: 1em;');
 
   })();
+
   </script>
+
 </body>
 </html>

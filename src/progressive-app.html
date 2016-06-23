@@ -61,9 +61,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-scrollpos-control selected="[[page]]"></app-scrollpos-control>
 
-    <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}" app="{{app}}" page=[[page]] route={{_route}}>
-      <app-pages class="Pages" id="pages" app="{{app}}" page=[[page]] route={{_route}}></app-pages>
+    <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}" app="{{app}}" page="[[page]]" route="{{_route}}">
+      <app-pages class="Pages" id="pages" app="{{app}}" page="[[page]]" route="{{_route}}"></app-pages>
     </app-shell>
+
+    <app-snackbar id="snackbar" app="[[app]]"></app-snackbar>
+
+    <app-service-worker></app-service-worker>
 
   </template>
 
@@ -103,7 +107,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'announce': '_onAnnounce',
-        'dom-change': '_onDomChange'
+        'app-shell-loaded': '_onAppShellLoaded',
+        'dom-change': '_onDomChange',
+        'notify': '_onNotify'
       },
 
       observers: [
@@ -125,7 +131,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       attached: function() {
-        this._setStyles();
+        this.async(function() {
+          this._setStyles();
+        });
       },
 
       _computeShellBackgroundClasses: function(page) {
@@ -149,16 +157,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var oldOffline = this.app.isOffline;
         this.set('app.isOffline', !navigator.onLine);
 
-        // Show the snackbar if the user is offline when starting a new session
+        // Show the app-snackbar if the user is offline when starting a new session
         // or if the network status changed.
         if (this.app.isOffline || (!this.app.isOffline && oldOffline === true)) {
-          if (!this._networkSnackbar) {
-            this._networkSnackbar = document.createElement('shop-snackbar');
-            Polymer.dom(this.root).appendChild(this._networkSnackbar);
-          }
-          Polymer.dom(this._networkSnackbar).innerHTML = this.app.isOffline ?
-              'You are offline' : 'You are online';
-          //this._networkSnackbar.open();
+          this.fire('notify', this.app.isOffline ? 'you-are-offline' : 'you-are-online');
         }
       },
 
@@ -175,6 +177,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }, 100);
       },
 
+      _onAppShellLoaded: function() {
+        this.importHref(this.resolveUrl('app-service-worker.html'), function() {
+          this._isAuthLazyLoadComplete = true;
+        });
+      },
+
       // This is for performance logging only.
       _onDomChange: function(e) {
         if (window.performance && performance.mark && !this.__loggedDomChange) {
@@ -183,6 +191,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.__loggedDomChange = true;
             performance.mark(target.domHost.is + '.domChange');
           }
+        }
+      },
+
+      _onNotify: function(event) {
+        if (Polymer.isInstance(this.$.snackbar)) {
+          this.$.snackbar.show(event.detail);
+        } else {
+          this.importHref(this.resolveUrl('app-snackbar.html'), function() {
+            this.$.snackbar.show(event.detail);
+          });
         }
       },
 
@@ -216,9 +234,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.customStyle['--gutter'] = '24px';
           this.customStyle['--screen-edge-margin'] = '24px';
         }
-        this.async(function() {
-          this.updateStyles();
-        });
+
+        this.updateStyles();
       }
 
     });

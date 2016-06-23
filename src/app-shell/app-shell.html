@@ -368,6 +368,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this._isDrawerLazyLoadComplete = true;
           });
         }
+
+        this.fire('app-shell-loaded');
       },
 
       _isPage: function(pageName, selectedPage) {

@@ -1,0 +1,197 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+Material Design Snackbar
+https://material.google.com/components/snackbars-toasts.html
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="app-snackbar">
+
+  <template>
+
+    <style>
+
+      [hidden] {
+        display: none !important;
+      }
+
+      .Snackbar {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        @apply(--layout-center);
+
+        margin: calc(var(--gutter) / 2) 0 0 0;
+        padding: 14px 24px;
+        width: 100%;
+      }
+
+      .Snackbar.error {
+        @apply(--button-text-shadow);
+
+        background-color: var(--paper-red-800);
+        color: #fff;
+      }
+
+      .Snackbar-button {
+        @apply(--paper-font-common-nowrap);
+
+        color: var(--light-accent-color);
+        font-size: var(--button-font-size);
+        font-weight: 500;
+        height: var(--touch-target-size);
+        letter-spacing: 0.018em;
+        margin: 0 0 0 24px;
+        min-width: var(--touch-target-size);
+        padding: calc((var(--touch-target-size) - var(--line-height)) / 2) 0;
+      }
+
+      .Snackbar-message {
+        display: inline-block;
+        min-height: 24px;
+      }
+
+      /* Tablet wide */
+      @media screen and (min-width: 600px) {
+        .Snackbar {
+          margin: calc(var(--gutter) / 2) var(--screen-edge-margin) var(--gutter) var(--screen-edge-margin);
+          width: auto;
+        }
+
+        .Snackbar-button {
+          margin: 0 0 0 48px;
+        }
+      }
+
+      /* Laptop wide */
+      @media screen and (min-width: 960px) {
+        .Snackbar {
+          padding: 0 var(--gutter);
+        }
+      }
+
+    </style>
+
+    <paper-toast class$="Snackbar {{_type}}" id="snackbar">
+      <div class="Snackbar-message">{{_message}}</div>
+      <paper-button class="Snackbar-button" id="button"
+        on-tap="_onButtonTap"
+        hidden$="{{!_buttonText}}">
+        {{_buttonText}}
+      </paper-button>
+    </paper-toast>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-snackbar',
+
+      properties: {
+        app: Object,
+
+        _buttonTapHandler: {
+          type: Function,
+          value: null
+        },
+
+        _buttonText: {
+          type: String,
+          value: ''
+        },
+
+        _defaultDuration: {
+          type: Number,
+          value: 10000
+        },
+
+        _isLocalesLoaded: {
+          type: Boolean,
+          value: false
+        },
+
+        _message: {
+          type: String,
+          value: ''
+        },
+
+        _type: {
+          type: String,
+          value: ''
+        }
+      },
+
+      behaviors: [
+        AppBehaviors.AppLocalizeBehavior
+      ],
+
+      listeners: {
+        'app-resources-loaded': '_onLocalesLoaded'
+      },
+
+      show: function(data) {
+        // Close snackbar for reset duration
+        this.$.snackbar.close();
+
+        if (typeof data === 'object') {
+          this._buttonTapHandler = data.buttonTapHandler || null;
+          this._buttonText = data.buttonText || 'ok';
+          this._message = data.message;
+          this._type = data.type || 'info';
+          this.$.snackbar.duration = data.duration || this._defaultDuration;
+        } else if (typeof data === 'string') {
+          this._buttonTapHandler = null;
+          this._buttonText = 'ok';
+          this._message = data;
+          this._type = 'info';
+          this.$.snackbar.duration = this._defaultDuration;
+        }
+
+        if (this._isLocalesLoaded) {
+          this._showSnackbar();
+        } else {
+          this.loadLocales(this.is);
+        }
+      },
+
+      _onButtonTap: function() {
+        if (typeof this._buttonTapHandler === 'function') {
+          this._buttonTapHandler();
+        }
+
+        this.$.snackbar.close();
+      },
+
+      _onLocalesLoaded: function(event) {
+        event.stopPropagation();
+        this._isLocalesLoaded = true;
+        this._showSnackbar();
+      },
+
+      _showSnackbar: function() {
+        if (this._buttonText) {
+          this._buttonText = this.localize(this._buttonText);
+        }
+
+        this._message = this.localize(this._message);
+        this.$.snackbar.open();
+      }
+
+    });
+
+  </script>
+
+</dom-module>
