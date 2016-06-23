@@ -121,6 +121,23 @@ See latest build from master branch at https://pwa-demo.appspot.com
 
 Choose from menu `Progressive Web App Template`
 
+## Updating from previous version
+
+If you've previously downloaded a copy of the full PWA Template and would like to update to the latest version, here's a git workflow for doing so:
+
+```sh
+git init
+git checkout -b master
+git add .
+git commit -m 'Check-in 1.0.1'
+git remote add upstream https://github.com/StartPolymer/progressive-web-app-template.git
+git fetch upstream
+git merge upstream/master # OR git merge upstream/lite
+# resolve the merge conflicts in your editor
+git add . -u
+git commit -m 'Updated to 1.0.2'
+```
+
 ## Start the development server
 
 This command serves the app at `http://localhost:8080` and provides basic URL
