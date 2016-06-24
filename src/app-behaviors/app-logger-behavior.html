@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // Detect if Google Analytics is loaded
     _checkGa: function() {
       if (typeof ga !== 'function') {
-        setTimeout(function() {
+        this.async(function() {
           this._checkGa();
         }, 500);
       }
