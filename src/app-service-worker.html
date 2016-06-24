@@ -81,21 +81,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _checkAppNewVersion: function() {
         // Check to see if the service worker controlling the page at initial load
         // has become redundant, since this implies there's a new service worker with fresh content.
-        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+        if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.onstatechange = function(event) {
             if (event.target.state === 'redundant') {
-              // Define a handler that will be used for the next app-snackbar button tap, at which point it
-              // be automatically removed.
-              var buttonTapHandler = function() {
-                window.location.reload();
-              };
-
               this.fire('notify', {
                 message: 'new-version-app',
                 buttonText: 'refresh',
-                buttonTapHandler: buttonTapHandler,
+                buttonTapHandler: function() { // Handler for app-snackbar _onButtonTap
+                  window.location.reload();
+                },
                 duration: 0 // Duration 0 indications shows the app-snackbar indefinitely.
               });
+              this._log('The service worker is in redundant state.');
             }
           };
         }
@@ -108,20 +105,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this._log('Service worker already installed.');
           }
           registration.onupdatefound = function() {
+            this._log('A new Service Worker version has been found...');
             var installingWorker = registration.installing;
             installingWorker.onstatechange = function() {
               switch (installingWorker.state) {
                 case 'installed':
                   if (navigator.serviceWorker.controller) {
+                    this.fire('notify', {
+                      message: 'new-version-app',
+                      buttonText: 'refresh',
+                      buttonTapHandler: function() { // Handler for app-snackbar _onButtonTap
+                        window.location.reload();
+                      },
+                      duration: 0 // Duration 0 indications shows the app-snackbar indefinitely.
+                    });
                     this._log('The service worker was updated.');
                   } else {
-                    this._log('A new service worker was installed.');
                     this.fire('notify', 'caching-complete');
+                    this._log('A new service worker was installed.');
                   }
                 break;
                 case 'redundant':
                   this._trackError('The installing service worker became redundant.');
                 break;
+                default:
+                  this._log("New Service Worker state: ", installingWorker.state);
               }
             }.bind(this);
           }.bind(this);
