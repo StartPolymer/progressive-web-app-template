@@ -151,7 +151,7 @@ https://material.google.com/components/snackbars-toasts.html
           this._buttonText = data.buttonText || 'ok';
           this._message = data.message;
           this._type = data.type || 'info';
-          this.$.snackbar.duration = data.duration || this._defaultDuration;
+          this.$.snackbar.duration = data.duration >= 0 ? data.duration : this._defaultDuration;
         } else if (typeof data === 'string') {
           this._buttonTapHandler = null;
           this._buttonText = 'ok';
