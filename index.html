@@ -18,12 +18,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <title>Progressive Web App</title>
 
-
-  <link rel="dns-prefetch" href="https://apis.google.com">
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link rel="shortcut icon" sizes="32x32" href="images/app-icon-32.png">
 
   <meta name="theme-color" content="#3f51b5"> <!-- Indigo 500 -->
@@ -183,10 +177,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <link rel="import" href="src/progressive-app.html">
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin-ext" rel="stylesheet">
-
   <!-- Critical pages styles can go here -->
   <style>
+    /* Google Fonts from url https://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin-ext */
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Roboto'), local('Roboto-Regular'),
+           url(fonts/roboto/v15/latin-ext/roboto-400-fIKu7GwZTy_12XzG_jt8eA.woff2) format('woff2'),
+           url(fonts/roboto/v15/latin-ext/roboto-400-Xyjz-jNkfiYuJf8UC3Lizw.woff) format('woff');
+    }
+
+    @font-face {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 500;
+      src: local('Roboto Medium'), local('Roboto-Medium'),
+           url(fonts/roboto/v15/latin-ext/roboto-500-oOeFwZNlrTefzLYmlVV1UFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'),
+           url(fonts/roboto/v15/latin-ext/roboto-500-oOeFwZNlrTefzLYmlVV1UD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+    }
 
     body {
       font-family: 'Roboto', 'Noto', 'Helvetica', 'Arial', sans-serif;
