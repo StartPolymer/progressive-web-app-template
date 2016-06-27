@@ -13,7 +13,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../app-behaviors/app-auth-behavior.html">
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 
@@ -85,8 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         app: Object,
 
-        route: Object,
-
         _isLocalesLoaded: {
           type: Boolean,
           value: false
@@ -94,7 +91,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       behaviors: [
-        AppBehaviors.AppAuthBehavior,
         AppBehaviors.AppLocalizeBehavior
       ],
 
@@ -118,8 +114,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.loadLocales(this.is);
           }
           this.$.passwordInput.focus();
-          this.$.passwordInput.value = '';
+        } else {
+          this.$.emailInput.value = '';
         }
+        // Always clear password input
+        this.$.passwordInput.value = '';
       },
 
       _isId: function(id) {
@@ -153,11 +152,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return false;
         }
 
-        if (this.createUserWithEmailAndPassword(this.$.emailInput.value, this.$.passwordInput.value)) {
-          this.set('route.path', this.app.baseUrl + 'dashboard');
-          this.$.emailInput.value = '';
-          this.$.passwordInput.value = '';
-        }
+        this.fire('app-auth-on-button-tap', {
+          button: 'signUpNext',
+          email: this.$.emailInput.value,
+          password: this.$.passwordInput.value
+        });
       },
 
       _onPasswordInputKeyDown: function(event) {

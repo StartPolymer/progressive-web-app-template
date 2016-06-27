@@ -1,0 +1,78 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/google-signin/google-signin-aware.html">
+
+<dom-module id="app-auth-rest-api">
+
+  <template>
+
+    <google-signin-aware id="googleSignIn"
+      app-package-name="{{appPackageName}}"
+      client-id="{{clientId}}"
+      cookie-policy="{{cookiePolicy}}"
+      request-visible-actions="{{requestVisibleActions}}"
+      hosted-domain="{{hostedDomain}}"
+      offline="{{offline}}"
+      offline-always-prompt="{{offlineAlwaysPrompt}}"
+      scopes="{{scopes}}"
+      openid-prompt="{{openidPrompt}}"
+      signed-in="{{signedIn}}"
+      is-authorized="{{isAuthorized}}"
+      need-additional-auth="{{needAdditionalAuth}}"
+      has-plus-scopes="{{hasPlusScopes}}"></google-signin-aware>
+
+  </template>
+
+  <script>
+
+    function initFacebook() {
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: window.FACEBOOK_APP_ID,
+          cookie: true,
+          xfbml: false,
+          version: 'v2.5'
+        });
+      };
+      if (typeof(FB) === 'undefined') {
+        (function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s);
+          js.id = id;
+          js.src = '//connect.facebook.net/en_US/sdk.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      }
+    }
+
+    Polymer({
+
+      is: 'app-auth-rest-api',
+
+      properties: {
+        _facebookAppId: {
+          type: String,
+          value: ''
+        },
+
+        _googleClientId: {
+          type: String,
+          value: ''
+        }
+      }
+
+    });
+
+  </script>
+
+</dom-module>

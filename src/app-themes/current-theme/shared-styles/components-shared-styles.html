@@ -62,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   .DialogButton {
     background-color: var(--tertiary-background-color);
     border-radius: 2px;
-    color: var(--accent-color);
+    color: var(--accent-link-color);
     font-size: var(--button-font-size);
     font-weight: 500;
     height: var(--button-height);
@@ -82,6 +82,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     height: var(--touch-target-size);
     outline: none;
     padding: calc((var(--touch-target-size) - var(--button-height)) / 2) 0;
+    text-decoration: none;
   }
 
   .Checkbox {
@@ -99,9 +100,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --paper-input-container-input: {
       font-size: var(--input-font-size);
 
-      /* Remove forced yellow input background in Chrome
+      /* Remove autocomplete highlight color in Chrome
          http://stackoverflow.com/a/36140769 */
-      transition: background-color 0s ease-in-out 50000s, color 0s ease-in-out 5000s;
+      -webkit-transition: background-color 0s ease-in-out 50000s, color 0s ease-in-out 5000s;
     };
 
     --paper-input-container-label: {

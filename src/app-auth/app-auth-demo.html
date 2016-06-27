@@ -1,0 +1,68 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="app-auth-demo">
+
+  <script>
+
+    Polymer({
+
+      is: 'app-auth-demo',
+
+      // Create a password-based account
+      createUserWithEmailAndPassword: function(email, password) {
+        this._log('Auth Demo: Create a password-based account with email:', email, 'and password:', password);
+
+        return true;
+      },
+
+      // Check if email already exists in database.
+      checkEmail: function(email) {
+        if (email === 'sign@up.pwa') {
+          this._log('Auth Demo: Email', email, 'doesn\'t exists in database.');
+
+          return false;
+        } else {
+          this._log('Auth Demo: Email', email, 'already exists in database.');
+
+          return true;
+        }
+      },
+
+      // Send a password reset email
+      sendPasswordResetEmail: function(email) {
+        this._log('Auth Demo: Send a password reset email to address', email);
+
+        return true;
+      },
+
+      // Sign in a user with an email address and password
+      signInWithEmailAndPassword: function(email, password, isStaySignedInChecked) {
+        this._log('Auth Demo: Sign in a user with email address:',
+                  email, 'and password:', password, '( isStaySignedInChecked:', isStaySignedInChecked, ')');
+
+        return true;
+      },
+
+      // Authenticates a client using a popup-based OAuth flow.
+      signInWithPopup: function(provider) {
+        this._log('Auth Demo: Authenticate using', provider, 'provider.');
+        alert('Auth Demo: Authenticate using ' + provider + ' provider.');
+
+        return true;
+      }
+
+    });
+
+  </script>
+
+</dom-module>

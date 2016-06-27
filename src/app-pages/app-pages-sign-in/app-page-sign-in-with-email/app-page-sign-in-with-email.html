@@ -14,7 +14,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../../app-behaviors/app-auth-behavior.html">
 <link rel="import" href="../../../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="../../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 
@@ -89,8 +88,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         app: Object,
 
-        route: Object,
-
         _isLocalesLoaded: {
           type: Boolean,
           value: false
@@ -98,7 +95,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       behaviors: [
-        AppBehaviors.AppAuthBehavior,
         AppBehaviors.AppLocalizeBehavior
       ],
 
@@ -113,9 +109,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           } else {
             this.loadLocales('app-pages-sign-in');
           }
-          this.$.passwordInput.value = '';
           this.$.passwordInput.focus();
         }
+        // Always clear password input
+        this.$.passwordInput.value = '';
       },
 
       _onEmailInputKeyDown: function(event) {
@@ -145,12 +142,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return false;
         }
 
-        if (this.signInWithEmailAndPassword(this.$.emailInput.value, this.$.passwordInput.value,
-                                            this.$.checkbox.checked)) {
-          this.set('route.path', this.app.baseUrl + 'dashboard');
-          this.$.emailInput.value = '';
-          this.$.passwordInput.value = '';
-        }
+        this.fire('app-auth-on-button-tap', {
+          button: 'signInWithEmailNext',
+          email: this.$.emailInput.value,
+          password: this.$.passwordInput.value,
+          isStaySignedInChecked: this.$.checkbox.checked
+        });
       },
 
       _onPasswordInputKeyDown: function(event) {

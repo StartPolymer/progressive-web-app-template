@@ -1,0 +1,110 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="app-auth-demo.html">
+
+<dom-module id="app-auth">
+
+  <template>
+
+    <app-auth-demo id="auth"></app-auth-demo>
+
+    <app-dialog-forgot-password id="forgotPasswordDialog" app="[[app]]"></app-dialog-forgot-password>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-auth',
+
+      properties: {
+        app: Object,
+
+        route: Object
+      },
+
+      onButtonTap: function(data) {
+        switch (data.button) {
+          case 'enterYourEmailNext':
+            if (this.$.auth.checkEmail(data.email)) {
+              this.set('app.userAuthEmail', data.email);
+              this.set('route.path', this.app.baseUrl + 'sign-in/sign-in-with-email');
+            } else {
+              this.set('route.path', this.app.baseUrl + 'sign-in/create-account');
+            }
+          break;
+
+          case 'forgotPasswordNext':
+            if (this.$.auth.sendPasswordResetEmail(data.email)) {
+              this.$.forgotPasswordDialog.email = data.email;
+              this._openForgotPasswordDialog();
+            }
+          break;
+
+          case 'signInEmail':
+            if (this.app.isLaptopWide) {
+              this.set('app.userAuthEmail', data.email);
+
+              if (this.$.auth.checkEmail(data.email)) {
+                this.set('route.path', this.app.baseUrl + 'sign-in/sign-in-with-email');
+              } else {
+                this.set('route.path', this.app.baseUrl + 'sign-in/create-account');
+              }
+            } else {
+              this.set('route.path', this.app.baseUrl + 'sign-in/enter-your-email');
+            }
+          break;
+
+          case 'signInFacebook':
+            if (this.$.auth.signInWithPopup('facebook')) {
+              this.set('route.path', this.app.baseUrl + 'dashboard');
+            }
+          break;
+
+          case 'signInGoogle':
+            if (this.$.auth.signInWithPopup('google')) {
+              this.set('route.path', this.app.baseUrl + 'dashboard');
+            }
+          break;
+
+          case 'signInWithEmailNext':
+            if (this.$.auth.signInWithEmailAndPassword(data.email, data.password, data.isStaySignedInChecked)) {
+              this.set('route.path', this.app.baseUrl + 'dashboard');
+            }
+          break;
+
+          case 'signUpNext':
+            if (this.$.auth.createUserWithEmailAndPassword(data.email, data.password)) {
+              this.set('route.path', this.app.baseUrl + 'dashboard');
+            }
+          break;
+        }
+      },
+
+      _openForgotPasswordDialog: function() {
+        if (Polymer.isInstance(this.$.forgotPasswordDialog)) {
+          this.$.forgotPasswordDialog.open();
+        } else {
+          // Async load dialog import on demand.
+          var elementPath = '../app-pages/app-pages-sign-in/app-page-forgot-password/app-dialog-forgot-password.html';
+          this.importHref(this.resolveUrl(elementPath), function() {
+            this.$.forgotPasswordDialog.open();
+          }, null, true);
+        }
+      }
+
+    });
+
+  </script>
+
+</dom-module>

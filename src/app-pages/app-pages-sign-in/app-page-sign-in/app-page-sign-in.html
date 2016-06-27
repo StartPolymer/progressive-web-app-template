@@ -13,7 +13,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../../app-behaviors/app-auth-behavior.html">
 <link rel="import" href="../../../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="../../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
 <link rel="import" href="app-icons-sign-in.html">
@@ -276,8 +275,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         app: Object,
 
-        route: Object,
-
         _isLocalesLoaded: {
           type: Boolean,
           value: false
@@ -285,7 +282,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       behaviors: [
-        AppBehaviors.AppAuthBehavior,
         AppBehaviors.AppLocalizeBehavior
       ],
 
@@ -300,6 +296,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           } else {
             this.loadLocales('app-pages-sign-in');
           }
+          this.$.emailInput.value = '';
+          this.$.emailInput.focus();
         }
       },
 
@@ -315,17 +313,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return false;
         }
 
-        if (this.app.isLaptopWide) {
-          if (this.checkEmail(this.$.emailInput.value)) {
-            this.set('route.path', this.app.baseUrl + 'sign-in/sign-in-with-email');
-          } else {
-            this.set('route.path', this.app.baseUrl + 'sign-in/create-account');
-          }
-          this.set('app.userAuthEmail', this.$.emailInput.value);
-          this.$.emailInput.value = '';
-        } else {
-          this.set('route.path', this.app.baseUrl + 'sign-in/enter-your-email');
-        }
+        this.fire('app-auth-on-button-tap', {
+          button: 'signInEmail',
+          email: this.$.emailInput.value
+        });
       },
 
       _onEmailInputKeyDown: function(event) {
@@ -339,15 +330,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _onFacebookButtonTap: function() {
-        if (this.signInWithPopup('facebook')) {
-          this.set('route.path', this.app.baseUrl + 'dashboard');
-        }
+        this.fire('app-auth-on-button-tap', {
+          button: 'signInFacebook'
+        });
       },
 
       _onGoogleButtonTap: function() {
-        if (this.signInWithPopup('google')) {
-          this.set('route.path', this.app.baseUrl + 'dashboard');
-        }
+        this.fire('app-auth-on-button-tap', {
+          button: 'signInGoogle'
+        });
       }
 
     });

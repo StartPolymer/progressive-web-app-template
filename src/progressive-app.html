@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="app-auth/app-auth.html">
 <link rel="import" href="app-init.html">
 <link rel="import" href="app-pages/app-pages.html">
 <link rel="import" href="app-shell/app-shell.html">
@@ -66,6 +67,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}" app="{{app}}" page="[[page]]" route="{{_route}}">
       <app-pages class="Pages" id="pages" app="{{app}}" page="[[page]]" route="{{_route}}"></app-pages>
     </app-shell>
+
+    <app-auth id="auth" app="{{app}}" route="{{_route}}"></app-auth>
 
     <app-snackbar id="snackbar" app="[[app]]"></app-snackbar>
 
@@ -116,6 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'announce': '_onAnnounce',
+        'app-auth-on-button-tap': '_onAppAuthButtonTap',
         'app-init': '_onAppInit',
         'app-shell-loaded': '_onAppShellLoaded',
         'dom-change': '_onDomChange',
@@ -185,6 +189,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.debounce('_a11yAnnouncer', function() {
           this._a11yLabel = message;
         }, 100);
+      },
+
+      _onAppAuthButtonTap: function(event) {
+        this.$.auth.onButtonTap(event.detail);
       },
 
       _onAppInit: function() {
