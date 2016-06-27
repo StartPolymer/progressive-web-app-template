@@ -228,8 +228,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="Header-title" title>
-          <span hidden$="{{_computeAppNameHidden(app, page)}}">{{app.name}}</span>
-          <span class="Header-titleDash" hidden$="{{_isTitleDashHidden}}">-</span>
+          <span hidden$="{{_computeAppNameHidden(app.isTabletWide, page)}}">{{app.name}}</span>
+          <span class="Header-titleDash" hidden$="{{_computeTitleDashHidden(app.isTabletWide, page)}}">-</span>
           <span hidden$="{{!_pageTitleComputed}}">{{_pageTitleComputed}}</span>
         </div>
 
@@ -257,7 +257,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Drawer is lazy-created. -->
     <!-- Two-way bind `_isDrawerOpened` since app-drawer can update `opened` itself. -->
     <app-shell-drawer opened="{{_isDrawerOpened}}" page=[[page]] app=[[app]]
-                      hidden$="{{!_isDrawerLazyLoadComplete}}"></app-shell-drawer>
+                      hidden$="{{!_isDrawerLoaded}}"></app-shell-drawer>
 
     <!-- Dummy <img> to use for loading the background image for the app-header. -->
     <img id="headerBackground" hidden
@@ -287,7 +287,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: 'menu'
         },
 
-        _isDrawerLazyLoadComplete: {
+        _isDrawerLoaded: {
           type: Boolean,
           value: false
         },
@@ -312,11 +312,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: false
         },
 
-        _isTitleDashHidden: {
-          type: Boolean,
-          value: false
-        },
-
         _pageTitleComputed: {
           type: Function,
           computed: '_computePageTitle(page, app.pageTitle)'
@@ -336,8 +331,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.loadLocales(this.is);
       },
 
-      _computeAppNameHidden: function(app, page) {
-        return page !== 'home' && !app.isTabletWide;
+      _computeAppNameHidden: function(isTabletWide, page) {
+        return page !== 'home' && !isTabletWide;
       },
 
       _computePageTitle: function(page, title) {
@@ -350,6 +345,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                offline || !isLazyLoadComplete;
       },
 
+      _computeTitleDashHidden: function(isTabletWide, page) {
+        return page === 'home' || page !== 'home' && !isTabletWide;
+      },
+
       _ensureLazyLoaded: function() {
         // Load lazy resources after render and set `_isLazyLoadComplete` when done.
         if (!this._isLazyLoadComplete) {
@@ -359,17 +358,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               // Set header effects after lazy loaded scroll effect elements
               this.$.header.setAttribute('effects', 'blend-background parallax-background');
               this.$.header.updateStyles();
+
+              this.fire('app-shell-loaded');
             });
           });
         }
-
-        if (this.page === 'home' && !this._isDrawerLazyLoadComplete) {
-          this.importHref(this.resolveUrl('app-shell-drawer.html'), function() {
-            this._isDrawerLazyLoadComplete = true;
-          });
-        }
-
-        this.fire('app-shell-loaded');
       },
 
       _isPage: function(pageName, selectedPage) {
@@ -388,7 +381,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _onHeaderActionButtonTap: function() {
         if (this.page === 'home') {
-          this._toggleDrawer();
+          if (!this._isDrawerLoaded) {
+            this.importHref(this.resolveUrl('app-shell-drawer.html'), function() {
+              this._isDrawerLoaded = true;
+              this._toggleDrawer();
+            });
+          } else {
+            this._toggleDrawer();
+          }
         } else {
           //window.history.back();
           var url = this.route.path.split('/');
@@ -406,12 +406,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.async(function() {
           this.$.header.classList.add('background-loaded');
           this.$.header.updateStyles();
-        }, 500);
+        }, 700);
         // Remove transition effect after background loaded for blend-background app-scroll-effect
         this.async(function() {
           this.$.header.classList.add('remove-transition');
           this.$.header.updateStyles();
-        }, 1500);
+        }, 1000);
       },
 
       _onLocalesLoaded: function(event) {
@@ -433,8 +433,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // Set icon of headerActionButton
           this._headerActionButtonIcon = page === 'home' ? 'menu' : 'back';
 
-          this._setPageTitleDash();
-
           if (page === 'home' && !this._isHeaderBackgroundLoaded) {
             this.$.headerBackground.src = '/images/bg.jpg';
           }
@@ -447,17 +445,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if (this._isPageSwitched) {
             // Update header styles for dynamic loading background image
             this.$.header.updateStyles();
-          }
-        }
-      },
-
-      _setPageTitleDash: function() {
-        if (this.page === 'home') {
-          this._isTitleDashHidden = true;
-        } else {
-          this._isTitleDashHidden = false;
-          if (!this.app.isTabletWide) {
-            this._isTitleDashHidden = true;
           }
         }
       },

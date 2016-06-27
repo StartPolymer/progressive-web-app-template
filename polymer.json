@@ -2,6 +2,7 @@
   "entrypoint": "index.html",
   "shell": "src/progressive-app.html",
   "fragments": [
+    "src/app-lazy-resources.html",
     "src/app-pages/app-page-404/app-page-404.html",
     "src/app-pages/app-page-contact-us/app-page-contact-us.html",
     "src/app-pages/app-page-home/app-page-home.html",

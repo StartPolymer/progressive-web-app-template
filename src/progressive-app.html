@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="app-init.html">
 <link rel="import" href="app-pages/app-pages.html">
 <link rel="import" href="app-shell/app-shell.html">
 <link rel="import" href="app-themes/current-theme/global-styles/global-styles.html">
@@ -58,6 +59,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-location route="{{_route}}"></app-location>
     <app-route pattern="/:page" route="{{_route}}" data="{{_routeData}}"></app-route>
 
+    <app-init></app-init>
+
     <app-scrollpos-control selected="[[page]]"></app-scrollpos-control>
 
     <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}" app="{{app}}" page="[[page]]" route="{{_route}}">
@@ -65,6 +68,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </app-shell>
 
     <app-snackbar id="snackbar" app="[[app]]"></app-snackbar>
+
+    <app-breakpoints app="{{app}}"></app-breakpoints>
 
     <app-service-worker></app-service-worker>
 
@@ -101,18 +106,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         page: {
           type: String,
           reflectToAttribute: true
+        },
+
+        _isSetCssProperties: {
+          type: Boolean,
+          value: false
         }
       },
 
       listeners: {
         'announce': '_onAnnounce',
+        'app-init': '_onAppInit',
         'app-shell-loaded': '_onAppShellLoaded',
         'dom-change': '_onDomChange',
         'notify': '_onNotify'
       },
 
       observers: [
-        '_routePageChanged(_routeData.page)'
+        '_routePageChanged(_routeData.page)',
+        '_wideChanged(app.isLaptopWide, app.isLargeWide)'
       ],
 
       created: function() {
@@ -122,16 +134,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       ready: function() {
+        // Browsers without native support of Web Components
+        if (!this._isSetCssProperties) {
+          this._setCssProperties(this.app.isLaptopWide, this.app.isLargeWide);
+        }
+
         // Listen for online/offline network status
         Polymer.RenderStatus.afterNextRender(this, function() {
           this.listen(window, 'online', '_notifyNetworkStatus');
           this.listen(window, 'offline', '_notifyNetworkStatus');
-        });
-      },
-
-      attached: function() {
-        this.async(function() {
-          this._setStyles();
         });
       },
 
@@ -176,9 +187,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }, 100);
       },
 
+      _onAppInit: function() {
+        // Chrome with native support of Web Components
+        var isLaptopWide = window.matchMedia('screen and (min-width:960px)').matches;
+        var isLargeWide = window.matchMedia('screen and (min-width:1600px)').matches;
+
+        this._setCssProperties(isLaptopWide, isLargeWide);
+        this._isSetCssProperties = true;
+      },
+
       _onAppShellLoaded: function() {
-        this.importHref(this.resolveUrl('app-service-worker.html'), function() {
-          this._isAuthLazyLoadComplete = true;
+        this.importHref(this.resolveUrl('app-lazy-resources.html'), function() {
+          this.importHref(this.resolveUrl('app-service-worker.html'), function() {
+
+          });
         });
       },
 
@@ -223,18 +245,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       // Set CSS custom properties using shim that Polymer provides
-      // Issue https://github.com/Polymer/polymer/issues/2149
-      _setStyles: function() {
-        if (this.app.isLargeWide) {
+      // Fix issue: CSS variables in Polymer ignore media queries https://github.com/Polymer/polymer/issues/2149
+      // TODO: Resolve double running of _setCssProperties by reload page
+      _setCssProperties: function(isLaptopWide, isLargeWide) {
+        // this._log('_setCssProperties');
+        if (isLargeWide) {
           this.customStyle['--app-drawer-width'] = '296px';
           this.customStyle['--gutter'] = '24px';
           this.customStyle['--screen-edge-margin'] = '40px';
-        } else if (this.app.isLaptopWide) {
+        } else if (isLaptopWide) {
+          this.customStyle['--app-drawer-width'] = '256px';
           this.customStyle['--gutter'] = '24px';
           this.customStyle['--screen-edge-margin'] = '24px';
+        } else {
+          this.customStyle['--gutter'] = '16px';
+          this.customStyle['--screen-edge-margin'] = '16px';
         }
 
-        this.updateStyles();
+        this.async(function() {
+          this.updateStyles();
+        });
+      },
+
+      _wideChanged: function(isLaptopWide, isLargeWide) {
+        this.debounce('_wideChanged', function() {
+          this._setCssProperties(isLaptopWide, isLargeWide);
+        });
       }
 
     });

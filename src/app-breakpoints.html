@@ -1,0 +1,46 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!-- Responsive handlers using Material Design breakpoints
+     http://www.google.com/design/spec/layout/adaptive-ui.html#adaptive-ui-breakpoints -->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+
+<dom-module id="app-breakpoints">
+
+  <template>
+
+    <iron-media-query query="screen and (min-width:600px)"
+                      query-matches="{{app.isTabletWide}}" full></iron-media-query>
+    <iron-media-query query="screen and (min-width:960px)"
+                      query-matches="{{app.isLaptopWide}}" full></iron-media-query>
+    <iron-media-query query="screen and (min-width:1600px)"
+                      query-matches="{{app.isLargeWide}}" full></iron-media-query>
+    <iron-media-query query="print"
+                      query-matches="{{app.isPrintMode}}" full></iron-media-query>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-breakpoints',
+
+      properties: {
+        app: Object
+      }
+
+    });
+
+  </script>
+
+</dom-module>
