@@ -68,45 +68,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.async(function() {
           if (!this._isAlreadyRegistered) {
             this._isAlreadyRegistered = true;
+
             if ('serviceWorker' in navigator) {
               this._registerServiceWorker('../service-worker.js');
-              this._checkAppNewVersion();
             } else {
-              this._error('Service workers are not available in the current browser.');
+              this._error('Service Workers are not available in the current browser.');
             }
           }
         });
       },
 
-      _checkAppNewVersion: function() {
-        // Check to see if the service worker controlling the page at initial load
-        // has become redundant, since this implies there's a new service worker with fresh content.
-        if (navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.onstatechange = function(event) {
-            if (event.target.state === 'redundant') {
-              this.fire('notify', {
-                message: 'new-version-app',
-                buttonText: 'refresh',
-                buttonTapHandler: function() { // Handler for app-snackbar _onButtonTap
-                  window.location.reload();
-                },
-                duration: 0 // Duration 0 indications shows the app-snackbar indefinitely.
-              });
-              this._log('The service worker is in redundant state.');
-            }
-          };
-        }
-      },
-
       _registerServiceWorker: function(serviceWorkerUrl) {
         var options = this.scope ? {scope: this.scope} : null;
+
         navigator.serviceWorker.register(serviceWorkerUrl, options).then(function(registration) {
           if (registration.active) {
-            this._log('Service worker already installed.');
+            this._log('Service Worker already installed.');
           }
+
           registration.onupdatefound = function() {
             this._log('A new Service Worker version has been found...');
             var installingWorker = registration.installing;
+
             installingWorker.onstatechange = function() {
               switch (installingWorker.state) {
                 case 'installed':
@@ -119,25 +102,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       },
                       duration: 0 // Duration 0 indications shows the app-snackbar indefinitely.
                     });
-                    this._log('The service worker was updated.');
+
+                    this._log('The Service Worker was updated. Reload page for the new version.');
                   } else {
                     this.fire('notify', 'caching-complete');
-                    this._log('A new service worker was installed.');
+                    this._log('A new Service Worker was installed.');
                   }
                 break;
+
                 case 'redundant':
-                  this._trackError('The installing service worker became redundant.');
+                  this.fire('notify', {
+                    message: 'new-version-app',
+                    buttonText: 'refresh',
+                    buttonTapHandler: function() { // Handler for app-snackbar _onButtonTap
+                      window.location.reload();
+                    },
+                    duration: 0 // Duration 0 indications shows the app-snackbar indefinitely.
+                  });
+
+                  this._trackError('The installing Service Worker became redundant. Reload page for the new version.');
                 break;
+
                 default:
                   this._log("New Service Worker state: ", installingWorker.state);
               }
             }.bind(this);
           }.bind(this);
         }.bind(this)).catch(function(error) {
-          this._trackError('Service worker registration failed:', error.toString());
+          this._trackError('Service Worker registration failed:', error.toString());
+
           if (error.name === 'NetworkError') {
             var location = serviceWorkerUrl.origin + serviceWorkerUrl.pathname;
-            this._error('A valid service worker script was not found at ' + location);
+            this._error('A valid Service Worker script was not found at ' + location);
           }
         }.bind(this));
       }
