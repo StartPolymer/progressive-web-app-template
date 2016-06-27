@@ -18,6 +18,7 @@ module.exports = {
     '/manifest.json',
     '/bower_components/webcomponentsjs/webcomponents-lite.min.js',
     '/data/locales/**/*.json',
+    '/fonts/**/*.*',
     '/images/**/*.*'
   ],
 
@@ -36,10 +37,10 @@ module.exports = {
     urlPattern: /https?:\/\/((www|ssl)\.)?google-analytics\.com\/analytics.js/,
     handler: 'networkFirst'
   }, {
-    /* Google Fonts */
+    /* Google Fonts
     urlPattern: /https?:\/\/fonts.+/,
     handler: 'cacheFirst'
-  }, {
+  }, { */
     /* Examples */
     urlPattern: /^https:\/\/example\.com\/api/,
     handler: 'networkFirst'
