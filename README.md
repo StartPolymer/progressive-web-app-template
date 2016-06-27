@@ -41,7 +41,7 @@ See latest build from master branch at https://pwa-demo.appspot.com
 
 #### Check out this pages
 
-- [/sign-in](https://pwa-demo.appspot.com/sign-in)
+- [/sign-in](https://pwa-demo.appspot.com/sign-in) - use `sign@up.pwa` or `sign@in.pwa`
 - [/sign-in/sign-in-with-email](https://pwa-demo.appspot.com/sign-in/sign-in-with-email)
 - [/sign-up](https://pwa-demo.appspot.com/sign-up)
 - [/404](https://pwa-demo.appspot.com/404)
@@ -81,10 +81,11 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - [ ] Sign-in Flow using [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api)
 - [ ] Lite version without content using custom branch
 - [ ] Generator for [Polymer CLI](https://github.com/Polymer/polymer-cli)
-- [ ] Generator for [push_manifest.json](https://github.com/GoogleChrome/http2-push-manifest)
-- [ ] Authentication behavior for REST API on [Google App Engine](https://cloud.google.com/appengine/)
-- [ ] Authentication behavior for [Firebase Auth](https://firebase.google.com/docs/auth/)
-- [ ] Authentication behavior for [Auth0](https://auth0.com)
+- [ ] Analyzer for [push_manifest.json](https://github.com/GoogleChrome/http2-push-manifest)
+- [ ] Auth element for REST API on [Google App Engine](https://cloud.google.com/appengine/)
+- [ ] Auth element for [Firebase Auth](https://firebase.google.com/docs/auth/)
+- [ ] Auth element for [Auth0](https://auth0.com)
+- [ ] Static page `update-browser.html` instead of https://browser-update.org/update.html
 - [ ] Responsive images using DPR + [WebP + Service Workers](https://github.com/deanhume/Service-Workers-WebP)
 - [ ] Detect low quality networks
 - [ ] Enabling Push Notifications Flow
