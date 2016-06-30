@@ -6,7 +6,7 @@
     "for-convenience-keep-checked": "For your convenience, keep this checked. On shared devices, additional precautions are recommended.",
     "get-instructions-sent-to-email": "Get instructions sent to this email that explain how to reset your password.",
     "check-email-follow": "Check your email - Follow the instructions sent to {email} to recover your password.",
-    "invalid-email-address": "Invalid email address.",
+    "invalid-email-address": "Invalid email address!",
     "next": "Next",
     "password": "Password",
     "password-must-contain": "The password must contain at least 6 characters.",
