@@ -31,12 +31,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Drawer-content {
         @apply(--layout-vertical);
-        @apply(--layout-justified);
 
         background-color: var(--primary-background-color);
         color: var(--primary-text-color);
-        height: calc(100vh - 128px);
-        overflow: auto;
+        height: 100%;
+        overflow-y: auto;
+        /* Momentum Scrolling on iOS Overflow Elements
+           https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/ */
+        -webkit-overflow-scrolling: touch;
       }
 
       .Drawer-footer {
@@ -52,11 +54,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Drawer-header {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+
         background-color: var(--primary-background-color);
         color: var(--primary-text-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
         height: 128px;
       }
 
@@ -72,11 +74,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Drawer-widget {
         padding: var(--spacing-unit) 0;
-      }
-
-      .Navigation {
-        padding-bottom: 0;
-        padding-top: 0;
       }
 
       .Navigation-icon {
@@ -106,18 +103,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         pointer-events: none;
       }
 
+      .u-spacer {
+        @apply(--layout-flex);
+      }
+
     </style>
 
     <app-drawer class="Drawer" opened="{{opened}}" swipe-open>
-
-      <div class="Drawer-header">
-        <iron-icon class="Drawer-headerLogo" icon="header:rocket"></iron-icon>
-      </div>
-
       <div class="Drawer-content">
 
-        <div class="Drawer-widget">
+        <div>
+          <div class="Drawer-header">
+            <iron-icon class="Drawer-headerLogo" icon="header:rocket"></iron-icon>
+          </div>
+        </div>
 
+        <div class="Drawer-widget">
           <iron-selector class="Navigation" selected="[[page]]" attr-for-selected="name" role="navigation">
 
             <a class="Navigation-link" name="home" href="/">
@@ -136,22 +137,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </a>
 
           </iron-selector>
-
         </div>
 
-        <div class="Drawer-footer">
+        <div class="u-spacer"></div>
 
+        <div class="Drawer-footer">
           <a class="Drawer-link" href="https://github.com/StartPolymer/progressive-web-app-template" target="_blank">
             {{localize('made-with')}}
             <iron-icon class="Drawer-footerIcon" icon="drawer:love"></iron-icon>
             {{localize('by')}}
             StartPolymer
           </a>
-
         </div>
 
       </div>
-
     </app-drawer>
 
   </template>
