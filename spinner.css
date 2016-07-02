@@ -1,0 +1,153 @@
+/*
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+/* Spinner from <paper-spinner-lite> element.
+   https://github.com/PolymerElements/paper-spinner/blob/master/paper-spinner-lite.html */
+
+progressive-app[unresolved] .Spinner {
+  width: 64px;
+  height: 64px;
+  /* The spinner does not have any contents that would have to be
+   * flipped if the direction changes. Always use ltr so that the
+   * style works out correctly in both cases. */
+  direction: ltr;
+  -webkit-animation: container-rotate 1568ms linear infinite; /* --paper-spinner-container-rotation-duration */
+  animation: container-rotate 1568ms linear infinite; /* --paper-spinner-container-rotation-duration */
+}
+
+@-webkit-keyframes container-rotate {
+  to { -webkit-transform: rotate(360deg) }
+}
+
+@keyframes container-rotate {
+  to { transform: rotate(360deg) }
+}
+
+progressive-app[unresolved] .Spinner-layer {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  white-space: nowrap;
+  border-color: #FF4081; /* Pink A200 --paper-spinner-color */
+  -webkit-animation-name: fill-unfill-rotate;
+  -webkit-animation-duration: 5332ms; /* --paper-spinner-full-cycle-duration */
+  -webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+  -webkit-animation-iteration-count: infinite;
+  animation-name: fill-unfill-rotate;
+  animation-duration: 5332ms; /* --paper-spinner-full-cycle-duration */
+  animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+  animation-iteration-count: infinite;
+  opacity: 1;
+}
+
+@-webkit-keyframes fill-unfill-rotate {
+  12.5% { -webkit-transform: rotate(135deg) } /* 0.5 * ARCSIZE */
+  25%   { -webkit-transform: rotate(270deg) } /* 1   * ARCSIZE */
+  37.5% { -webkit-transform: rotate(405deg) } /* 1.5 * ARCSIZE */
+  50%   { -webkit-transform: rotate(540deg) } /* 2   * ARCSIZE */
+  62.5% { -webkit-transform: rotate(675deg) } /* 2.5 * ARCSIZE */
+  75%   { -webkit-transform: rotate(810deg) } /* 3   * ARCSIZE */
+  87.5% { -webkit-transform: rotate(945deg) } /* 3.5 * ARCSIZE */
+  to    { -webkit-transform: rotate(1080deg) } /* 4   * ARCSIZE */
+}
+
+@keyframes fill-unfill-rotate {
+  12.5% { transform: rotate(135deg) } /* 0.5 * ARCSIZE */
+  25%   { transform: rotate(270deg) } /* 1   * ARCSIZE */
+  37.5% { transform: rotate(405deg) } /* 1.5 * ARCSIZE */
+  50%   { transform: rotate(540deg) } /* 2   * ARCSIZE */
+  62.5% { transform: rotate(675deg) } /* 2.5 * ARCSIZE */
+  75%   { transform: rotate(810deg) } /* 3   * ARCSIZE */
+  87.5% { transform: rotate(945deg) } /* 3.5 * ARCSIZE */
+  to    { transform: rotate(1080deg) } /* 4   * ARCSIZE */
+}
+
+progressive-app[unresolved] .Spinner-layer::after {
+  left: 45%;
+  width: 10%;
+  border-top-style: solid;
+}
+
+progressive-app[unresolved] .Spinner-layer::after,
+progressive-app[unresolved] .Spinner-circleClipper::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  border-width: 8px; /* --paper-spinner-stroke-width */
+  border-color: inherit;
+  border-radius: 50%;
+}
+
+progressive-app[unresolved] .Spinner-circleClipper {
+  display: inline-block;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  border-color: inherit;
+}
+
+progressive-app[unresolved] .Spinner-circleClipper::after {
+  bottom: 0;
+  width: 200%;
+  border-style: solid;
+  border-bottom-color: transparent !important;
+  -webkit-animation-duration: 1333ms; /* --paper-spinner-expand-contract-duration */
+  -webkit-animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+  -webkit-animation-iteration-count: infinite;
+  animation-duration: 1333ms; /* --paper-spinner-expand-contract-duration */
+  animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+  animation-iteration-count: infinite;
+}
+
+progressive-app[unresolved] .Spinner-circleClipper--left::after {
+  left: 0;
+  border-right-color: transparent !important;
+  -webkit-transform: rotate(129deg);
+  transform: rotate(129deg);
+  -webkit-animation-name: left-spin;
+  animation-name: left-spin;
+}
+
+progressive-app[unresolved] .Spinner-circleClipper--right::after {
+  left: -100%;
+  border-left-color: transparent !important;
+  -webkit-transform: rotate(-129deg);
+  transform: rotate(-129deg);
+  -webkit-animation-name: right-spin;
+  animation-name: right-spin;
+}
+
+@-webkit-keyframes left-spin {
+  0% { -webkit-transform: rotate(130deg) }
+  50% { -webkit-transform: rotate(-5deg) }
+  to { -webkit-transform: rotate(130deg) }
+}
+
+@keyframes left-spin {
+  0% { transform: rotate(130deg) }
+  50% { transform: rotate(-5deg) }
+  to { transform: rotate(130deg) }
+}
+
+@-webkit-keyframes right-spin {
+  0% { -webkit-transform: rotate(-130deg) }
+  50% { -webkit-transform: rotate(5deg) }
+  to { -webkit-transform: rotate(-130deg) }
+}
+
+@keyframes right-spin {
+  0% { transform: rotate(-130deg) }
+  50% { transform: rotate(5deg) }
+  to { transform: rotate(-130deg) }
+}

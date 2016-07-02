@@ -221,7 +221,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       -webkit-text-size-adjust: 100%;
     }
 
-    /* Styling for render while resources are loading */
+    /* Styling for render while resources are loading. For browsers don't support native Web Components. */
     progressive-app[unresolved] {
       display: block;
       min-height: 100vh;
@@ -233,55 +233,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       font-size: 20px;
       line-height: 64px;
       padding: 0 0 0 88px;
-    }
-
-    /* Single Element CSS Spinner */
-    /* http://projects.lukehaas.me/css-loaders/ */
-    progressive-app[unresolved] .Loader {
-      font-size: 10px;
-      text-indent: -9999em;
-      overflow: hidden; /* fix overflow */
-      width: 11em;
-      height: 11em;
-      border-radius: 50%;
-      background: #3f51b5; /* Indigo 500 */
-      background: -moz-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
-      background: -webkit-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
-      background: -o-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
-      background: -ms-linear-gradient(left, #3f51b5 10%, rgba(63,81,181, 0) 42%);
-      background: linear-gradient(to right, #3f51b5 10%, rgba(63,81,181, 0) 42%);
-      position: relative;
-      -webkit-animation: load3 1.4s infinite linear;
-      animation: load3 1.4s infinite linear;
-      -webkit-transform: translateZ(0);
-      -ms-transform: translateZ(0);
-      transform: translateZ(0);
-    }
-
-    progressive-app[unresolved] .Loader:before {
-      width: 50%;
-      height: 50%;
-      background: #3f51b5; /* Indigo 500 */
-      border-radius: 100% 0 0 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      content: '';
-    }
-
-    progressive-app[unresolved] .Loader:after {
-      background: #3f51b5; /* Indigo 500 */
-      background-color: #f5f5f5; /* Grey 100 */
-      width: 75%;
-      height: 75%;
-      border-radius: 50%;
-      content: '';
-      margin: auto;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
     }
 
     progressive-app[unresolved] .Main {
@@ -296,35 +247,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       justify-content: center;
     }
 
-    @-webkit-keyframes load3 {
-      0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-      }
-      100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-    }
-    @keyframes load3 {
-      0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-      }
-      100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-      }
-    }
-
   </style>
+
+  <link href="spinner.css" rel="stylesheet">
+
 </head>
 <body>
 
   <progressive-app unresolved>
+    <!-- Content for render while resources are loading. For browsers don't support native Web Components. -->
     <div class="Header">Progressive Web App</div>
     <div class="Main">
-      <div class="Loader">Loading...</div>
+      <div class="Spinner">
+        <div class="Spinner-layer">
+          <div class="Spinner-circleClipper Spinner-circleClipper--left"></div>
+          <div class="Spinner-circleClipper Spinner-circleClipper--right"></div>
+        </div>
+      </div>
     </div>
   </progressive-app>
 
@@ -332,7 +271,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   (function() {
     'use strict';
 
-    // Store a time stamp for timing analysis toolkit
+    // Store a time stamp for timing analysis toolkit.
     window.performance && performance.mark && performance.mark('index.html');
 
     var onload = function() {
@@ -349,7 +288,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       && 'import' in document.createElement('link')
       && 'content' in document.createElement('template')
     );
-    // Load webcomponentsjs polyfill if browser does not support native Web Components
+    // Load webcomponentsjs polyfill if browser doesn't support native Web Components.
     if (!webComponentsSupported) {
       var script = document.createElement('script');
       script.async = true;
