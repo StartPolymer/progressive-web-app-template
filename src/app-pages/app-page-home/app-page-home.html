@@ -134,7 +134,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _activeChanged: function() {
         if (this.active) {
           if (this._isLocalesLoaded) {
-            this.set('app.pageTitle', '');
+            this.set('app.pageTitle', this.localize('home'));
           } else {
             this.loadLocales(this.is);
           }
@@ -146,7 +146,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this._isLocalesLoaded = true;
         // TODO: Resolve slow localize data binding in Firefox
         //this.style.display = 'block';
-        this.set('app.pageTitle', '');
+        this.set('app.pageTitle', this.localize('home'));
       }
 
     });
