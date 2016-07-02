@@ -1,6 +1,6 @@
 {
   "cs": {
-    "caching-complete": "Uloženo do paměti! Další návštěvy budou fungovat v režimu offline.",
+    "caching-complete": "Uloženo do paměti! Další zobrazení bude dostupné v režimu offline.",
     "email-doesnt-match": "E-mailová adresa neodpovídá žádnému existujícímu účtu.",
     "email-password-dont-match": "Zadaný e-mail a heslo se neshodují.",
     "more-info": "Více informací",
