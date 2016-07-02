@@ -10,7 +10,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
-<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../app-behaviors/app-localize-behavior.html">
@@ -32,11 +31,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Drawer-content {
         @apply(--layout-vertical);
+        @apply(--layout-justified);
 
         background-color: var(--primary-background-color);
         color: var(--primary-text-color);
-        height: 100%;
-        padding: var(--spacing-unit) 0;
+        height: calc(100vh - 128px);
+        overflow: auto;
+      }
+
+      .Drawer-footer {
+        @apply(--paper-font-caption);
+
+        border-top: 1px solid var(--divider-color);
+        padding: var(--spacing-unit) 0 var(--spacing-unit) var(--screen-edge-margin);
+      }
+
+      .Drawer-footerIcon {
+        height: 20px;
+        width: 20px;
       }
 
       .Drawer-header {
@@ -58,23 +70,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: none;
       }
 
-      .Drawer-title {
-        @apply(--paper-font-headline);
-      }
-
       .Drawer-widget {
         padding: var(--spacing-unit) 0;
-      }
-
-      .Drawer-widget--bottom {
-        border-top: 1px solid var(--divider-color);
-      }
-
-      .Drawer-widget--footer {
-        @apply(--paper-font-caption);
-
-        border-top: 1px solid var(--divider-color);
-        padding-left: var(--gutter);
       }
 
       .Navigation {
@@ -113,9 +110,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-drawer class="Drawer" opened="{{opened}}" swipe-open>
 
-      <app-toolbar class="Drawer-header">
+      <div class="Drawer-header">
         <iron-icon class="Drawer-headerLogo" icon="header:rocket"></iron-icon>
-      </app-toolbar>
+      </div>
 
       <div class="Drawer-content">
 
@@ -139,6 +136,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </a>
 
           </iron-selector>
+
+        </div>
+
+        <div class="Drawer-footer">
+
+          <a class="Drawer-link" href="https://github.com/StartPolymer/progressive-web-app-template" target="_blank">
+            {{localize('made-with')}}
+            <iron-icon class="Drawer-footerIcon" icon="drawer:love"></iron-icon>
+            {{localize('by')}}
+            StartPolymer
+          </a>
 
         </div>
 
