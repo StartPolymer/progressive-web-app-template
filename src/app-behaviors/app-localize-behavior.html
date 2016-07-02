@@ -15,6 +15,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   AppLocalizeBehaviorImpl = {
 
+    __defaultLocale: 'en',
+
+    __locales: ['cs', 'en'],
+
     properties: {
       /* Overriden from Polymer.AppLocalizeBehavior */
       formats: {
@@ -30,12 +34,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       language: {
         type: String,
         value: function() {
-          var lang = window.navigator.languages ? window.navigator.languages[0] : null;
-          lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
-          if (lang.indexOf('-') !== -1)
+          var proto = this.constructor.prototype;
+
+          // http://stackoverflow.com/a/38150585/1614237
+          var lang = navigator.languages && navigator.languages[0] || // Chrome / Firefox
+                     navigator.language ||   // All browsers
+                     navigator.userLanguage; // IE <= 10
+
+          if (lang.indexOf('-') !== -1) {
             lang = lang.split('-')[0];
-          if (lang.indexOf('_') !== -1)
-            lang = lang.split('_')[0];
+          }
+
+          if (proto.__locales.indexOf(lang) === -1) {
+            lang = proto.__defaultLocale;
+          }
+
           return lang;
         }
       }
