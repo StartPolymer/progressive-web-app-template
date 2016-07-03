@@ -9,6 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../app-behaviors/app-localize-behavior.html">
 <link rel="import" href="../../app-themes/current-theme/shared-styles/pages-shared-styles.html">
@@ -24,18 +28,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout);
       }
 
-      .Page-card {
+      .Button-touchTarget {
+        @apply(--layout-self-end);
+
+        margin-right: 0;
+        margin-top: calc(var(--gutter) * 2);
+      }
+
+      .Form {
         @apply(--layout-vertical);
-        @apply(--layout-center-center);
+      }
+
+      .Page-title {
+        margin-bottom: 24px;
+        text-align: center;
+        width: 100%;
+      }
+
+      /* Tablet wide */
+      @media screen and (min-width: 600px) {
+        .Form {
+          width: 50%;
+        }
       }
 
     </style>
 
-    <paper-material class="Page-card Page-container Page-container--fullHeight" elevation="2">
+    <div class="Page-container Page-container--center Page-container--fullHeight">
+      <paper-material class="Page-card Page-card--expand" elevation="3">
 
-      <h1 hidden$="{{!app.isTabletWide}}">{{localize('contact-us')}}</h1>
+        <h1 class="Page-title" hidden$="{{!app.isTabletWide}}">{{localize('contact-us')}}</h1>
 
-    </paper-material>
+        <form class="Form" id="form" is="iron-form" method="get" action="/" on-iron-form-submit="_onFormSubmit">
+          <paper-input class="Input" id="emailInput"
+                       name="username" type="text" autocomplete="username"
+                       autofocus auto-validate required
+                       value="{{app.userAuthEmail}}"
+                       pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                       label="{{localize('your-email')}}"
+                       error-message="{{localize('invalid-email-address')}}"
+                       on-keydown="_onEmailInputKeyDown"></paper-input>
+          <paper-textarea class="Input" id="messageInput"
+                          required
+                          label="{{localize('message')}}"
+                          on-keydown="_onMessageInputKeyDown"></paper-textarea>
+          <div class="Button-touchTarget" on-tap="_onSendButtonTap">
+            <paper-button class="Button Button--shadowText" raised>{{localize('send')}}</paper-button>
+          </div>
+        </form>
+
+      </paper-material>
+    </div>
 
   </template>
 
@@ -78,10 +121,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
+      _onEmailInputKeyDown: function(event) {
+        if (!this.$.emailInput.validate()) {
+          return false;
+        }
+
+        if (event.which === 13 || event.key === 'Enter') {
+          this.$.messageInput.focus();
+        }
+      },
+
+      _onFormSubmit: function() {
+        this.fire('notify', 'your-message-sent');
+      },
+
       _onLocalesLoaded: function(event) {
         event.stopPropagation();
         this._isLocalesLoaded = true;
         this.set('app.pageTitle', this.localize('contact-us'));
+      },
+
+      _onMessageInputKeyDown: function(event) {
+        if (!this.$.messageInput.validate()) {
+          return false;
+        }
+
+        if (event.ctrlKey && (event.which === 13 || event.key === 'Enter')) {
+          this._onSendButtonTap();
+        }
+      },
+
+      _onSendButtonTap: function() {
+        if (this.$.form.validate()) {
+          this.$.form.submit();
+        }
       }
 
     });
