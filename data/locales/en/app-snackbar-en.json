@@ -9,6 +9,7 @@
     "refresh": "Refresh",
     "you-are-offline": "You are offline. Changes will be saved for later.",
     "you-are-online": "You are online.",
-    "browser-out-of-date": "Your browser is out of date."
+    "your-browser-out-of-date": "Your browser is out of date.",
+    "your-message-sent": "Your message was sent."
   }
 }

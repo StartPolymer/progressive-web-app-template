@@ -6,7 +6,7 @@
     "for-convenience-keep-checked": "Bude pro vás pohodlnější, když toto pole necháte zaškrtnuté. Pokud zařízení s někým sdílíte, doporučujeme provést další opatření.",
     "get-instructions-sent-to-email": "Zadejte e-mail pro získání návodu, jak obnovit své heslo.",
     "check-email-follow": "Zkontrolujte svůj e-mail - Postupujte podle pokynů zaslaných na adresu {email} pro obnovu svého hesla.",
-    "invalid-email-address": "Neplatná e-mailová adresa!",
+    "invalid-email-address": "Neplatná e-mailová adresa.",
     "next": "Další",
     "password": "Heslo",
     "password-must-contain": "Heslo musí obsahovat nejméně 6 znaků.",

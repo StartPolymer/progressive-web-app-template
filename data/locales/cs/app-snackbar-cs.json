@@ -9,6 +9,7 @@
     "refresh": "Obnovit",
     "you-are-offline": "Jste v režimu offline. Provedené změny budou uloženy později.",
     "you-are-online": "Jste v režimu online.",
-    "browser-out-of-date": "Váš prohlížeč je zastaralý."
+    "your-browser-out-of-date": "Váš prohlížeč je zastaralý.",
+    "your-message-sent": "Vaše zpráva byla odeslána."
   }
 }
