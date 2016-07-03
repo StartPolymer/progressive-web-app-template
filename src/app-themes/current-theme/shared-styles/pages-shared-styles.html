@@ -27,13 +27,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     position: inherit;
   }
 
+  .Page-card--expand,
   .Page-card--fullHeight,
-  .Page-card--small,
+  .Page-card--small {
+    height: 100%;
+    width: 100%;
+  }
+
   .Page-container--fullHeight {
     min-height: calc(100vh - var(--header-toolbar-height));
     width: 100vw;
   }
 
+  .Page-card--expand,
   .Page-card--small {
     @apply(--layout-vertical);
     @apply(--layout-start-justified);
@@ -41,28 +47,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* Tablet wide */
   @media screen and (min-width: 600px) {
+    .Page-card--expand {
+      height: auto;
+      min-height: 512px;
+      max-width: 720px;
+    }
+
     .Page-card--small {
+      height: auto;
       min-height: 512px;
       width: 384px;
+    }
+
+    .Page-container {
+      box-sizing: border-box;
+      padding: var(--gutter) var(--screen-edge-margin);
     }
 
     .Page-container--center {
       @apply(--layout-vertical);
       @apply(--layout-center-center);
     }
+
+    .Page-card--fullHeight,
+    .Page-container--fullHeight {
+      min-height: 100vh - var(--header-toolbar-height);
+      width: 100vw;
+    }
   }
 
   /* Laptop wide */
   @media screen and (min-width: 960px) {
-    .Page-container {
-      margin: var(--gutter) var(--screen-edge-margin);
-    }
 
-    .Page-card--fullHeight,
-    .Page-container--fullHeight {
-      min-height: calc(100vh - var(--header-toolbar-height) - var(--gutter) * 2);
-      width: calc(100vw - var(--screen-edge-margin) * 2);
-    }
   }
 
   /* Large wide */
