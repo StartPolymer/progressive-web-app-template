@@ -1,0 +1,116 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="app-scroll-button">
+
+  <template>
+
+    <style>
+
+      :host {
+        display: block;
+      }
+
+      .Button {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        @apply(--button-text-shadow);
+
+        box-sizing: border-box;
+        border-radius: 74px;
+        color: #fff;
+        display: block;
+        margin: 0;
+        min-width: 74px;
+        padding: 50px 0 0 0;
+        position: relative;
+        text-transform: none;
+        transition: opacity 0.3s;
+      }
+
+      .Button:hover {
+        opacity: 0.6;
+      }
+
+      .Button-arrow {
+        /* elevation="1" */
+        box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 0px 0 rgba(0, 0, 0, 0.12),
+                    0 3px 0px -2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 24px;
+        height: 24px;
+        margin-left: -12px;
+        border-left: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-animation: arrow 1.5s infinite;
+        animation: arrow 1.5s infinite;
+      }
+
+      .Button-text {
+        text-align: center;
+      }
+
+      @-webkit-keyframes arrow {
+        0% {
+          -webkit-transform: rotate(-45deg) translate(0, 0);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          -webkit-transform: rotate(-45deg) translate(-10px, 10px);
+          opacity: 0;
+        }
+      }
+
+      @keyframes arrow {
+        0% {
+          transform: rotate(-45deg) translate(0, 0);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: rotate(-45deg) translate(-10px, 10px);
+          opacity: 0;
+        }
+      }
+
+    </style>
+
+    <paper-button class="Button">
+      <div class="Button-arrow"></div>
+      <div class="Button-text"><content></content></div>
+    </paper-button>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-scroll-button'
+
+    });
+
+  </script>
+
+</dom-module>
