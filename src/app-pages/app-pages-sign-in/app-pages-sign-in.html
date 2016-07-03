@@ -70,7 +70,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       observers: [
-        '_routeChanged(_routeData, route.path)'
+        '_routePageChanged(_routeData.page)',
+        '_routePathChanged(route.path)'
       ],
 
       _activeChanged: function() {
@@ -80,27 +81,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         } else {
           this.$[this.page].active = false;
+          // Reset page after leave this element for detect change of page from home page to sign-in page.
+          this.page = '';
         }
       },
 
       _pageChanged: function(page) {
-        if (Polymer.isInstance(this.$[page])) {
-          this.async(function() {
-            this._pageLoaded();
-          });
-        } else {
-          // Async load page import on demand.
-          var pageElementName = this.$[page].localName;
-
-          if (page === '404' || page === 'create-account') {
-            var pageElementPath = '../' + pageElementName + '/' + pageElementName + '.html';
+        if (page) {
+          if (Polymer.isInstance(this.$[page])) {
+            this.async(function() {
+              this._pageLoaded();
+            });
           } else {
-            var pageElementPath = pageElementName + '/' + pageElementName + '.html';
-          }
+            // Async load page import on demand.
+            var pageElementName = this.$[page].localName;
 
-          this.importHref(this.resolveUrl(pageElementPath), function() {
-            this._pageLoaded();
-          }, null, true);
+            if (page === '404' || page === 'create-account') {
+              var pageElementPath = '../' + pageElementName + '/' + pageElementName + '.html';
+            } else {
+              var pageElementPath = pageElementName + '/' + pageElementName + '.html';
+            }
+
+            this.importHref(this.resolveUrl(pageElementPath), function() {
+              this._pageLoaded();
+            }, null, true);
+          }
         }
       },
 
@@ -109,29 +114,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$[this.page].style.opacity = 1;
       },
 
-      _routeChanged: function(routeData, routePath) {
-        // Handle URL path out of <app-route> pattern
-        if (routePath === '/sign-in') {
-          this.page = 'sign-in';
-          return;
-        }
-
+      _routePageChanged: function(page) {
         // Handle subroutes that doesn't exists
-        var isRouteTail = routePath.split('/').length >= 4;
+        var isRouteTail = this.route.path.split('/').length >= 4;
         if (isRouteTail) {
           this.page = '404';
           return;
         }
 
-        if (routeData.page) {
-          if (this.$[routeData.page]) {
-            this.page = routeData.page;
+        if (page) {
+          if (this.$[page]) {
+            this.page = page;
           } else {
             this.page = '404';
           }
         } else {
           this.page = 'sign-in';
         }
+      },
+
+      _routePathChanged: function(routePath) {
+        this.debounce('_routePathChanged', function() {
+          // Handle URL path out of <app-route> pattern
+          if (routePath === '/sign-in') {
+            this.page = 'sign-in';
+          }
+        });
       }
 
     });

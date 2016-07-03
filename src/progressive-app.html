@@ -20,7 +20,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="app-auth/app-auth.html">
 <link rel="import" href="app-init.html">
-<link rel="import" href="app-pages/app-pages.html">
 <link rel="import" href="app-shell/app-shell.html">
 <link rel="import" href="app-themes/current-theme/global-styles/global-styles.html">
 
@@ -31,24 +30,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
 
       :host {
+        /* TODO: Remove this background image from home page - use :host(.foo)::after */
+        background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wgARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/aAAwDAQACEAMQAAABFM9pJ//EABcQAQADAAAAAAAAAAAAAAAAAAABAhH/2gAIAQEAAQUCrDH/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFX/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwI//8QAFhABAQEAAAAAAAAAAAAAAAAAACEB/9oACAEBAAE/IbMh/9oADAMBAAIAAwAAABCj/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EF1gv//EABYRAQEBAAAAAAAAAAAAAAAAAAEAIf/aAAgBAgEBPxBwmf/EABYQAQEBAAAAAAAAAAAAAAAAACEAQf/aAAgBAQABPxAcBy//2Q==');
+        background-position: center top;
+        background-size: cover;
         display: block;
+        min-height: 100vh;
       }
 
-      .Shell {
-        background-color: var(--primary-background-color);
-      }
-
+      /* TODO: Move to :host */
       .Shell--backgroundImage {
-        background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wgARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/aAAwDAQACEAMQAAABFM9pJ//EABcQAQADAAAAAAAAAAAAAAAAAAABAhH/2gAIAQEAAQUCrDH/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFX/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwI//8QAFhABAQEAAAAAAAAAAAAAAAAAACEB/9oACAEBAAE/IbMh/9oADAMBAAIAAwAAABCj/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EF1gv//EABYRAQEBAAAAAAAAAAAAAAAAAAEAIf/aAAgBAgEBPxBwmf/EABYQAQEBAAAAAAAAAAAAAAAAACEAQf/aAAgBAQABPxAcBy//2Q==');
-        background-position: center 0;
+        background-image: url('../images/background.jpg');
+        background-position: center top;
         background-size: cover;
+        opacity: 0;
       }
 
-      .Shell--backgroundImage>.Pages {
-        background-image: url('/images/bg.jpg');
-        background-position: center 0;
-        background-size: cover;
-        min-height: calc(100vh - var(--header-toolbar-height));
+      .Shell--backgroundImage.loaded {
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
+
+      .Shell--primaryBackground {
+        background-color: var(--primary-background-color);
       }
 
       .Shell--secondaryBackground {
@@ -64,9 +68,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-scrollpos-control selected="[[page]]"></app-scrollpos-control>
 
-    <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}" app="{{app}}" page="[[page]]" route="{{_route}}">
-      <app-pages class="Pages" id="pages" app="{{app}}" page="[[page]]" route="{{_route}}"></app-pages>
-    </app-shell>
+    <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}"
+               id="shell" app="{{app}}" page="[[page]]" route="{{_route}}"></app-shell>
 
     <app-auth id="auth" app="{{app}}" route="{{_route}}"></app-auth>
 
@@ -75,6 +78,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-breakpoints app="{{app}}"></app-breakpoints>
 
     <app-service-worker></app-service-worker>
+
+    <!-- Dummy <img> elements to use for loading the background image of app-shell and app-header. -->
+    <img id="background" hidden on-load="_onBackgroundLoad">
 
   </template>
 
@@ -106,9 +112,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         },
 
-        page: {
-          type: String,
-          reflectToAttribute: true
+        page: String,
+
+        _isBackgroundLoaded: {
+          type: Boolean,
+          value: false
         },
 
         _isSetCssProperties: {
@@ -155,13 +163,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var route = this._route.path.split('/');
         var isRouteTail = route.length >= 3 && route[route.length - 1] !== '';
 
-        if (this.app.isLaptopWide) {
-          classes += 'Shell--secondaryBackground'
+        if (this.app.isTabletWide && page !== '' || !this.app.isTabletWide && (page === 'sign-in' && !isRouteTail)) {
+          classes = 'Shell--backgroundImage';
+        } else if (this.app.isTabletWide && page === '') {
+          classes = 'Shell--secondaryBackground';
+        } else {
+          classes = 'Shell--primaryBackground';
         }
 
-        if (this.app.isTabletWide && (page === 'sign-in' || page === 'sign-up') ||
-            page === 'sign-in' && !isRouteTail) {
-          classes += ' Shell--backgroundImage';
+        if (this._isBackgroundLoaded) {
+          classes += ' loaded';
         }
 
         return classes;
@@ -212,6 +223,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       },
 
+      _onBackgroundLoad: function() {
+        this._isBackgroundLoaded = true;
+        this.$.shell.onBackgroundLoad();
+        this.$.shell.classList.add('loaded');
+        this.$.shell.updateStyles();
+      },
+
       // This is for performance logging only.
       _onDomChange: function(e) {
         if (window.performance && performance.mark && !this.__loggedDomChange) {
@@ -234,7 +252,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _routePageChanged: function(page) {
-        // Handle subroutes that doesn't exists
+        // Clear page title for lazy loaded pages.
+        this.set('app.pageTitle', '');
+
+        // Handle subroutes that doesn't exists.
         var isRouteTail = this._route.path.split('/').length >= 3;
         if (page !== 'sign-in' && isRouteTail) {
           this.page = '404';
@@ -242,13 +263,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         if (page) {
-          if (this.$.pages.$[page]) {
+          if (this.$.shell.$.pages.$[page]) {
             this.page = page;
           } else {
             this.page = '404';
           }
         } else {
           this.page = 'home';
+        }
+
+        // Initiate download of lazy loaded background image.
+        if (this.app.isTabletWide || !this.app.isTabletWide && (page === '' || page === 'sign-in' && !isRouteTail)) {
+          if (!this._isBackgroundLoaded) {
+            this.$.background.src = '../images/background.jpg';
+          }
         }
       },
 

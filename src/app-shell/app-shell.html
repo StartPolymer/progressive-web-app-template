@@ -10,9 +10,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../app-behaviors/app-localize-behavior.html">
+<link rel="import" href="../app-pages/app-pages.html">
 <link rel="import" href="../app-themes/current-theme/shared-styles/components-shared-styles.html">
 
 <link rel="import" href="app-icons-header.html">
@@ -64,15 +66,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Header.home {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100%;
-        min-height: 320px; /* iPhone 4 Landscape */
         background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wgARCAAGAAoDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/aAAwDAQACEAMQAAABFM9pJ//EABcQAQADAAAAAAAAAAAAAAAAAAABAhH/2gAIAQEAAQUCrDH/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFX/8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwI//8QAFhABAQEAAAAAAAAAAAAAAAAAACEB/9oACAEBAAE/IbMh/9oADAMBAAIAAwAAABCj/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EF1gv//EABYRAQEBAAAAAAAAAAAAAAAAAAEAIf/aAAgBAgEBPxBwmf/EABYQAQEBAAAAAAAAAAAAAAAAACEAQf/aAAgBAQABPxAcBy//2Q==');
-        background-position: center 0;
+        background-position: center top;
         background-size: cover;
+        height: 100vh;
+        min-height: 320px; /* iPhone 4 Landscape */
+        width: 100vw;
+
         --app-header-background-front-layer: {
           opacity: 0;
         };
@@ -80,8 +80,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Header.home.background-loaded {
         --app-header-background-front-layer: {
-          background-image: url('/images/bg.jpg');
-          background-position: center 0;
+          background-image: url('../../images/background.jpg');
+          background-position: center top;
           background-size: cover;
           height: 100%;
           transition: opacity 0.5s;
@@ -91,8 +91,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .Header.home.background-loaded.remove-transition {
         --app-header-background-front-layer: {
-          background-image: url('/images/bg.jpg');
-          background-position: center 0;
+          background-image: url('../../images/background.jpg');
+          background-position: center top;
           background-size: cover;
           height: 100%;
           opacity: 1;
@@ -121,12 +121,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-right: calc(var(--gutter) - (var(--touch-target-size) - var(--icon-size)) / 2);
       }
 
-      .Header-content {
+      .Header-bottom {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-end-justified);
+
         width: 100%;
-        height: calc(100% - 128px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        height: 64px;
+      }
+
+      .Header-content {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+
+        box-sizing: border-box;
+        height: calc(100% - 196px);
+        padding-top: 64px;
+        width: 100%;
       }
 
       .Header-title {
@@ -198,65 +209,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <app-header class$="Header {{page}}" id="header" condenses reveals>
+    <app-header-layout id="headerLayout">
 
-      <app-toolbar class="Header-toolbar" role="navigation">
+      <app-header class$="Header {{page}}" id="header" condenses reveals>
 
-        <iron-icon class="Header-actionButtonIcon"
-                   icon="header:{{_headerActionButtonIcon}}" hidden$="{{_isLazyLoadComplete}}"></iron-icon>
+        <app-toolbar class="Header-toolbar" role="navigation">
 
-        <paper-icon-button class="Header-actionButton" id="actionButton"
-          on-tap="_onHeaderActionButtonTap"
-          icon="header:{{_headerActionButtonIcon}}"
-          aria-label$="{{localize(_headerActionButtonIcon)}}"
-          hidden$="{{!_isLazyLoadComplete}}"></paper-icon-button>
+          <iron-icon class="Header-actionButtonIcon"
+                     icon="header:{{_headerActionButtonIcon}}" hidden$="{{_isLazyLoadComplete}}"></iron-icon>
 
-        <paper-tooltip class="Tooltip" for="actionButton" offset="0"
-                       hidden$="{{!_isLazyLoadComplete}}">{{localize(_headerActionButtonIcon)}}</paper-tooltip>
+          <paper-icon-button class="Header-actionButton" id="actionButton"
+            on-tap="_onHeaderActionButtonTap"
+            icon="header:{{_headerActionButtonIcon}}"
+            aria-label$="{{localize(_headerActionButtonIcon)}}"
+            hidden$="{{!_isLazyLoadComplete}}"></paper-icon-button>
 
-        <div flex disabled$="{{_isPage('home', page)}}">
-          <a class="Header-logoLink" href="/"
-             data-track-link="nav-home" data-ajax-link
-             aria-label$="{{localize('home')}}">
-            <div class="Header-logo"></div>
+          <paper-tooltip class="Tooltip" for="actionButton" offset="0"
+                         hidden$="{{!_isLazyLoadComplete}}">{{localize(_headerActionButtonIcon)}}</paper-tooltip>
+
+          <div flex disabled$="{{_isPage('home', page)}}">
+            <a class="Header-logoLink" href="/"
+               data-track-link="nav-home" data-ajax-link
+               aria-label$="{{localize('home')}}">
+              <div class="Header-logo"></div>
+            </a>
+          </div>
+
+          <div class="Header-title" title>
+            <span hidden$="{{_computeAppNameHidden(app.isTabletWide, page)}}">{{app.name}}</span>
+            <span class="Header-titleDash" hidden$="{{_computeTitleDashHidden(app.isTabletWide, page)}}">-</span>
+            <span hidden$="{{!_pageTitleComputed}}">{{_pageTitleComputed}}</span>
+          </div>
+
+          <iron-icon class="Icon-offline" id="iconOffline"
+                     icon="header:cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
+
+          <paper-tooltip class="Tooltip" for="iconOffline" offset="0"
+                         hidden$="{{!_isLazyLoadComplete}}">{{localize('offline')}}</paper-tooltip>
+
+          <a class="Button-touchTarget Button-touchTarget--signIn" id="headerSignInButton" href="{{app.baseUrl}}sign-in" tabindex="-1"
+            hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, app.isOffline, page)}}">
+            <paper-button class="Button Button--signIn" raised>{{localize('sign-in')}}</paper-button>
           </a>
+
+        </app-toolbar>
+
+        <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
+          <iron-icon class="Logo" icon="header:rocket"></iron-icon>
         </div>
 
-        <div class="Header-title" title>
-          <span hidden$="{{_computeAppNameHidden(app.isTabletWide, page)}}">{{app.name}}</span>
-          <span class="Header-titleDash" hidden$="{{_computeTitleDashHidden(app.isTabletWide, page)}}">-</span>
-          <span hidden$="{{!_pageTitleComputed}}">{{_pageTitleComputed}}</span>
+        <div class="Header-bottom" hidden$="{{!_isPage('home', page)}}">
+          <app-scroll-button class="ScrollDownButton" on-tap="_onScrollDownButtonTap">
+            {{localize('scroll')}}
+          </app-scroll-button>
         </div>
 
-        <iron-icon class="Icon-offline" id="iconOffline"
-                   icon="header:cloud-off" hidden$="{{!app.isOffline}}"></iron-icon>
+      </app-header>
 
-        <paper-tooltip class="Tooltip" for="iconOffline" offset="0"
-                       hidden$="{{!_isLazyLoadComplete}}">{{localize('offline')}}</paper-tooltip>
+      <app-pages class="Pages" id="pages" app="{{app}}" page="[[page]]" route="{{route}}"></app-pages>
 
-        <a class="Button-touchTarget Button-touchTarget--signIn" id="headerSignInButton" href="{{app.baseUrl}}sign-in" tabindex="-1"
-          hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, app.isOffline, page)}}">
-          <paper-button class="Button Button--signIn" raised>{{localize('sign-in')}}</paper-button>
-        </a>
-
-      </app-toolbar>
-
-      <div class="Header-content" hidden$="{{!_isPage('home', page)}}">
-        <iron-icon class="Logo" icon="header:rocket"></iron-icon>
-      </div>
-
-    </app-header>
-
-    <content role="main"></content>
+    </app-header-layout>
 
     <!-- Drawer is lazy-created. -->
     <!-- Two-way bind `_isDrawerOpened` since app-drawer can update `opened` itself. -->
     <app-shell-drawer opened="{{_isDrawerOpened}}" page=[[page]] app=[[app]]
                       hidden$="{{!_isDrawerLoaded}}"></app-shell-drawer>
-
-    <!-- Dummy <img> to use for loading the background image for the app-header. -->
-    <img id="headerBackground" hidden
-         on-load="_onHeaderBackgroundLoad" on-error="_onHeaderBackgroundError">
 
   </template>
 
@@ -282,12 +299,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: 'menu'
         },
 
-        _isDrawerLoaded: {
+        _isBackgroundLoaded: {
           type: Boolean,
           value: false
         },
 
-        _isHeaderBackgroundLoaded: {
+        _isDrawerLoaded: {
           type: Boolean,
           value: false
         },
@@ -324,6 +341,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       attached: function() {
         this.loadLocales(this.is);
+      },
+
+      onBackgroundLoad: function() {
+        this._isBackgroundLoaded = true;
+        // TODO: Improve lazy loading effect of header background image on quick network
+        this.async(function() {
+          this.$.header.classList.add('background-loaded');
+          this.$.header.updateStyles();
+        }, 700);
+        // Remove transition effect after background loaded for blend-background app-scroll-effect
+        this.async(function() {
+          this.$.header.classList.add('remove-transition');
+          this.$.header.updateStyles();
+        }, 1000);
       },
 
       _computeAppNameHidden: function(isTabletWide, page) {
@@ -365,12 +396,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _onAppPageLoaded: function() {
-        if (this._isPageSwitched) {
-          // The size of the header depends on the page, so reset the header's layout only when switching pages.
-          this.async(function() {
-            this.$.header.resetLayout();
-          });
-        }
         this._ensureLazyLoaded();
       },
 
@@ -395,23 +420,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
-      _onHeaderBackgroundLoad: function() {
-        this._isHeaderBackgroundLoaded = true;
-        // TODO: Improve lazy loading effect of header background image on quick network
-        this.async(function() {
-          this.$.header.classList.add('background-loaded');
-          this.$.header.updateStyles();
-        }, 700);
-        // Remove transition effect after background loaded for blend-background app-scroll-effect
-        this.async(function() {
-          this.$.header.classList.add('remove-transition');
-          this.$.header.updateStyles();
-        }, 1000);
-      },
-
       _onLocalesLoaded: function(event) {
         event.stopPropagation();
         this.set('_isLocalesLoaded', true);
+      },
+
+      _onScrollDownButtonTap: function() {
+        this.$.header.scroll(0, this.$.pages.$.home.$.section1.offsetTop);
       },
 
       _pageChanged: function(page, oldPage) {
@@ -423,23 +438,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // Close the drawer - in case the *route* change came from a link in the drawer.
           this._isDrawerOpened = false;
 
-          this._isPageSwitched = Boolean(oldPage);
-
           // Set icon of headerActionButton
           this._headerActionButtonIcon = page === 'home' ? 'menu' : 'back';
 
-          if (page === 'home' && !this._isHeaderBackgroundLoaded) {
-            this.$.headerBackground.src = '/images/bg.jpg';
-          }
-
-          if (this._isHeaderBackgroundLoaded) {
+          if (page === 'home' && this._isBackgroundLoaded) {
             this.$.header.classList.add('background-loaded');
             this.$.header.classList.add('remove-transition');
           }
 
+          this._isPageSwitched = Boolean(oldPage);
           if (this._isPageSwitched) {
-            // Update header styles for dynamic loading background image
-            this.$.header.updateStyles();
+            this.async(function() {
+              // The size of the header depends on the page, so reset the header's layout only when switching pages.
+              this.$.header.resetLayout();
+              // Update header styles for dynamic loading background image
+              this.$.header.updateStyles();
+            });
           }
         }
       },

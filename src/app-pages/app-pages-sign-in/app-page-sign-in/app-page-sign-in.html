@@ -60,10 +60,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Container-logo {
+        @apply(--layout-flex);
         @apply(--layout-vertical);
         @apply(--layout-center-center);
 
-        height: calc(100vh - 284px);
         min-height: 96px;
       }
 
@@ -107,7 +107,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .Container-logo {
-          height: calc(100vh - 400px - var(--header-toolbar-height) - var(--gutter) * 3);
           margin-bottom: var(--gutter);
         }
 
