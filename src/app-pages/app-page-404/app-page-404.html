@@ -57,24 +57,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <paper-material class="Page-card Page-container Page-container--fullHeight" elevation="2">
+    <div class="Page-container Page-container--fullHeight">
+      <paper-material class="Page-card Page-card--fullHeight" elevation="3">
 
-      <img class="Polymerosaurus" alt="Polymerosaurus"
-           src$="{{app.baseUrl}}images/logos/polymerosaurus.png">
+        <img class="Polymerosaurus" alt="Polymerosaurus"
+             src$="{{app.baseUrl}}images/logos/polymerosaurus.png">
 
-      <div class="Container">
+        <div class="Container">
 
-        <h1 hidden$="{{!app.isTabletWide}}">{{localize('page-not-found')}}</h1>
-        <h2>{{localize('we-are-sorry', 'url', _url)}}</h2>
-        <h3>
-          <span>{{localize('maybe-head-back')}}</span>
-          <a class="AccentLink TouchLink" href$="{{app.baseUrl}}">{{localize('homepage')}}</a>
-          <span>{{localize('or-use-links')}}</span>
-        </h3>
+          <h1 hidden$="{{!app.isTabletWide}}">{{localize('page-not-found')}}</h1>
+          <h2>{{localize('we-are-sorry', 'url', _url)}}</h2>
+          <h3>
+            <span>{{localize('maybe-head-back')}}</span>
+            <a class="AccentLink TouchLink" href$="{{app.baseUrl}}">{{localize('homepage')}}</a>
+            <span>{{localize('or-use-links')}}</span>
+          </h3>
 
-      </div>
+        </div>
 
-    </paper-material>
+      </paper-material>
+    </div>
 
   </template>
 

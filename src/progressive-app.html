@@ -255,6 +255,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // Clear page title for lazy loaded pages.
         this.set('app.pageTitle', '');
 
+        // Initiate download of lazy loaded background image.
+        if (this.app.isTabletWide || !this.app.isTabletWide && (page === '' || page === 'sign-in' && !isRouteTail)) {
+          if (!this._isBackgroundLoaded) {
+            this.$.background.src = '../images/background.jpg';
+          }
+        }
+
         // Handle subroutes that doesn't exists.
         var isRouteTail = this._route.path.split('/').length >= 3;
         if (page !== 'sign-in' && isRouteTail) {
@@ -270,13 +277,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         } else {
           this.page = 'home';
-        }
-
-        // Initiate download of lazy loaded background image.
-        if (this.app.isTabletWide || !this.app.isTabletWide && (page === '' || page === 'sign-in' && !isRouteTail)) {
-          if (!this._isBackgroundLoaded) {
-            this.$.background.src = '../images/background.jpg';
-          }
         }
       },
 
