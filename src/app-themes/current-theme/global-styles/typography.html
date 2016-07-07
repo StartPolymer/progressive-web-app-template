@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --button-font-size: 15px;
     --input-font-size: 16px;
     --input-error-font-size: 14px;
+    --small-font-letter-spacing: 0.018em;
 
     --paper-font-blockquote: {
       position: relative;
@@ -27,8 +28,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       letter-spacing: 0.08em;
     };
 
-    /* Clear bad mixins */
-    /* font-family is defined in index.html */
+    --paper-font-navigation: {
+      font-size: 15px;
+      letter-spacing: var(--small-font-letter-spacing);
+      line-height: 24px;
+    };
+
+    /* Clear mixins */
+    /* font-family and -webkit-font-smoothing are defined in index.html */
     --paper-font-common-base: {
     };
 

@@ -27,7 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     font-size: var(--button-font-size);
     font-weight: 500;
     height: var(--button-height);
-    letter-spacing: 0.018em;
+    letter-spacing: var(--small-font-letter-spacing);
     margin: 0;
     min-width: 88px;
     padding: calc((var(--button-height) - var(--line-height)) / 2) 16px;
@@ -60,12 +60,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   .DialogButton {
+    @apply(--small-font-text-shadow);
+
     background-color: var(--tertiary-background-color);
     border-radius: 2px;
     color: var(--accent-link-color);
     font-size: var(--button-font-size);
     font-weight: 500;
     height: var(--button-height);
+    letter-spacing: var(--small-font-letter-spacing);
     margin: 0;
     min-width: 64px;
     padding: calc((var(--button-height) - var(--line-height)) / 2) 8px;
@@ -86,6 +89,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   .Checkbox {
+    letter-spacing: var(--small-font-letter-spacing);
     line-height: var(--touch-target-size);
   }
 

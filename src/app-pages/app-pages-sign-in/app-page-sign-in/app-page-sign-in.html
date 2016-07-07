@@ -28,7 +28,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Button {
-        @apply(--button-text-shadow);
         @apply(--layout-start-justified);
 
         font-weight: 400;
@@ -38,11 +37,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Button--email {
+        @apply(--button-text-shadow);
+
         background-color: var(--google-red-700);
         color: #fff;
       }
 
       .Button--facebook {
+        @apply(--button-text-shadow);
+
         background-color: #3b5998;
         color: #fff;
       }

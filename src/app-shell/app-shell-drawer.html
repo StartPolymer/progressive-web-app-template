@@ -84,9 +84,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .Navigation-link {
         @apply(--layout-horizontal);
         @apply(--layout-center);
+        @apply(--paper-font-navigation);
 
         color: currentColor;
-        font-size: 15px;
         height: var(--touch-target-size);
         padding-left: var(--screen-edge-margin);
         padding-right: var(--gutter);
@@ -95,6 +95,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .Navigation-link.iron-selected {
+        @apply(--small-font-text-shadow);
+
         color: var(--accent-link-color);
         font-weight: 500;
       }
