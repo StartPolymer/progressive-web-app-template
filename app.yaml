@@ -109,8 +109,6 @@ handlers:
     #Content-Security-Policy: "script-src 'self'; object-src 'self'"
 
 skip_files:
-- ^(.*/)?app\.yaml
-- ^(.*/)?app\.yml
 - ^(.*/)?#.*#
 - ^(.*/)?.*~
 - ^(.*/)?.*\.py[co]
