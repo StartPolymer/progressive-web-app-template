@@ -245,7 +245,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (Polymer.isInstance(this.$.snackbar)) {
           this.$.snackbar.show(event.detail);
         } else {
-          this.importHref(this.resolveUrl('app-snackbar.html'), function() {
+          this.importHref(this.resolveUrl('app-ui-components/app-snackbar.html'), function() {
             this.$.snackbar.show(event.detail);
           });
         }
