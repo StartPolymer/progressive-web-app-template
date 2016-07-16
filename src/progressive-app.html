@@ -216,9 +216,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _onAppShellLoaded: function() {
-        this.importHref(this.resolveUrl('app-lazy-resources.html'), function() {
-          this.importHref(this.resolveUrl('app-service-worker.html'), function() {
+        // Load lazy resources after render.
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          this.importHref(this.resolveUrl('app-lazy-resources.html'), function() {
+            this.importHref(this.resolveUrl('app-service-worker.html'), function() {
 
+            });
           });
         });
       },
