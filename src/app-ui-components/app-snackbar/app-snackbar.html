@@ -13,15 +13,25 @@ Material Design Snackbar
 https://material.google.com/components/snackbars-toasts.html
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="app-icons-snackbar.html">
 
 <dom-module id="app-snackbar">
 
   <template>
 
     <style>
+
+      :host {
+        --paper-icon-button-size: 40px;
+
+        display: block;
+      }
 
       [hidden] {
         display: none !important;
@@ -32,16 +42,38 @@ https://material.google.com/components/snackbars-toasts.html
         @apply(--layout-justified);
         @apply(--layout-center);
 
+        color: #fff;
         margin: calc(var(--gutter) / 2) 0 0 0;
-        padding: 14px 24px;
+        padding: 14px calc(24px - (var(--touch-target-size) - var(--icon-size)) / 2) 14px 24px;
         width: 100%;
       }
 
-      .Snackbar.error {
-        @apply(--button-text-shadow);
+      .Snackbar.confirm {
+        border-bottom: 2px solid var(--paper-green-a400);
+      }
 
-        background-color: var(--paper-red-800);
-        color: #fff;
+      .Snackbar.confirm .Snackbar-icon {
+        color: var(--paper-green-a400);
+      }
+
+      .Snackbar.error {
+        border-bottom: 2px solid var(--paper-red-a200);
+      }
+
+      .Snackbar.error .Snackbar-icon {
+        color: var(--paper-red-a200);
+      }
+
+      .Snackbar.info .Snackbar-icon {
+        color: var(--paper-light-blue-a200);
+      }
+
+      .Snackbar.warning {
+        border-bottom: 2px solid var(--paper-amber-a200);
+      }
+
+      .Snackbar.warning .Snackbar-icon {
+        color: var(--paper-amber-a200);
       }
 
       .Snackbar-button {
@@ -51,14 +83,34 @@ https://material.google.com/components/snackbars-toasts.html
         font-size: var(--button-font-size);
         font-weight: 500;
         height: var(--touch-target-size);
-        letter-spacing: 0.018em;
+        letter-spacing: var(--small-font-letter-spacing);
         margin: 0 0 0 24px;
         min-width: var(--touch-target-size);
-        padding: calc((var(--touch-target-size) - var(--line-height)) / 2) 0;
+        padding: calc((var(--touch-target-size) - var(--line-height)) / 2) 12px;
+      }
+
+      .Snackbar-icon {
+        margin-right: 16px;
+      }
+
+      .Snackbar-iconButton {
+        box-sizing: border-box;
+        cursor: pointer;
+        height: var(--touch-target-size);
+        margin-left: 12px; /* 24px - 12px */
+        outline: none;
+        padding: calc((var(--touch-target-size) - var(--paper-icon-button-size)) / 2)
+                 calc((var(--touch-target-size) - var(--paper-icon-button-size)) / 2);
+        width: var(--touch-target-size);
+      }
+
+      .Snackbar-iconButton paper-icon-button {
+        --paper-icon-button-ink-color: #fff;
       }
 
       .Snackbar-message {
         display: inline-block;
+        margin-right: 12px;
         min-height: 24px;
       }
 
@@ -69,27 +121,41 @@ https://material.google.com/components/snackbars-toasts.html
           width: auto;
         }
 
-        .Snackbar-button {
-          margin: 0 0 0 48px;
+        .Snackbar-button,
+        .Snackbar-iconButton {
+          margin-left: 36px; /* 48px - 12px */
         }
       }
 
       /* Laptop wide */
       @media screen and (min-width: 960px) {
         .Snackbar {
-          padding: 0 var(--gutter);
+          padding: 0 calc(var(--gutter) - (var(--touch-target-size) - var(--icon-size)) / 2)
+                   0 var(--gutter);
         }
       }
 
     </style>
 
     <paper-toast class$="Snackbar {{_type}}" id="snackbar">
+
+      <iron-icon class$="Snackbar-icon {{_icon}}" icon="snackbar:{{_icon}}" hidden$="{{!app.isTabletWide}}"></iron-icon>
+
       <div class="Snackbar-message">{{_message}}</div>
-      <paper-button class="Snackbar-button" id="button"
-        on-tap="_onButtonTap"
-        hidden$="{{!_buttonText}}">
+
+      <paper-button class="Snackbar-button" id="button" hidden$="{{!_buttonText}}" on-tap="_onButtonTap">
         {{_buttonText}}
       </paper-button>
+
+      <div class="Snackbar-iconButton" hidden$="{{_buttonText}}" on-tap="_onButtonTap">
+        <paper-icon-button id="iconButton"
+          icon="snackbar:close"
+          aria-label$="{{localize('close')}}"></paper-icon-button>
+      </div>
+
+      <paper-tooltip class="Tooltip" for="iconButton" offset="0"
+                     hidden$="{{_buttonText}}">{{localize('close')}}</paper-tooltip>
+
     </paper-toast>
 
   </template>
@@ -116,6 +182,11 @@ https://material.google.com/components/snackbars-toasts.html
         _defaultDuration: {
           type: Number,
           value: 10000
+        },
+
+        _icon: {
+          type: String,
+          value: ''
         },
 
         _isLocalesLoaded: {
@@ -148,13 +219,14 @@ https://material.google.com/components/snackbars-toasts.html
 
         if (typeof data === 'object') {
           this._buttonTapHandler = data.buttonTapHandler || null;
-          this._buttonText = data.buttonText || 'ok';
+          this._buttonText = data.buttonText;
+          this._icon = data.icon || data.type || 'info';
           this._message = data.message;
           this._type = data.type || 'info';
           this.$.snackbar.duration = data.duration >= 0 ? data.duration : this._defaultDuration;
         } else if (typeof data === 'string') {
           this._buttonTapHandler = null;
-          this._buttonText = 'ok';
+          this._icon = 'info';
           this._message = data;
           this._type = 'info';
           this.$.snackbar.duration = this._defaultDuration;
@@ -186,7 +258,10 @@ https://material.google.com/components/snackbars-toasts.html
           this._buttonText = this.localize(this._buttonText);
         }
 
-        this._message = this.localize(this._message);
+        try {
+          this._message = this.localize(this._message);
+        } catch(e) {}
+
         this.$.snackbar.open();
       }
 

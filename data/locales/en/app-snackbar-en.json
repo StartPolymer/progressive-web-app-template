@@ -1,6 +1,7 @@
 {
   "en": {
     "caching-complete": "Stored in memory! Future visits will work offline.",
+    "close": "Close",
     "email-doesnt-match": "That email address doesn't match an existing account.",
     "email-password-dont-match": "The email and password you entered don't match.",
     "more-info": "More info",

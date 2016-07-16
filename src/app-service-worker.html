@@ -95,6 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 case 'installed':
                   if (navigator.serviceWorker.controller) {
                     this.fire('notify', {
+                      icon: 'update',
                       message: 'new-version-app',
                       buttonText: 'refresh',
                       buttonTapHandler: function() { // Handler for app-snackbar _onButtonTap
@@ -105,13 +106,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                     this._log('The Service Worker was updated. Reload page for the new version.');
                   } else {
-                    this.fire('notify', 'caching-complete');
+                    this.fire('notify', {
+                      type: 'confirm',
+                      icon: 'cached',
+                      message: 'caching-complete'
+                    });
                     this._log('A new Service Worker was installed.');
                   }
                 break;
 
                 case 'redundant':
                   this.fire('notify', {
+                    icon: 'update',
                     message: 'new-version-app',
                     buttonText: 'refresh',
                     buttonTapHandler: function() { // Handler for app-snackbar _onButtonTap
