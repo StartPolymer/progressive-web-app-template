@@ -21,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="app-auth/app-auth.html">
 <link rel="import" href="app-init.html">
 <link rel="import" href="app-shell/app-shell.html">
+<link rel="import" href="app-storage.html">
 <link rel="import" href="app-themes/current-theme/global-styles/global-styles.html">
 
 <dom-module id="progressive-app">
@@ -70,6 +71,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-shell class$="Shell {{_computeShellBackgroundClasses(_routeData.page)}}"
                id="shell" app="{{app}}" page="[[page]]" route="{{_route}}"></app-shell>
+
+    <app-storage app="{{app}}"></app-storage>
 
     <app-auth id="auth" app="{{app}}" route="{{_route}}"></app-auth>
 

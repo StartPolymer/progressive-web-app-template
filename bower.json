@@ -14,6 +14,7 @@
     "iron-form": "PolymerElements/iron-form#1.0.x",
     "iron-icon": "PolymerElements/iron-icon#1.0.x",
     "iron-iconset-svg": "PolymerElements/iron-iconset-svg#1.0.x",
+    "iron-localstorage": "PolymerElements/iron-localstorage#1.0.x",
     "iron-media-query": "PolymerElements/iron-media-query#1.0.x",
     "iron-pages": "PolymerElements/iron-pages#1.0.x",
     "iron-selector": "PolymerElements/iron-selector#1.0.x",
