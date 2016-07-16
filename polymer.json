@@ -15,6 +15,6 @@
     "src/app-service-worker.html",
     "src/app-shell/app-shell-drawer.html",
     "src/app-shell/app-shell-lazy-resources.html",
-    "src/app-snackbar.html"
+    "src/app-ui-components/app-snackbar/app-snackbar.html"
   ]
 }
