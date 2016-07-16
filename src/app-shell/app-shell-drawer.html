@@ -25,6 +25,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
+      [hidden] {
+        display: none !important;
+      }
+
       .Drawer {
         z-index: 30;
       }
@@ -87,6 +91,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--paper-font-navigation);
 
         color: currentColor;
+        cursor: pointer;
         height: var(--touch-target-size);
         padding-left: var(--screen-edge-margin);
         padding-right: var(--gutter);
@@ -128,10 +133,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <span class="Navigation-text">{{localize('home')}}</span>
             </a>
 
-            <a class="Navigation-link" name="sign-in" href="/sign-in">
+            <a class="Navigation-link" name="sign-in" href="/sign-in" hidden$="[[app.isSignedIn]]">
               <iron-icon class="Navigation-icon" icon="drawer:sign-in"></iron-icon>
               <span class="Navigation-text">{{localize('sign-in')}}</span>
             </a>
+
+            <div class="Navigation-link" hidden$="[[!app.isSignedIn]]" on-tap="_onSignOutTap">
+              <iron-icon class="Navigation-icon" icon="drawer:sign-out"></iron-icon>
+              <span class="Navigation-text">{{localize('sign-out')}}</span>
+            </div>
 
             <a class="Navigation-link" name="contact-us" href="/contact-us">
               <iron-icon class="Navigation-icon" icon="drawer:mail"></iron-icon>
@@ -191,6 +201,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _onLocalesLoaded: function(event) {
         event.stopPropagation();
+      },
+
+      _onSignOutTap: function() {
+        this.opened = false;
+        this.fire('app-auth-on-button-tap', {
+          button: 'signOut'
+        });
       }
 
     });

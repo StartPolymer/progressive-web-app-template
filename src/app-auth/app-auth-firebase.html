@@ -1,0 +1,141 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../app-behaviors/app-logger-behavior.html">
+
+<dom-module id="app-auth-firebase">
+
+  <template>
+
+    <firebase-app name="pwa-demo"
+                  api-key="AIzaSyCurciqfPjS6PVNpfMzr_wVaShurko-wDI"
+                  auth-domain="pwa-demo-97d98.firebaseapp.com"
+                  database-url="https://pwa-demo-97d98.firebaseio.com"></firebase-app>
+
+    <firebase-auth id="auth"
+                   app-name="pwa-demo"
+                   signed-in="{{_signedIn}}"
+                   user="{{_user}}"
+                   on-error="_onAuthError"></firebase-auth>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'app-auth-firebase',
+
+      properties: {
+        app: {
+          type: Object,
+          notify: true
+        },
+
+        _signedIn: {
+          type: Boolean,
+          observer: '_observeSignedIn'
+        },
+
+        _user: {
+          type: Boolean,
+          observer: '_observeUser'
+        }
+      },
+
+      behaviors: [
+        AppBehaviors.AppLoggerBehavior
+      ],
+
+      // Create a password-based account
+      createUserWithEmailAndPassword: function(email, password) {
+        this._log('Auth Demo: Create a password-based account with email:', email, 'and password:', password);
+
+        return true;
+      },
+
+      // Check if email already exists in database.
+      checkEmail: function(email) {
+        return new Promise(function(resolve, reject) {
+          this.resolveCheckEmail = resolve;
+          this.rejectCheckEmail = reject;
+        }.bind(this));
+      },
+
+      // Send a password reset email
+      sendPasswordResetEmail: function(email) {
+        this._log('Auth Demo: Send a password reset email to address', email);
+
+        return true;
+      },
+
+      // Sign in a user with an email address and password
+      signInWithEmailAndPassword: function(email, password, isStaySignedInChecked) {
+        this._log('Auth Demo: Sign in a user with email address:',
+                  email, 'and password:', password, '( isStaySignedInChecked:', isStaySignedInChecked, ')');
+
+        return true;
+      },
+
+      // Authenticates a client using a popup-based OAuth flow.
+      signInWithPopup: function(provider) {
+        this._log('app-auth-firebase: Authenticate using', provider, 'provider.');
+
+        return new Promise(function(resolve, reject) {
+          this.$.auth.signInWithPopup(provider).then(function(response) {
+            resolve(response);
+          }).catch(function(error) {
+            reject(error);
+          });
+        }.bind(this));
+      },
+
+      // Unauthenticates a client.
+      signOut: function() {
+        this._log('app-auth-firebase: Unauthenticate a client.');
+
+        return new Promise(function(resolve, reject) {
+          this.$.auth.signOut().then(function(response) {
+            resolve(response);
+          }).catch(function(error) {
+            reject(error);
+          });
+        }.bind(this));
+      },
+
+      _observeSignedIn: function() {
+        this.debounce('_observeSignedIn', function() {
+          this.set('app.isSignedIn', this._signedIn);
+        }, 300);
+      },
+
+      _observeUser: function() {
+        this.debounce('_observeUser', function() {
+          this.set('app.userProfile', this._user);
+        }, 300);
+      },
+
+      _onAuthError: function(event) {
+        this._error('app-auth-firebase:', event.detail);
+        this.fire('notify', {
+          type: 'error',
+          icon: 'security',
+          message: event.detail.message
+        });
+      }
+
+    });
+
+  </script>
+
+</dom-module>

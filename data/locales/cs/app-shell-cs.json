@@ -9,6 +9,7 @@
     "menu": "Menu",
     "offline": "Offline",
     "scroll": "Posunout",
-    "sign-in": "Přihlásit"
+    "sign-in": "Přihlásit",
+    "sign-out": "Odhlásit"
   }
 }

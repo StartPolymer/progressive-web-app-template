@@ -9,6 +9,7 @@
     "menu": "Menu",
     "offline": "Offline",
     "scroll": "Scroll",
-    "sign-in": "Sign in"
+    "sign-in": "Sign in",
+    "sign-out": "Sign out"
   }
 }

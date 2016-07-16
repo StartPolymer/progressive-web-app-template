@@ -247,10 +247,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-tooltip class="Tooltip" for="iconOffline" offset="0"
                          hidden$="{{!_isLazyLoadComplete}}">{{localize('offline')}}</paper-tooltip>
 
-          <a class="Button-touchTarget Button-touchTarget--signIn" id="headerSignInButton" href="{{app.baseUrl}}sign-in" tabindex="-1"
-            hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, app.isOffline, page)}}">
-            <paper-button class="Button Button--signIn" raised>{{localize('sign-in')}}</paper-button>
+          <a class="Button-touchTarget Button-touchTarget--signIn" id="headerSignInButton"
+             href="{{app.baseUrl}}sign-in" tabindex="-1"
+             hidden$="{{_computeSignInButtonHidden(_isLazyLoadComplete, app.isOffline, app.isSignedIn, page)}}">
+            <paper-button class="Button Button--signIn"
+                          disabled="[[app.isOffline]]" raised>{{localize('sign-in')}}</paper-button>
           </a>
+
+          <div hidden$="[[!app.isSignedIn]]">[[app.userProfile.displayName]]</div>
 
         </app-toolbar>
 
@@ -366,9 +370,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return page === 'home' ? '' : title;
       },
 
-      _computeSignInButtonHidden: function(isLazyLoadComplete, offline, page) {
+      _computeSignInButtonHidden: function(isLazyLoadComplete, isOffline, isSignedIn, page) {
         return !(page === 'about-us' || page === 'contact-us' || page === 'home') ||
-               offline || !isLazyLoadComplete;
+               isOffline || isSignedIn || !isLazyLoadComplete;
       },
 
       _computeTitleDashHidden: function(isTabletWide, page) {
