@@ -1,13 +1,12 @@
 # Progressive Web App Template
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UARLJTE9JFPLC&lc=CZ&item_name=StartPolymer%2Fprogressive-web-app-template&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
-[![Gitter](https://img.shields.io/badge/Chat-Gitter-green.svg)](https://gitter.im/StartPolymer/progressive-web-app-template?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Lighthouse 100](https://img.shields.io/badge/Lighthouse-100-green.svg)](https://github.com/GoogleChrome/lighthouse)
 [![PageSpeed 97](https://img.shields.io/badge/PageSpeed-97-green.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fpwa-demo.appspot.com&tab=desktop)
 [![Resizer Responsive UI](https://img.shields.io/badge/Resizer-Responsive%20UI-green.svg)](http://design.google.com/resizer/#url=https%3A%2F%2Fpwa-demo.appspot.com)
 [![BrowserStack](https://img.shields.io/badge/BrowserStack-App%20tested-green.svg)](https://www.browserstack.com)
 [![bitHound Score](https://www.bithound.io/github/StartPolymer/progressive-web-app-template/badges/score.svg)](https://www.bithound.io/github/StartPolymer/progressive-web-app-template)
 [![G+ StartPolymer](https://img.shields.io/badge/G+-StartPolymer-dd4b39.svg)](https://plus.google.com/101148544618948882647)
+[![Slack josef@polymer](https://img.shields.io/badge/Slack-josef@polymer-green.svg)](https://polymer-slack.herokuapp.com)
 
 This template is a starting point for building [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) based on [Polymer](https://www.polymer-project.org) & [Material Design](https://material.google.com) with motto [#UseThePlatform](https://www.polymer-project.org/1.0/about).
 
@@ -34,6 +33,7 @@ Progressive Web Apps are:
 - **Re-engageable** - Make re-engagement easy through features like Push Notifications.
 - **Installable** - Allow users to “keep” apps they find most useful on their Home Screen without the hassle of an app store.
 - **Linkable** - Easily share via URL and not require complex installation.
+- **[Building for Billions](https://developers.google.com/web/billions/)** - Deliver the best performance across a range of connections, data plans, and devices.
 
 ## Demo
 
@@ -73,10 +73,9 @@ See latest build from master branch at https://pwa-demo.appspot.com
 - Sign-in Flow using [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api) inspired by this lessons:
  - [Who are you, really: Safer and more convenient sign-in on the web - Google I/O 2016](https://www.youtube.com/watch?v=MnvUlGFb3GQ)
  - [Best practices for a great sign-in experience - Google I/O 2016](https://www.youtube.com/watch?v=0ucjYG_JrEE)
+- CSS styles sorted using CSScomb formatter
 
 ## TODO
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UARLJTE9JFPLC&lc=CZ&item_name=StartPolymer%2Fprogressive-web-app-template&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 - [ ] Sign-in Flow using [Credential Management API](https://developers.google.com/web/updates/2016/04/credential-management-api)
 - [ ] Lite version without content using custom branch
